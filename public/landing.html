@@ -4,147 +4,146 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ProposeAI — Коммерческие предложения за 30 секунд</title>
-<meta name="description" content="ИИ-сервис для создания продающих КП. Оплата картами РФ и криптовалютой. 3 дня бесплатно.">
+<meta name="description" content="ИИ-сервис для создания продающих КП. Оплата картами РФ, криптовалютой. 3 дня бесплатно.">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#F0F4FB;
-  --white:#FFFFFF;
-  --blue:#3D6FBF;
-  --blue2:#2A55A0;
-  --blue-lt:#5584CC;
-  --blue-pal:rgba(61,111,191,0.08);
-  --blue-pal2:rgba(61,111,191,0.15);
-  --ink:#0D1B3E;
-  --ink2:#374151;
-  --ink3:#6B7280;
-  --border:rgba(61,111,191,0.18);
-  --shadow:0 4px 24px rgba(61,111,191,0.12);
-  --shadow-lg:0 12px 48px rgba(61,111,191,0.18);
-  --radius:12px;
-  --radius-lg:20px;
+  --bg:#F0F4FB; --white:#FFFFFF; --blue:#3D6FBF; --blue2:#2A55A0; --blue-lt:#5584CC;
+  --blue-pal:rgba(61,111,191,0.08); --blue-pal2:rgba(61,111,191,0.15);
+  --ink:#0D1B3E; --ink2:#374151; --ink3:#6B7280;
+  --border:rgba(61,111,191,0.18); --shadow:0 4px 24px rgba(61,111,191,0.12);
+  --shadow-lg:0 12px 48px rgba(61,111,191,0.18); --radius:12px; --radius-lg:20px;
+  --green:#16a34a; --green-bg:#f0fdf4;
 }
 html{scroll-behavior:smooth;}
 body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;}
-
-/* NAV */
 nav{padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(61,111,191,0.07);}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.nav-logo img{height:32px;width:auto;}
-.nav-logo-text{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:var(--ink);line-height:1.1;}
+.nav-logo img{height:34px;width:auto;}
+.nav-logo-text{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;color:var(--ink);}
 .nav-logo-text span{color:var(--blue);}
 .nav-links{display:flex;align-items:center;gap:4px;}
 .nav-link{font-size:14px;font-weight:500;color:var(--ink2);text-decoration:none;padding:8px 14px;border-radius:8px;transition:all .2s;}
 .nav-link:hover{background:var(--blue-pal);color:var(--blue);}
 .nav-btns{display:flex;align-items:center;gap:10px;}
-.btn-outline{padding:9px 20px;border:1.5px solid var(--blue);border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;color:var(--blue);background:transparent;cursor:pointer;text-decoration:none;transition:all .2s;}
-.btn-outline:hover{background:var(--blue-pal);}
-.btn-primary{padding:9px 22px;background:var(--blue);border:none;border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(61,111,191,0.35);}
-.btn-primary:hover{background:var(--blue2);}
-
-/* HERO */
+.btn-out-sm{padding:9px 20px;border:1.5px solid var(--blue);border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;color:var(--blue);background:transparent;cursor:pointer;text-decoration:none;transition:all .2s;}
+.btn-out-sm:hover{background:var(--blue-pal);}
+.btn-prim-sm{padding:9px 22px;background:var(--blue);border:none;border-radius:8px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(61,111,191,0.35);}
+.btn-prim-sm:hover{background:var(--blue2);}
 .hero-wrap{background:var(--white);border-bottom:1px solid var(--border);}
-.hero{max-width:1200px;margin:0 auto;padding:80px 48px 0;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;min-height:520px;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-pal);border:1px solid var(--blue-pal2);color:var(--blue);font-size:12px;font-weight:700;padding:6px 14px;border-radius:99px;margin-bottom:24px;letter-spacing:.3px;}
+.hero{padding:80px 48px 60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-pal);border:1px solid var(--blue-pal2);color:var(--blue);font-size:12px;font-weight:700;padding:6px 14px;border-radius:99px;margin-bottom:24px;}
 .hero-badge::before{content:'';width:7px;height:7px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-.hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(30px,3.5vw,52px);font-weight:900;line-height:1.1;color:var(--ink);margin-bottom:20px;letter-spacing:-1px;}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(32px,3.5vw,52px);font-weight:900;line-height:1.1;color:var(--ink);margin-bottom:20px;letter-spacing:-1px;}
 .hero-title .hl{color:var(--blue);}
 .hero-sub{font-size:16px;color:var(--ink2);margin-bottom:36px;line-height:1.7;max-width:480px;}
-.hero-sub strong{color:var(--ink);}
-.hero-btns{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:32px;}
-.btn-hero{padding:14px 32px;background:var(--blue);border:none;border-radius:10px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:800;color:#fff;cursor:pointer;text-decoration:none;box-shadow:0 6px 24px rgba(61,111,191,0.4);transition:all .2s;text-transform:uppercase;letter-spacing:.2px;}
+.hero-btns{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:28px;}
+.btn-hero{padding:14px 32px;background:var(--blue);border:none;border-radius:10px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:800;color:#fff;cursor:pointer;text-decoration:none;box-shadow:0 6px 24px rgba(61,111,191,0.4);transition:all .2s;text-transform:uppercase;}
 .btn-hero:hover{background:var(--blue2);transform:translateY(-2px);}
 .btn-hero-out{padding:14px 28px;border:2px solid var(--blue);border-radius:10px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--blue);background:transparent;cursor:pointer;text-decoration:none;transition:all .2s;}
 .btn-hero-out:hover{background:var(--blue-pal);}
 .hero-note{font-size:13px;color:var(--ink3);}
-.hero-note span{display:inline-flex;align-items:center;gap:5px;margin-right:14px;}
+.hero-note span{display:inline-flex;align-items:center;gap:6px;margin-right:16px;}
 .hero-note span::before{content:'✓';color:var(--blue);font-weight:700;}
-
-/* Hero visual */
-.hero-visual{background:linear-gradient(135deg,var(--blue-pal) 0%,rgba(85,132,204,0.06) 100%);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;position:relative;overflow:hidden;min-height:360px;display:flex;flex-direction:column;gap:14px;justify-content:center;}
-.vis-card{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:14px 18px;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;animation:floatIn .6s ease both;}
-.vis-card:nth-child(1){animation-delay:.1s;}
-.vis-card:nth-child(2){animation-delay:.25s;margin-left:20px;}
-.vis-card:nth-child(3){animation-delay:.4s;}
-@keyframes floatIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.vis-ico{width:40px;height:40px;border-radius:10px;background:var(--blue-pal);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.vis-title{font-size:13px;font-weight:700;color:var(--ink);}
-.vis-sub{font-size:11px;color:var(--ink3);}
-.vis-badge{margin-left:auto;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;}
-.vis-badge.done{background:#E8F5E9;color:#2E7D32;}
-.vis-badge.ai{background:var(--blue-pal);color:var(--blue);}
-.vis-badge.gen{background:#FFF3E0;color:#E65100;}
-
-/* TRUST BAR */
+.hero-visual{background:linear-gradient(135deg,#EEF3FB 0%,#E4EDF8 100%);border-radius:var(--radius-lg);border:1px solid var(--border);padding:24px;position:relative;overflow:hidden;}
+.hv-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.hv-title{font-size:12px;font-weight:700;color:var(--ink3);letter-spacing:.5px;text-transform:uppercase;}
+.hv-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--green);background:var(--green-bg);padding:4px 10px;border-radius:99px;}
+.hv-status::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;}
+.hv-input{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:14px 16px;margin-bottom:12px;}
+.hv-input-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.hv-input-val{font-size:13px;font-weight:600;color:var(--ink);}
+.hv-input-sub{font-size:11px;color:var(--ink3);margin-top:2px;}
+.hv-arrow{text-align:center;font-size:18px;color:var(--blue);margin:4px 0;}
+.hv-output{background:var(--white);border-radius:10px;border:1.5px solid var(--blue);padding:16px;box-shadow:var(--shadow);}
+.hv-out-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.hv-out-title{font-size:13px;font-weight:800;color:var(--ink);}
+.hv-out-meta{font-size:10px;color:var(--ink3);}
+.hv-out-preview{font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:10px;}
+.hv-lines{display:flex;flex-direction:column;gap:6px;}
+.hv-line{height:8px;background:var(--bg);border-radius:4px;animation:sh 2s ease-in-out infinite;}
+.hv-line:nth-child(1){width:100%;}
+.hv-line:nth-child(2){width:88%;animation-delay:.3s;}
+.hv-line:nth-child(3){width:94%;animation-delay:.6s;}
+.hv-line:nth-child(4){width:76%;animation-delay:.9s;}
+@keyframes sh{0%,100%{opacity:.4}50%{opacity:1}}
+.hv-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;border-top:1px solid var(--border);padding-top:12px;}
+.hv-time{font-size:11px;color:var(--ink3);}
+.hv-dl{font-size:11px;font-weight:700;color:var(--blue);}
 .trust-bar{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:18px 48px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
 .trust-i{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink3);font-weight:500;}
-
-/* STATS */
 .stats-bar{background:var(--blue);padding:28px 48px;display:flex;align-items:center;justify-content:center;}
 .stat-i{text-align:center;padding:0 48px;border-right:1px solid rgba(255,255,255,0.2);}
 .stat-i:last-child{border-right:none;}
 .stat-n{font-family:'Montserrat',sans-serif;font-size:32px;font-weight:900;color:#fff;}
 .stat-l{font-size:12px;color:rgba(255,255,255,.75);font-weight:500;margin-top:2px;}
-
-/* SECTIONS */
 .section{max-width:1160px;margin:0 auto;padding:80px 24px;}
 .eyebrow{font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;}
 .sec-title{font-family:'Montserrat',sans-serif;font-size:clamp(26px,3vw,38px);font-weight:900;color:var(--ink);margin-bottom:16px;letter-spacing:-.5px;}
 .sec-sub{font-size:16px;color:var(--ink2);max-width:560px;margin-bottom:52px;line-height:1.7;}
-
-/* FEATURES */
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.feat-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;transition:all .25s;position:relative;}
+.feat-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;transition:all .25s;}
 .feat-card:hover{box-shadow:var(--shadow-lg);border-color:var(--blue-lt);transform:translateY(-4px);}
 .feat-ico{width:52px;height:52px;border-radius:14px;background:var(--blue-pal);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;}
 .feat-t{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:10px;}
 .feat-s{font-size:14px;color:var(--ink2);line-height:1.65;}
-
-/* EXAMPLES */
-.ex-bg{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.examples-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.ex-card{background:var(--bg);border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;transition:all .25s;cursor:pointer;}
-.ex-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);}
-.ex-preview{background:var(--white);padding:24px;min-height:200px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
-.ex-preview::before{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,var(--white));}
-.ex-tag{display:inline-block;background:var(--blue-pal);color:var(--blue);font-size:10px;font-weight:800;padding:3px 10px;border-radius:99px;margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;}
-.ex-doc-title{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:8px;}
-.ex-doc-text{font-size:12px;color:var(--ink2);line-height:1.7;}
-.ex-doc-text p{margin-bottom:6px;}
-.ex-doc-text strong{color:var(--ink);font-weight:700;}
-.ex-meta{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
-.ex-industry{font-size:12px;font-weight:700;color:var(--ink2);}
-.ex-words{font-size:11px;color:var(--ink3);}
-.ex-arrow{font-size:16px;color:var(--blue);}
-
-/* HOW */
 .how-bg{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;}
-.steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--blue),var(--blue-lt));z-index:0;}
+.steps::before{content:'';position:absolute;top:27px;left:12%;right:12%;height:2px;background:linear-gradient(90deg,var(--blue),var(--blue-lt));z-index:0;}
 .step{text-align:center;position:relative;z-index:1;}
 .step-num{width:56px;height:56px;border-radius:50%;background:var(--blue);color:#fff;font-family:'Montserrat',sans-serif;font-size:20px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 4px 16px rgba(61,111,191,0.35);border:3px solid var(--white);}
 .step-t{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;}
 .step-s{font-size:13px;color:var(--ink3);line-height:1.6;}
-
+/* DEMO */
+.demo-wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:start;}
+.demo-form{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;}
+.demo-form-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:20px;}
+.demo-field{margin-bottom:14px;}
+.demo-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.demo-value{font-size:14px;color:var(--ink);background:var(--bg);border-radius:8px;padding:10px 14px;border:1px solid var(--border);}
+.demo-btn-fake{width:100%;padding:13px;background:var(--blue);border-radius:10px;text-align:center;color:#fff;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-top:16px;opacity:.85;}
+.demo-result{background:var(--white);border-radius:var(--radius-lg);border:1.5px solid var(--blue);padding:28px;box-shadow:var(--shadow-lg);}
+.demo-result-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;}
+.demo-result-title{font-size:14px;font-weight:800;color:var(--ink);}
+.demo-result-badge{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--green);background:var(--green-bg);padding:4px 10px;border-radius:99px;white-space:nowrap;flex-shrink:0;}
+.demo-result-badge::before{content:'✓';}
+.demo-sec-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--blue);margin-bottom:6px;}
+.demo-sec-text{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:14px;}
+.demo-divider{height:1px;background:var(--border);margin:14px 0;}
+.demo-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;}
+.demo-meta{font-size:11px;color:var(--ink3);}
+.demo-dl{padding:8px 16px;background:var(--blue);border-radius:8px;color:#fff;font-size:12px;font-weight:700;text-decoration:none;}
+/* REVIEWS */
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.review-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;transition:all .25s;}
+.review-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);}
+.review-stars{color:#F59E0B;font-size:14px;margin-bottom:14px;letter-spacing:2px;}
+.review-text{font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:20px;font-style:italic;}
+.review-author{display:flex;align-items:center;gap:12px;}
+.review-avatar{width:40px;height:40px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
+.review-name{font-size:13px;font-weight:700;color:var(--ink);}
+.review-role{font-size:11px;color:var(--ink3);}
 /* PRICING */
-.pricing-tabs{display:flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:4px;width:fit-content;margin-bottom:40px;}
-.ptab{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--ink3);position:relative;}
-.ptab.active{background:var(--white);color:var(--blue);box-shadow:var(--shadow);}
-.ptab .save{position:absolute;top:-8px;right:-8px;background:#E53E3E;color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;}
+.pricing-tabs{display:flex;align-items:center;justify-content:center;gap:0;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:4px;width:fit-content;margin:0 auto 40px;}
+.ptab{padding:9px 22px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--ink3);border:none;background:transparent;font-family:'Manrope',sans-serif;}
+.ptab.active{background:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(61,111,191,0.3);}
+.ptab-disc{font-size:10px;background:#E8F5E9;color:#16a34a;padding:2px 6px;border-radius:4px;margin-left:5px;font-weight:800;}
+.pricing-view{display:none;}
+.pricing-view.active{display:block;}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start;}
 .price-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:32px 28px;transition:all .25s;position:relative;}
 .price-card:hover{box-shadow:var(--shadow-lg);}
 .price-card.popular{border:2px solid var(--blue);box-shadow:var(--shadow-lg);}
-.price-badge-top{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 16px;border-radius:99px;text-transform:uppercase;white-space:nowrap;}
-.price-name{font-size:13px;font-weight:800;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
+.price-badge-top{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:800;letter-spacing:1px;padding:5px 16px;border-radius:99px;text-transform:uppercase;box-shadow:0 4px 14px rgba(61,111,191,0.35);white-space:nowrap;}
+.price-name{font-size:13px;font-weight:800;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.price-free-badge{display:inline-block;background:var(--green-bg);color:var(--green);font-size:11px;font-weight:800;padding:4px 12px;border-radius:99px;margin-bottom:10px;}
 .price-amount{font-family:'Montserrat',sans-serif;font-size:42px;font-weight:900;color:var(--ink);line-height:1;margin-bottom:4px;}
 .price-amount sup{font-size:18px;font-weight:700;vertical-align:super;}
-.price-amount .old{font-size:18px;color:var(--ink3);text-decoration:line-through;margin-left:10px;font-weight:500;}
-.price-period{font-size:13px;color:var(--ink3);margin-bottom:8px;}
-.price-trial{font-size:12px;font-weight:700;color:#2E7D32;background:#E8F5E9;padding:4px 10px;border-radius:99px;display:inline-block;margin-bottom:16px;}
-.price-divider{height:1px;background:var(--border);margin:20px 0;}
+.price-period{font-size:13px;color:var(--ink3);margin-bottom:4px;}
+.price-save{font-size:12px;font-weight:700;color:var(--green);min-height:18px;margin-bottom:2px;}
+.price-divider{height:1px;background:var(--border);margin:18px 0;}
 .price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
 .price-features li{font-size:13px;color:var(--ink2);display:flex;align-items:flex-start;gap:10px;}
 .price-features li::before{content:'✓';color:var(--blue);font-weight:800;flex-shrink:0;margin-top:1px;}
@@ -155,39 +154,25 @@ nav{padding:0 48px;height:68px;display:flex;align-items:center;justify-content:s
 .price-btn.solid:hover{background:var(--blue2);}
 .price-btn.outline{background:transparent;border:1.5px solid var(--border);color:var(--ink2);}
 .price-btn.outline:hover{border-color:var(--blue);color:var(--blue);}
-
-/* REVIEWS */
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.review-card{background:var(--white);border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px;transition:all .25s;}
-.review-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);}
-.review-stars{color:#F59E0B;font-size:16px;margin-bottom:14px;}
-.review-text{font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:20px;font-style:italic;}
-.review-author{display:flex;align-items:center;gap:12px;}
-.review-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex-shrink:0;}
-.review-name{font-size:14px;font-weight:700;color:var(--ink);}
-.review-role{font-size:12px;color:var(--ink3);}
-
+.price-btn.free-btn{background:var(--green-bg);color:var(--green);border:1.5px solid #bbf7d0;}
+.price-btn.free-btn:hover{background:#dcfce7;}
 /* CTA */
 .cta-section{background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 100%);padding:80px 24px;text-align:center;position:relative;overflow:hidden;}
 .cta-section::before{content:'';position:absolute;top:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,255,255,.1) 0%,transparent 70%);border-radius:50%;}
-.cta-eyebrow{font-size:11px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase;margin-bottom:16px;}
-.cta-title{font-family:'Montserrat',sans-serif;font-size:clamp(28px,3.5vw,44px);font-weight:900;color:#fff;margin-bottom:16px;letter-spacing:-.5px;}
-.cta-sub{font-size:16px;color:rgba(255,255,255,.8);margin-bottom:40px;}
+.cta-title{font-family:'Montserrat',sans-serif;font-size:clamp(28px,3.5vw,44px);font-weight:900;color:#fff;margin-bottom:16px;position:relative;z-index:1;}
+.cta-sub{font-size:16px;color:rgba(255,255,255,.8);margin-bottom:40px;position:relative;z-index:1;}
 .btn-cta{padding:16px 40px;background:#fff;border:none;border-radius:10px;font-family:'Manrope',sans-serif;font-size:15px;font-weight:800;color:var(--blue);cursor:pointer;text-decoration:none;box-shadow:0 8px 28px rgba(0,0,0,.2);transition:all .2s;text-transform:uppercase;display:inline-block;position:relative;z-index:1;}
-.btn-cta:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,0,0,.28);}
+.btn-cta:hover{transform:translateY(-3px);}
 .cta-note{font-size:13px;color:rgba(255,255,255,.6);margin-top:16px;position:relative;z-index:1;}
-
 /* FAQ */
 .faq-list{display:flex;flex-direction:column;gap:8px;}
 .faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
 .faq-q{padding:18px 24px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
 .faq-q:hover{color:var(--blue);}
-.faq-arrow{font-size:18px;color:var(--blue);transition:.25s;flex-shrink:0;}
-.faq-item.open .faq-arrow{transform:rotate(45deg);}
+.faq-q::after{content:'+';font-size:20px;color:var(--blue);transition:.2s;flex-shrink:0;}
+.faq-item.open .faq-q::after{transform:rotate(45deg);}
 .faq-a{display:none;padding:0 24px 18px;font-size:14px;color:var(--ink2);line-height:1.7;}
 .faq-item.open .faq-a{display:block;}
-
-/* FOOTER */
 footer{background:var(--ink);padding:48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
 .foot-logo{display:flex;align-items:center;gap:10px;}
 .foot-logo img{height:28px;filter:brightness(0) invert(1);opacity:.8;}
@@ -196,21 +181,24 @@ footer{background:var(--ink);padding:48px;display:flex;align-items:center;justif
 .foot-link{font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;}
 .foot-link:hover{color:#fff;}
 .foot-copy{font-size:12px;color:rgba(255,255,255,.35);}
-
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding:48px 24px 0;}
+  .hero{grid-template-columns:1fr;padding:48px 24px 40px;}
   .hero-visual{display:none;}
-  .features-grid,.examples-grid,.reviews-grid,.pricing-grid{grid-template-columns:1fr;}
+  .features-grid,.reviews-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
   .steps{grid-template-columns:1fr 1fr;}
   .steps::before{display:none;}
   .stats-bar{flex-wrap:wrap;}
   .stat-i{padding:16px 24px;}
   nav{padding:0 20px;}
+  .demo-wrap{grid-template-columns:1fr;}
+  .trust-bar{gap:20px;padding:18px 24px;}
 }
 @media(max-width:600px){
+  .features-grid,.reviews-grid{grid-template-columns:1fr;}
   .steps{grid-template-columns:1fr;}
   .nav-links{display:none;}
-  .trust-bar{gap:16px;padding:16px 24px;}
+  .pricing-tabs{flex-direction:column;width:100%;}
 }
 </style>
 </head>
@@ -223,14 +211,14 @@ footer{background:var(--ink);padding:48px;display:flex;align-items:center;justif
   </a>
   <div class="nav-links">
     <a href="#features" class="nav-link">Возможности</a>
-    <a href="#examples" class="nav-link">Примеры</a>
+    <a href="#demo" class="nav-link">Пример</a>
     <a href="#pricing" class="nav-link">Тарифы</a>
     <a href="#reviews" class="nav-link">Отзывы</a>
     <a href="#faq" class="nav-link">FAQ</a>
   </div>
   <div class="nav-btns">
-    <a href="/auth/login" class="btn-outline">Войти</a>
-    <a href="/auth/login" class="btn-primary">Попробовать бесплатно</a>
+    <a href="/auth/login" class="btn-out-sm">Войти</a>
+    <a href="/auth/login" class="btn-prim-sm">Начать бесплатно</a>
   </div>
 </nav>
 
@@ -238,156 +226,103 @@ footer{background:var(--ink);padding:48px;display:flex;align-items:center;justif
 <div class="hero">
   <div>
     <div class="hero-badge">3 дня бесплатно — без карты</div>
-    <h1 class="hero-title">Продающее КП<br>за&nbsp;<span class="hl">30&nbsp;секунд</span></h1>
-    <p class="hero-sub">Введите данные о клиенте — ИИ напишет готовое коммерческое предложение по структуре воронки продаж. Экспорт в Word одной кнопкой.</p>
+    <h1 class="hero-title">КП за&nbsp;<span class="hl">30 секунд</span><br>с помощью ИИ</h1>
+    <p class="hero-sub">Введите данные о клиенте — ИИ напишет продающее коммерческое предложение по структуре воронки продаж. Готово к отправке.</p>
     <div class="hero-btns">
       <a href="/auth/login" class="btn-hero">Попробовать бесплатно</a>
-      <a href="#examples" class="btn-hero-out">Смотреть примеры</a>
+      <a href="#demo" class="btn-hero-out">Посмотреть пример</a>
     </div>
     <div class="hero-note">
-      <span>Без карты</span><span>Карты РФ</span><span>Криптовалюта</span>
+      <span>3 дня бесплатно</span>
+      <span>Карты РФ</span>
+      <span>Криптовалюта</span>
     </div>
   </div>
   <div class="hero-visual">
-    <div class="vis-card">
-      <div class="vis-ico">📋</div>
-      <div><div class="vis-title">КП для ООО «Альфа Трейд»</div><div class="vis-sub">Автоматизация складского учёта</div></div>
-      <div class="vis-badge gen">Генерация...</div>
+    <div class="hv-header">
+      <div class="hv-title">Генерация КП</div>
+      <div class="hv-status">Готово за 28 сек</div>
     </div>
-    <div class="vis-card">
-      <div class="vis-ico">🤖</div>
-      <div><div class="vis-title">ИИ анализирует задачу</div><div class="vis-sub">Подбирает структуру и аргументы</div></div>
-      <div class="vis-badge ai">AI</div>
+    <div class="hv-input">
+      <div class="hv-input-label">Клиент</div>
+      <div class="hv-input-val">ООО «Альфа Трейд»</div>
+      <div class="hv-input-sub">Автоматизация складского учёта</div>
     </div>
-    <div class="vis-card">
-      <div class="vis-ico">✅</div>
-      <div><div class="vis-title">КП готово за 28 секунд</div><div class="vis-sub">2 340 слов · 14 разделов · DOCX</div></div>
-      <div class="vis-badge done">Готово</div>
+    <div class="hv-arrow">↓</div>
+    <div class="hv-output">
+      <div class="hv-out-head">
+        <div class="hv-out-title">Коммерческое предложение</div>
+        <div class="hv-out-meta">2 340 слов · 14 разделов</div>
+      </div>
+      <div class="hv-out-preview">«Уважаемый Алексей Николаевич, мы проанализировали потребности вашего склада и подготовили решение, которое сократит время обработки заказов на 40%...»</div>
+      <div class="hv-lines">
+        <div class="hv-line"></div>
+        <div class="hv-line"></div>
+        <div class="hv-line"></div>
+        <div class="hv-line"></div>
+      </div>
+      <div class="hv-footer">
+        <div class="hv-time">⏱ 28 секунд</div>
+        <div class="hv-dl">⬇ Скачать DOCX</div>
+      </div>
     </div>
   </div>
 </div>
 </div>
 
 <div class="trust-bar">
-  <div class="trust-i">🔒 Ваши данные защищены</div>
+  <div class="trust-i">🔒 Данные в безопасности</div>
   <div class="trust-i">⚡ Генерация за 30 секунд</div>
-  <div class="trust-i">🇷🇺 Карты РФ</div>
+  <div class="trust-i">🇷🇺 Оплата картами РФ</div>
   <div class="trust-i">₿ Криптовалюта</div>
   <div class="trust-i">🆓 3 дня бесплатно</div>
 </div>
 
 <div class="stats-bar">
-  <div class="stat-i"><div class="stat-n">30 сек</div><div class="stat-l">среднее время генерации</div></div>
-  <div class="stat-i"><div class="stat-n">14</div><div class="stat-l">разделов в структуре КП</div></div>
+  <div class="stat-i"><div class="stat-n">30 сек</div><div class="stat-l">время генерации</div></div>
+  <div class="stat-i"><div class="stat-n">14</div><div class="stat-l">разделов в КП</div></div>
   <div class="stat-i"><div class="stat-n">20+</div><div class="stat-l">шаблонов по отраслям</div></div>
-  <div class="stat-i"><div class="stat-n">3 дня</div><div class="stat-l">бесплатный доступ</div></div>
+  <div class="stat-i"><div class="stat-n">DOCX</div><div class="stat-l">готов к отправке</div></div>
 </div>
 
-<!-- FEATURES -->
 <section class="section" id="features">
   <div class="eyebrow">Возможности</div>
-  <h2 class="sec-title">Всё для продающих КП</h2>
-  <p class="sec-sub">От генерации до отправки клиенту — полный цикл за минуты, а не часы.</p>
+  <h2 class="sec-title">Всё для продающих<br>коммерческих предложений</h2>
+  <p class="sec-sub">От генерации до экспорта — полный цикл создания КП за минуты, а не часы.</p>
   <div class="features-grid">
     <div class="feat-card">
       <div class="feat-ico">🤖</div>
-      <div class="feat-t">Лучшие ИИ-модели</div>
-      <div class="feat-s">Несколько топовых нейросетей на выбор. Система автоматически подбирает оптимальную под вашу задачу.</div>
+      <div class="feat-t">Умный ИИ</div>
+      <div class="feat-s">Мощные языковые модели пишут убедительный текст на русском. Подбирают аргументы под конкретного клиента и его отрасль.</div>
     </div>
     <div class="feat-card">
       <div class="feat-ico">📐</div>
       <div class="feat-t">Продающая структура</div>
-      <div class="feat-s">14 блоков по воронке продаж: анализ боли клиента, УТП, возражения, социальные доказательства, призыв к действию.</div>
+      <div class="feat-s">14 блоков по воронке продаж: боль клиента, УТП, кейсы, возражения, социальные доказательства, призыв к действию.</div>
     </div>
     <div class="feat-card">
       <div class="feat-ico">📄</div>
-      <div class="feat-t">Экспорт в DOCX и PDF</div>
-      <div class="feat-s">Готовый Word-документ с профессиональным форматированием. Сразу отправляйте клиенту без правок.</div>
+      <div class="feat-t">Экспорт в DOCX</div>
+      <div class="feat-s">Готовый Word-документ с профессиональным форматированием. Сразу отправляйте клиенту — без правок вёрстки.</div>
     </div>
     <div class="feat-card">
       <div class="feat-ico">🏢</div>
       <div class="feat-t">Профиль компании</div>
-      <div class="feat-s">Заполните один раз: название, деятельность, преимущества. ИИ автоматически подставляет в каждое КП.</div>
+      <div class="feat-s">Заполните данные о компании один раз. ИИ автоматически подставляет название, преимущества и деятельность в каждое КП.</div>
     </div>
     <div class="feat-card">
       <div class="feat-ico">📚</div>
       <div class="feat-t">История и шаблоны</div>
-      <div class="feat-s">Все КП сохраняются в личном кабинете. Готовые шаблоны для 20+ отраслей: IT, строительство, услуги.</div>
+      <div class="feat-s">Все КП сохраняются в личном кабинете. Готовые шаблоны для 20+ отраслей: IT, строительство, логистика, услуги.</div>
     </div>
     <div class="feat-card">
-      <div class="feat-ico">🎯</div>
-      <div class="feat-t">Тонкая настройка</div>
-      <div class="feat-s">Укажите тон (деловой / дружелюбный), длину, акцент на цене или качестве. КП под каждого клиента.</div>
+      <div class="feat-ico">⚡</div>
+      <div class="feat-t">Мгновенный результат</div>
+      <div class="feat-s">Полноценное КП на 2–3 страницы за 30 секунд. Экономьте 2–3 часа работы на каждом предложении.</div>
     </div>
   </div>
 </section>
 
-<!-- EXAMPLES -->
-<div class="ex-bg">
-<section class="section" id="examples">
-  <div class="eyebrow">Примеры</div>
-  <h2 class="sec-title">Реальные КП из системы</h2>
-  <p class="sec-sub">Посмотрите как выглядит результат — готовые коммерческие предложения по разным отраслям.</p>
-  <div class="examples-grid">
-
-    <div class="ex-card">
-      <div class="ex-preview">
-        <div class="ex-tag">IT-аутсорсинг</div>
-        <div class="ex-doc-title">Коммерческое предложение на обслуживание IT-инфраструктуры</div>
-        <div class="ex-doc-text">
-          <p><strong>Уважаемый Алексей Вячеславович,</strong></p>
-          <p>Мы проанализировали текущую инфраструктуру вашей компании и подготовили индивидуальное предложение по комплексному IT-обслуживанию.</p>
-          <p><strong>Проблема:</strong> Простои серверов обходятся бизнесу в среднем 240 000 ₽ в час. По статистике, компании без выделенной IT-поддержки теряют до 18% рабочего времени сотрудников на решение технических проблем.</p>
-          <p><strong>Наше решение:</strong> Реагирование на инциденты за 15 минут, 24/7 мониторинг, выделенный инженер...</p>
-        </div>
-      </div>
-      <div class="ex-meta">
-        <div class="ex-industry">IT-аутсорсинг</div>
-        <div class="ex-words">2 100 слов</div>
-        <div class="ex-arrow">→</div>
-      </div>
-    </div>
-
-    <div class="ex-card">
-      <div class="ex-preview">
-        <div class="ex-tag">Строительство</div>
-        <div class="ex-doc-title">КП на строительство склада под ключ</div>
-        <div class="ex-doc-text">
-          <p><strong>Коммерческое предложение</strong><br>для ООО «ЛогистикГрупп»</p>
-          <p><strong>О нас:</strong> СК «Монолит» — 12 лет на рынке промышленного строительства. Реализовано 47 объектов от 500 до 15 000 м². Все работы в сроки, гарантия 5 лет.</p>
-          <p><strong>Ваша задача:</strong> Склад 2 000 м² с рампой на 4 ворот, отоплением, офисным блоком 200 м². Срок — 8 месяцев.</p>
-          <p><strong>Стоимость:</strong> 18 400 000 ₽ под ключ, поэтапная оплата...</p>
-        </div>
-      </div>
-      <div class="ex-meta">
-        <div class="ex-industry">Строительство</div>
-        <div class="ex-words">1 850 слов</div>
-        <div class="ex-arrow">→</div>
-      </div>
-    </div>
-
-    <div class="ex-card">
-      <div class="ex-preview">
-        <div class="ex-tag">Маркетинг</div>
-        <div class="ex-doc-title">КП на ведение рекламных кампаний в Яндекс.Директ</div>
-        <div class="ex-doc-text">
-          <p><strong>Предложение подготовлено для:</strong> Стоматологическая клиника «Дент Плюс»</p>
-          <p><strong>Текущая ситуация:</strong> По нашему аудиту ваши рекламные кампании расходуют бюджет неэффективно — стоимость заявки составляет 3 200 ₽ при среднерыночном показателе 800–1 200 ₽.</p>
-          <p><strong>Что мы сделаем за первый месяц:</strong> Полная реструктуризация кампаний, минус-слова, корректировка ставок по аудиториям, A/B тесты объявлений...</p>
-        </div>
-      </div>
-      <div class="ex-meta">
-        <div class="ex-industry">Маркетинг</div>
-        <div class="ex-words">2 400 слов</div>
-        <div class="ex-arrow">→</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-</div>
-
-<!-- HOW IT WORKS -->
 <div class="how-bg">
 <section class="section" id="how">
   <div class="eyebrow">Как это работает</div>
@@ -402,210 +337,345 @@ footer{background:var(--ink);padding:48px;display:flex;align-items:center;justif
     <div class="step">
       <div class="step-num">2</div>
       <div class="step-t">Данные о клиенте</div>
-      <div class="step-s">Название компании, отрасль и задача клиента.</div>
+      <div class="step-s">Введите название компании, отрасль и задачу.</div>
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <div class="step-t">Генерация</div>
-      <div class="step-s">ИИ пишет КП по структуре воронки продаж за 30 секунд.</div>
+      <div class="step-t">ИИ генерирует</div>
+      <div class="step-s">30 секунд — и готово полноценное КП на 2–3 страницы.</div>
     </div>
     <div class="step">
       <div class="step-num">4</div>
-      <div class="step-t">Готово!</div>
-      <div class="step-s">Скачайте DOCX или отредактируйте прямо в браузере.</div>
+      <div class="step-t">Экспорт и отправка</div>
+      <div class="step-s">Скачайте DOCX и отправьте клиенту напрямую.</div>
     </div>
   </div>
 </section>
 </div>
 
-<!-- PRICING -->
-<section class="section" id="pricing">
-  <div class="eyebrow">Тарифы</div>
-  <h2 class="sec-title">Прозрачные цены</h2>
-  <p class="sec-sub">Начните бесплатно. Экономьте до 33% при оплате на год.</p>
-
-  <div class="pricing-tabs">
-    <div class="ptab active" data-period="1">1 месяц</div>
-    <div class="ptab" data-period="3">3 месяца <span class="save">−10%</span></div>
-    <div class="ptab" data-period="12">12 месяцев <span class="save">−33%</span></div>
+<section class="section" id="demo" style="background:var(--bg);max-width:100%;padding:80px 0;">
+<div style="max-width:1160px;margin:0 auto;padding:0 24px;">
+  <div class="eyebrow">Пример</div>
+  <h2 class="sec-title">Вот что получается на выходе</h2>
+  <p class="sec-sub">Реальный пример генерации — от ввода данных до готового КП.</p>
+  <div class="demo-wrap">
+    <div class="demo-form">
+      <div class="demo-form-title">📋 Входные данные</div>
+      <div class="demo-field">
+        <div class="demo-label">Компания клиента</div>
+        <div class="demo-value">ООО «СтройГрупп»</div>
+      </div>
+      <div class="demo-field">
+        <div class="demo-label">Отрасль</div>
+        <div class="demo-value">Строительство и девелопмент</div>
+      </div>
+      <div class="demo-field">
+        <div class="demo-label">Задача</div>
+        <div class="demo-value">Автоматизация закупок строительных материалов</div>
+      </div>
+      <div class="demo-field">
+        <div class="demo-label">Контактное лицо</div>
+        <div class="demo-value">Дмитрий Васильевич, директор по закупкам</div>
+      </div>
+      <div class="demo-btn-fake">⚡ Сгенерировать КП</div>
+    </div>
+    <div class="demo-result">
+      <div class="demo-result-head">
+        <div class="demo-result-title">Коммерческое предложение · ООО «СтройГрупп»</div>
+        <div class="demo-result-badge">Готово за 31 сек</div>
+      </div>
+      <div class="demo-sec-title">Обращение</div>
+      <div class="demo-sec-text">Уважаемый Дмитрий Васильевич, мы изучили специфику закупочных процессов в строительстве и понимаем сложности, с которыми вы сталкиваетесь ежедневно: рост цен поставщиков, несогласованность сроков поставки, ручная обработка сотен заявок.</div>
+      <div class="demo-divider"></div>
+      <div class="demo-sec-title">Наше решение</div>
+      <div class="demo-sec-text">Автоматизируем формирование и согласование заявок на закупку. Цикл обработки сокращается с 3 дней до 4 часов, ошибки ручного ввода исключены. Интеграция с 1С за 1 день без остановки работы.</div>
+      <div class="demo-divider"></div>
+      <div class="demo-sec-title">Результат для вас</div>
+      <div class="demo-sec-text">— Экономия 18–22 часов работы отдела закупок в неделю<br>— Снижение стоимости закупок на 8–12% за счёт сравнения поставщиков<br>— Полный аудит всех операций в режиме реального времени</div>
+      <div class="demo-divider"></div>
+      <div class="demo-footer">
+        <div class="demo-meta">2 180 слов · 14 разделов · DOCX</div>
+        <a href="/auth/login" class="demo-dl">⬇ Скачать DOCX</a>
+      </div>
+    </div>
   </div>
-
-  <div class="pricing-grid">
-
-    <div class="price-card">
-      <div class="price-name">Starter</div>
-      <div class="price-amount" id="p-starter"><sup>₽</sup>990</div>
-      <div class="price-period" id="pp-starter">в месяц</div>
-      <div class="price-trial">3 дня бесплатно</div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>20 КП в месяц</li>
-        <li>Базовые ИИ-модели</li>
-        <li>Экспорт TXT</li>
-        <li>История КП</li>
-        <li class="no">Экспорт DOCX / PDF</li>
-        <li class="no">Профиль компании</li>
-        <li class="no">Приоритетные модели</li>
-      </ul>
-      <a href="/auth/login" class="price-btn outline">Начать бесплатно →</a>
-    </div>
-
-    <div class="price-card popular">
-      <div class="price-badge-top">Популярный</div>
-      <div class="price-name">Pro</div>
-      <div class="price-amount" id="p-pro"><sup>₽</sup>2 990</div>
-      <div class="price-period" id="pp-pro">в месяц</div>
-      <div style="height:30px;"></div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>Безлимит КП</li>
-        <li>Все ИИ-модели</li>
-        <li>Экспорт DOCX + PDF</li>
-        <li>Профиль компании</li>
-        <li>История КП</li>
-        <li>Автовыбор модели</li>
-        <li>Шаблоны по отраслям</li>
-      </ul>
-      <a href="/auth/login" class="price-btn solid">Выбрать Pro →</a>
-    </div>
-
-    <div class="price-card">
-      <div class="price-name">Agency</div>
-      <div class="price-amount" id="p-agency"><sup>₽</sup>7 900</div>
-      <div class="price-period" id="pp-agency">в месяц</div>
-      <div style="height:30px;"></div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>Всё из Pro</li>
-        <li>Максимальные модели</li>
-        <li>White-label</li>
-        <li>API-доступ</li>
-        <li>Безлимит команда</li>
-        <li>Персональный менеджер</li>
-      </ul>
-      <a href="/auth/login" class="price-btn outline">Связаться →</a>
-    </div>
-
-  </div>
+</div>
 </section>
 
-<!-- REVIEWS -->
 <div class="how-bg">
 <section class="section" id="reviews">
   <div class="eyebrow">Отзывы</div>
   <h2 class="sec-title">Что говорят клиенты</h2>
-  <p class="sec-sub">Более 500 компаний уже используют ProposeAI для создания коммерческих предложений.</p>
+  <p class="sec-sub">Реальные отзывы от предпринимателей и менеджеров по продажам.</p>
   <div class="reviews-grid">
-
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
-      <div class="review-text">«Раньше на одно КП уходило полдня: сбор информации, структура, редактура. Теперь делаю за 2 минуты — ввожу данные, получаю готовый текст и правлю под себя. Конверсия в сделку выросла, потому что наконец успеваю отвечать клиентам быстро.»</div>
+      <div class="review-text">«Раньше на одно КП уходило полдня — согласование, правки, форматирование. Теперь за 30 секунд получаю готовый документ. Конверсия выросла — клиенты говорят, что предложения стали чётче и убедительнее.»</div>
       <div class="review-author">
-        <div class="review-avatar" style="background:#3D6FBF;">АК</div>
+        <div class="review-avatar">АК</div>
         <div>
-          <div class="review-name">Антон Карпов</div>
-          <div class="review-role">Руководитель отдела продаж, IT-интегратор</div>
+          <div class="review-name">Андрей Климов</div>
+          <div class="review-role">Коммерческий директор, ООО «ТехноСнаб»</div>
         </div>
       </div>
     </div>
-
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
-      <div class="review-text">«Скептически отнеслась к идее доверять ИИ продающие тексты. Попробовала — была приятно удивлена. Структура грамотная, аргументы релевантные, стиль можно настроить. Особенно нравится функция профиля компании — не нужно каждый раз вводить одно и то же.»</div>
+      <div class="review-text">«Работаю в IT-аутсорсинге, каждый день нужны индивидуальные предложения. ProposeAI изменил процесс: ввожу задачу — получаю структурированный текст с правильными аргументами. Окупился за первую неделю.»</div>
       <div class="review-author">
-        <div class="review-avatar" style="background:#5584CC;">МВ</div>
+        <div class="review-avatar">МР</div>
         <div>
-          <div class="review-name">Мария Волкова</div>
-          <div class="review-role">Директор по маркетингу, строительная компания</div>
+          <div class="review-name">Михаил Романов</div>
+          <div class="review-role">Руководитель отдела продаж, IT-компания</div>
         </div>
       </div>
     </div>
-
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-text">«КП выходит не просто текстом, а с логичной структурой — проблема, решение, выгоды, цены. Клиенты читают до конца. Экспорт в Word работает отлично, документ сразу готов к отправке.»</div>
+      <div class="review-author">
+        <div class="review-avatar">ЕС</div>
+        <div>
+          <div class="review-name">Елена Соколова</div>
+          <div class="review-role">Менеджер по продажам, логистическая компания</div>
+        </div>
+      </div>
+    </div>
     <div class="review-card">
       <div class="review-stars">★★★★☆</div>
-      <div class="review-text">«Использую для агентства — генерирую КП для клиентов в разных нишах. Шаблоны по отраслям реально сэкономили время на старте. Иногда приходится доработать специфические термины, но это мелочи на фоне того, сколько времени экономится.»</div>
+      <div class="review-text">«Попробовал бесплатно — понравилось, взял Starter. Качество текста приятно удивило: ИИ сам вставляет нужные формулировки, которые я бы долго подбирал. Рекомендую попробовать хотя бы пару дней.»</div>
       <div class="review-author">
-        <div class="review-avatar" style="background:#2A4F8F;">ДС</div>
+        <div class="review-avatar">ДП</div>
         <div>
-          <div class="review-name">Дмитрий Соколов</div>
-          <div class="review-role">Владелец digital-агентства</div>
+          <div class="review-name">Денис Павлов</div>
+          <div class="review-role">Владелец малого бизнеса, Краснодар</div>
         </div>
       </div>
     </div>
-
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
-      <div class="review-text">«Как ИП очень ценю время. Раньше аутсорсил написание КП — дорого и долго. Теперь делаю сам за минуты. Качество не хуже, а стоимость подписки отбивается буквально за одну сделку. Оплата криптой — отдельный плюс.»</div>
+      <div class="review-text">«У нас агентство, делаем КП для 15–20 клиентов в месяц. Agency-тариф полностью оправдывает себя. White-label позволяет отдавать документы под нашим брендом. Команда экономит 30+ часов ежемесячно.»</div>
       <div class="review-author">
-        <div class="review-avatar" style="background:#3D6FBF;">РИ</div>
+        <div class="review-avatar">ОВ</div>
         <div>
-          <div class="review-name">Роман Ильин</div>
-          <div class="review-role">ИП, консалтинг по автоматизации</div>
+          <div class="review-name">Ольга Верещагина</div>
+          <div class="review-role">Директор маркетингового агентства, Москва</div>
         </div>
       </div>
     </div>
-
     <div class="review-card">
       <div class="review-stars">★★★★★</div>
-      <div class="review-text">«Наш отдел продаж из 8 человек перешёл на ProposeAI два месяца назад. Среднее время подготовки КП сократилось с 3 часов до 20 минут. При этом каждый менеджер теперь отправляет персонализированное предложение, а не один шаблон на всех.»</div>
+      <div class="review-text">«Занимаюсь продажами оборудования. Раньше тратил час на каждое КП. Теперь вписываю специфику клиента — текст уже адаптирован под его отрасль. Разница заметна в ответах и конверсии.»</div>
       <div class="review-author">
-        <div class="review-avatar" style="background:#2A55A0;">ЕН</div>
+        <div class="review-avatar">СН</div>
         <div>
-          <div class="review-name">Екатерина Новикова</div>
-          <div class="review-role">Коммерческий директор, логистика</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review-card">
-      <div class="review-stars">★★★★★</div>
-      <div class="review-text">«Попробовал на бесплатном периоде, сразу купил годовую подписку. Экспорт в Word работает отлично — документ сразу в фирменном стиле. Техподдержка ответила на вопросы за 20 минут. Рекомендую всем, кто занимается активными продажами.»</div>
-      <div class="review-author">
-        <div class="review-avatar" style="background:#5584CC;">СП</div>
-        <div>
-          <div class="review-name">Сергей Петров</div>
+          <div class="review-name">Сергей Никифоров</div>
           <div class="review-role">Менеджер по продажам, промышленное оборудование</div>
         </div>
       </div>
     </div>
-
   </div>
 </section>
 </div>
 
-<!-- CTA -->
+<section class="section" id="pricing">
+  <div class="eyebrow">Тарифы</div>
+  <h2 class="sec-title" style="text-align:center;">Прозрачные цены</h2>
+  <p class="sec-sub" style="text-align:center;margin-left:auto;margin-right:auto;">Выберите период оплаты и сэкономьте до 33%.</p>
+  <div class="pricing-tabs">
+    <button class="ptab active" data-period="m1">1 месяц</button>
+    <button class="ptab" data-period="m3">3 месяца <span class="ptab-disc">−10%</span></button>
+    <button class="ptab" data-period="m12">12 месяцев <span class="ptab-disc">−33%</span></button>
+  </div>
+  <div class="pricing-view active" id="pricing-m1">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-free-badge">3 дня бесплатно</div>
+        <div class="price-amount"><sup>₽</sup>990</div>
+        <div class="price-period">в месяц</div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>20 КП в месяц</li>
+          <li>Экспорт TXT</li>
+          <li>История КП</li>
+          <li class="no">Экспорт DOCX</li>
+          <li class="no">Профиль компании</li>
+        </ul>
+        <a href="/auth/login" class="price-btn free-btn">Начать бесплатно →</a>
+      </div>
+      <div class="price-card popular">
+        <div class="price-badge-top">Популярный</div>
+        <div class="price-name">Pro</div>
+        <div class="price-amount"><sup>₽</sup>2 990</div>
+        <div class="price-period">в месяц</div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Безлимит КП</li>
+          <li>Экспорт DOCX + PDF</li>
+          <li>История КП</li>
+          <li>Профиль компании</li>
+          <li>Шаблоны для 20+ отраслей</li>
+        </ul>
+        <a href="/auth/login" class="price-btn solid">Подключить →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Agency</div>
+        <div class="price-amount"><sup>₽</sup>7 900</div>
+        <div class="price-period">в месяц</div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Всё из Pro</li>
+          <li>White-label (ваш бренд)</li>
+          <li>API-доступ</li>
+          <li>Безлимит сотрудников</li>
+          <li>Приоритетная поддержка</li>
+        </ul>
+        <a href="/auth/login" class="price-btn outline">Связаться →</a>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-view" id="pricing-m3">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-free-badge">3 дня бесплатно</div>
+        <div class="price-amount"><sup>₽</sup>891</div>
+        <div class="price-period">в месяц · итого 2 673 ₽</div>
+        <div class="price-save">Экономия 297 ₽</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>20 КП в месяц</li>
+          <li>Экспорт TXT</li>
+          <li>История КП</li>
+          <li class="no">Экспорт DOCX</li>
+          <li class="no">Профиль компании</li>
+        </ul>
+        <a href="/auth/login" class="price-btn free-btn">Начать бесплатно →</a>
+      </div>
+      <div class="price-card popular">
+        <div class="price-badge-top">Популярный</div>
+        <div class="price-name">Pro</div>
+        <div class="price-amount"><sup>₽</sup>2 691</div>
+        <div class="price-period">в месяц · итого 8 073 ₽</div>
+        <div class="price-save">Экономия 897 ₽</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Безлимит КП</li>
+          <li>Экспорт DOCX + PDF</li>
+          <li>История КП</li>
+          <li>Профиль компании</li>
+          <li>Шаблоны для 20+ отраслей</li>
+        </ul>
+        <a href="/auth/login" class="price-btn solid">Подключить →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Agency</div>
+        <div class="price-amount"><sup>₽</sup>7 110</div>
+        <div class="price-period">в месяц · итого 21 330 ₽</div>
+        <div class="price-save">Экономия 2 370 ₽</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Всё из Pro</li>
+          <li>White-label (ваш бренд)</li>
+          <li>API-доступ</li>
+          <li>Безлимит сотрудников</li>
+          <li>Приоритетная поддержка</li>
+        </ul>
+        <a href="/auth/login" class="price-btn outline">Связаться →</a>
+      </div>
+    </div>
+  </div>
+  <div class="pricing-view" id="pricing-m12">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Starter</div>
+        <div class="price-free-badge">3 дня бесплатно</div>
+        <div class="price-amount"><sup>₽</sup>663</div>
+        <div class="price-period">в месяц · итого 7 956 ₽/год</div>
+        <div class="price-save">Экономия 3 924 ₽ в год</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>20 КП в месяц</li>
+          <li>Экспорт TXT</li>
+          <li>История КП</li>
+          <li class="no">Экспорт DOCX</li>
+          <li class="no">Профиль компании</li>
+        </ul>
+        <a href="/auth/login" class="price-btn free-btn">Начать бесплатно →</a>
+      </div>
+      <div class="price-card popular">
+        <div class="price-badge-top">Выгоднее всего</div>
+        <div class="price-name">Pro</div>
+        <div class="price-amount"><sup>₽</sup>1 993</div>
+        <div class="price-period">в месяц · итого 23 916 ₽/год</div>
+        <div class="price-save">Экономия 11 964 ₽ в год</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Безлимит КП</li>
+          <li>Экспорт DOCX + PDF</li>
+          <li>История КП</li>
+          <li>Профиль компании</li>
+          <li>Шаблоны для 20+ отраслей</li>
+        </ul>
+        <a href="/auth/login" class="price-btn solid">Подключить →</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Agency</div>
+        <div class="price-amount"><sup>₽</sup>5 293</div>
+        <div class="price-period">в месяц · итого 63 516 ₽/год</div>
+        <div class="price-save">Экономия 31 284 ₽ в год</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Всё из Pro</li>
+          <li>White-label (ваш бренд)</li>
+          <li>API-доступ</li>
+          <li>Безлимит сотрудников</li>
+          <li>Приоритетная поддержка</li>
+        </ul>
+        <a href="/auth/login" class="price-btn outline">Связаться →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="cta-section">
-  <div class="cta-eyebrow">Начните прямо сейчас</div>
   <h2 class="cta-title">Первое КП — через 30 секунд</h2>
   <p class="cta-sub">3 дня бесплатного доступа. Карта не нужна.</p>
   <a href="/auth/login" class="btn-cta">Попробовать бесплатно</a>
-  <div class="cta-note">Без карты при регистрации · Карты РФ · Криптовалюта</div>
+  <div class="cta-note">Без карты · Карты РФ · Криптовалюта</div>
 </div>
 
-<!-- FAQ -->
 <section class="section" id="faq">
   <div class="eyebrow">FAQ</div>
   <h2 class="sec-title">Частые вопросы</h2>
   <div class="faq-list">
     <div class="faq-item">
-      <div class="faq-q">Как работает бесплатный период?<span class="faq-arrow">+</span></div>
-      <div class="faq-a">Тариф Starter доступен бесплатно 3 дня без ввода карты. По окончании триала доступ ограничивается — можно продолжить на платном тарифе или остаться на бесплатных лимитах.</div>
+      <div class="faq-q">Нужна ли карта для регистрации?</div>
+      <div class="faq-a">Нет. Вы получаете 3 дня бесплатного доступа без ввода платёжных данных. Карта понадобится только если решите продолжить после пробного периода.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Как оплатить из России?<span class="faq-arrow">+</span></div>
+      <div class="faq-q">Чем отличаются тарифы?</div>
+      <div class="faq-a">Starter — 20 КП в месяц, экспорт TXT. Pro — безлимит КП, экспорт DOCX и PDF, профиль компании, шаблоны. Agency — всё из Pro плюс white-label, API и командная работа.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Как оплатить из России?</div>
       <div class="faq-a">Принимаем карты РФ через ЮКассу (Visa, Mastercard, Мир) и криптовалюту через NOWPayments (USDT, BTC, ETH и другие).</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Какая скидка при оплате за год?<span class="faq-arrow">+</span></div>
-      <div class="faq-a">При оплате за 3 месяца — скидка 10%. При оплате за 12 месяцев — скидка 33%. Это эквивалентно 4 месяцам бесплатно.</div>
+      <div class="faq-q">Есть ли скидки при оплате на срок?</div>
+      <div class="faq-a">Да. При оплате за 3 месяца — скидка 10%, за 12 месяцев — скидка 33%. Переключите период в блоке тарифов выше.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Можно ли экспортировать КП в Word?<span class="faq-arrow">+</span></div>
-      <div class="faq-a">Да, на тарифе Pro и Agency. Кнопка «Скачать DOCX» появляется сразу после генерации. На Starter — экспорт в TXT.</div>
+      <div class="faq-q">Можно ли сменить тариф?</div>
+      <div class="faq-a">Да, в любое время. Переход на более высокий тариф — мгновенно. При понижении изменения вступают в силу со следующего периода.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Можно ли отменить подписку?<span class="faq-arrow">+</span></div>
-      <div class="faq-a">Да, в любой момент в личном кабинете. Доступ сохраняется до конца оплаченного периода. Возврат средств — в течение 3 дней с момента оплаты.</div>
+      <div class="faq-q">Мои данные в безопасности?</div>
+      <div class="faq-a">Да. Мы не передаём ваши данные и КП третьим лицам и не используем их для обучения моделей.</div>
     </div>
   </div>
 </section>
@@ -616,7 +686,7 @@ footer{background:var(--ink);padding:48px;display:flex;align-items:center;justif
     <div class="foot-logo-text">ProposeAI</div>
   </div>
   <div class="foot-links">
-    <a href="/legal/privacy" class="foot-link">Конфиденциальность</a>
+    <a href="/legal/privacy" class="foot-link">Политика конфиденциальности</a>
     <a href="/legal/terms" class="foot-link">Условия использования</a>
     <a href="/auth/login" class="foot-link">Войти</a>
   </div>
@@ -624,38 +694,23 @@ footer{background:var(--ink);padding:48px;display:flex;align-items:center;justif
 </footer>
 
 <script>
-// Pricing periods
-const prices = {
-  starter: { 1: [990,'в месяц'], 3: [891,'в месяц · при оплате за 3 мес'], 12: [663,'в месяц · при оплате за год'] },
-  pro:     { 1: [2990,'в месяц'], 3: [2691,'в месяц · при оплате за 3 мес'], 12: [2003,'в месяц · при оплате за год'] },
-  agency:  { 1: [7900,'в месяц'], 3: [7110,'в месяц · при оплате за 3 мес'], 12: [5293,'в месяц · при оплате за год'] },
-};
-document.querySelectorAll('.ptab').forEach(tab => {
-  tab.addEventListener('click', () => {
+document.querySelectorAll('.ptab').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const period = this.dataset.period;
+    document.querySelectorAll('.pricing-view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const p = +tab.dataset.period;
-    ['starter','pro','agency'].forEach(plan => {
-      const [amt, period] = prices[plan][p];
-      document.getElementById('p-'+plan).innerHTML = '<sup>₽</sup>' + amt.toLocaleString('ru');
-      document.getElementById('pp-'+plan).textContent = period;
-    });
+    document.getElementById('pricing-' + period).classList.add('active');
+    this.classList.add('active');
   });
 });
-
-// FAQ
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
 });
-
-// Scroll animations
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
-  });
-}, {threshold:0.1});
-document.querySelectorAll('.feat-card,.ex-card,.step,.price-card,.review-card').forEach(el => {
-  el.style.opacity='0'; el.style.transform='translateY(20px)';
+  entries.forEach(e => { if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});
+}, {threshold:0.08});
+document.querySelectorAll('.feat-card,.step,.review-card,.price-card,.demo-form,.demo-result').forEach(el => {
+  el.style.opacity='0';el.style.transform='translateY(20px)';
   el.style.transition='opacity .5s ease, transform .5s ease';
   obs.observe(el);
 });
