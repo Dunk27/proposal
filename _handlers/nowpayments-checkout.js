@@ -3,7 +3,7 @@
 // Документация: https://nowpayments.io/payment-tools/api-payment
 // Env vars: NOWPAYMENTS_API_KEY, NOWPAYMENTS_IPN_SECRET
 
-import { getUserFromToken } from './lib/supabase.js'
+import { getUserFromToken } from '../lib/supabase.js'
 
 const PLANS_USD = {
   starter: { amount: 11, description: 'ProposeAI Starter — 20 КП/месяц' },

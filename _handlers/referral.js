@@ -3,7 +3,7 @@
 // POST /api/referral {action:'apply', refCode} — применить чужой реф. код
 // Механика: 1 бесплатный месяц реферу + 1 месяц тому кто пригласил
 
-import { getUserFromToken, getSupabaseAdmin } from './lib/supabase.js'
+import { getUserFromToken, getSupabaseAdmin } from '../lib/supabase.js'
 
 function generateRefCode(userId) {
   // Короткий детерминированный код из userId

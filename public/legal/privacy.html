@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Политика конфиденциальности — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#F5F0E8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--aline:rgba(184,146,42,0.25);}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.7;}
+header{padding:18px 40px;border-bottom:1px solid var(--aline);background:rgba(245,240,232,.94);backdrop-filter:blur(12px);display:flex;align-items:center;gap:16px;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;text-decoration:none;color:var(--ink);}
+.logo strong{font-weight:600;color:var(--accent);}
+main{max-width:800px;margin:0 auto;padding:48px 24px 80px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:8px;}
+.meta{font-size:13px;color:var(--ink3);margin-bottom:40px;padding-bottom:20px;border-bottom:1px solid var(--aline);}
+h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin:36px 0 12px;color:var(--ink);}
+p{font-size:14px;color:var(--ink2);margin-bottom:14px;}
+ul{padding-left:20px;margin-bottom:14px;}
+li{font-size:14px;color:var(--ink2);margin-bottom:6px;}
+.highlight{background:var(--white);border:1px solid var(--aline);border-left:3px solid var(--accent);padding:16px 20px;border-radius:0 4px 4px 0;margin:20px 0;}
+</style>
+</head>
+<body>
+<header><a href="/" class="logo">Propose<strong>AI</strong></a><span style="font-size:12px;color:var(--ink3);">/ Политика конфиденциальности</span></header>
+<main>
+<h1>Политика конфиденциальности</h1>
+<div class="meta">Последнее обновление: <span id="date"></span> · ИП [Ваше имя] · ИНН [XXXXXXXXXX]</div>
+
+<div class="highlight">
+  <p style="margin:0;font-size:13px;"><strong>Кратко:</strong> мы собираем минимум данных, необходимых для работы сервиса, не продаём их третьим лицам и храним на защищённых серверах.</p>
+</div>
+
+<h2>1. Кто мы</h2>
+<p>ProposeAI — онлайн-сервис для генерации коммерческих предложений. Оператор персональных данных: ИП [Ваше полное имя], ИНН [XXXXXXXXXX], адрес: [Адрес], email: [contact@yourdomain.ru].</p>
+
+<h2>2. Какие данные мы собираем</h2>
+<ul>
+  <li><strong>Аккаунт:</strong> email-адрес, хешированный пароль (не хранится в открытом виде)</li>
+  <li><strong>Профиль компании:</strong> название компании, описание услуг, УТП — только то, что вы вводите вручную</li>
+  <li><strong>КП:</strong> текст сгенерированных коммерческих предложений сохраняется в вашей личной истории</li>
+  <li><strong>Платёжные данные:</strong> номера карт мы НЕ храним. Обработка через YooKassa/Stripe/NOWPayments. Мы храним только факт оплаты, сумму и тариф.</li>
+  <li><strong>Технические данные:</strong> IP-адрес (для защиты от злоупотреблений), browser user-agent, время запросов</li>
+</ul>
+
+<h2>3. Как мы используем данные</h2>
+<ul>
+  <li>Предоставление доступа к сервису и авторизация</li>
+  <li>Генерация КП через API Anthropic/OpenAI/Google (текст вашего запроса передаётся провайдеру ИИ)</li>
+  <li>Обработка платежей и активация тарифного плана</li>
+  <li>Отправка транзакционных писем (подтверждение регистрации, квитанции об оплате)</li>
+  <li>Защита от мошенничества и злоупотреблений (rate limiting)</li>
+</ul>
+
+<h2>4. Кому мы передаём данные</h2>
+<ul>
+  <li><strong>Anthropic, OpenAI, Google</strong> — тексты запросов для генерации КП</li>
+  <li><strong>Supabase</strong> — хранение данных (серверы в ЕС)</li>
+  <li><strong>YooKassa</strong> — обработка платежей картами РФ</li>
+  <li><strong>Stripe</strong> — обработка международных платежей</li>
+  <li><strong>NOWPayments</strong> — обработка криптовалютных платежей</li>
+  <li><strong>Resend</strong> — отправка транзакционных email</li>
+  <li><strong>Sentry</strong> — мониторинг ошибок (без личных данных)</li>
+</ul>
+<p>Мы не продаём и не передаём ваши данные рекламным сетям или третьим лицам в маркетинговых целях.</p>
+
+<h2>5. Хранение и защита данных</h2>
+<p>Данные хранятся в базе данных Supabase (PostgreSQL). Пароли хэшируются через bcrypt. Соединения защищены TLS. Доступ к БД ограничен через Row Level Security — каждый пользователь видит только свои данные.</p>
+<p>В соответствии с Федеральным законом № 152-ФЗ «О персональных данных» при обработке данных российских граждан мы соблюдаем требования о локализации.</p>
+
+<h2>6. Ваши права</h2>
+<ul>
+  <li>Запросить копию ваших данных (GDPR Art. 15)</li>
+  <li>Исправить неточные данные (GDPR Art. 16)</li>
+  <li>Удалить аккаунт и все данные (GDPR Art. 17) — напишите на [contact@yourdomain.ru]</li>
+  <li>Отозвать согласие на обработку в любой момент</li>
+</ul>
+
+<h2>7. Cookies</h2>
+<p>Мы используем только необходимые технические cookies (сессионный токен авторизации). Рекламных или аналитических cookies нет.</p>
+
+<h2>8. Изменения</h2>
+<p>При существенных изменениях политики мы уведомим вас по email. Продолжение использования сервиса после уведомления означает согласие с новой редакцией.</p>
+
+<h2>9. Контакты</h2>
+<p>Вопросы о персональных данных: <a href="mailto:privacy@yourdomain.ru" style="color:var(--accent);">privacy@yourdomain.ru</a></p>
+</main>
+<script>document.getElementById('date').textContent=new Date().toLocaleDateString('ru-RU',{year:'numeric',month:'long',day:'numeric'});</script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мои КП — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--accent2:#D4AB42;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--red:#C0392B;--green:#27695C;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+.hdr{padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aline);background:rgba(245,240,232,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ink);text-decoration:none;}
+.logo strong{font-weight:600;color:var(--accent);}
+.hdr-right{display:flex;align-items:center;gap:10px;}
+.plan-badge{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:var(--apal);border:1px solid var(--aline);color:var(--accent);}
+.btn{padding:8px 18px;border-radius:3px;font-size:12px;font-weight:600;letter-spacing:.5px;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s;}
+.btn.out{background:transparent;border:1px solid var(--aline);color:var(--ink2);}
+.btn.out:hover{border-color:var(--accent);color:var(--accent);}
+.btn.acc{background:var(--accent);color:#fff;}
+.btn.acc:hover{opacity:.9;}
+.btn.sol{background:var(--ink);color:var(--cream);}
+.btn.sol:hover{background:var(--ink2);}
+.wrap{max-width:1100px;margin:0 auto;padding:40px 24px;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:6px;}
+.page-sub{font-size:13px;color:var(--ink3);margin-bottom:32px;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px;}
+.stat-card{background:var(--white);border:1px solid var(--aline);border-radius:8px;padding:16px 20px;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--ink);}
+.stat-l{font-size:11px;color:var(--ink3);margin-top:3px;}
+.usage-bar{height:4px;background:var(--cream3);border-radius:2px;margin-top:8px;overflow:hidden;}
+.usage-fill{height:100%;border-radius:2px;background:var(--accent);transition:width .4s;}
+.usage-fill.warn{background:var(--red);}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.search{flex:1;min-width:200px;padding:9px 14px;background:var(--white);border:1px solid var(--aline);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;}
+.search:focus{border-color:var(--accent);}
+.table-wrap{background:var(--white);border:1px solid var(--aline);border-radius:8px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:12px 18px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--aline);background:var(--cream);}
+tbody tr{border-bottom:1px solid rgba(184,146,42,.12);cursor:pointer;transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--cream);}
+tbody td{padding:14px 18px;font-size:13px;color:var(--ink2);}
+.td-title{font-weight:500;color:var(--ink);}
+.model-tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;background:var(--apal);color:var(--accent);}
+.del-btn{padding:4px 10px;border:1px solid rgba(192,57,43,.2);border-radius:3px;background:none;color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.del-btn:hover{background:rgba(192,57,43,.08);}
+.empty-state{text-align:center;padding:60px 24px;}
+.empty-ico{font-size:40px;margin-bottom:16px;}
+.empty-t{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink2);margin-bottom:8px;}
+.empty-s{font-size:13px;color:var(--ink3);margin-bottom:24px;}
+.loading-row{text-align:center;padding:40px;color:var(--ink3);font-size:13px;}
+.upgrade-banner{background:linear-gradient(135deg,var(--ink),#2D2620);border-radius:8px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;color:var(--cream);}
+.ub-t{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;margin-bottom:4px;}
+.ub-s{font-size:12px;color:rgba(253,250,245,.6);}
+@media(max-width:700px){.stats-row{grid-template-columns:1fr 1fr;}.hdr{padding:14px 16px;}.wrap{padding:24px 16px;}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <a href="/app" class="logo">Propose<strong>AI</strong></a>
+  <div class="hdr-right">
+    <span class="plan-badge" id="plan-badge">Trial</span>
+    <button class="btn out" onclick="window.location.href='/app'">+ Новое КП</button>
+    <button class="btn acc" id="upgrade-btn" onclick="showUpgrade()">Upgrade</button>
+    <button class="btn out" onclick="logout()">Выйти</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="page-title">История КП</div>
+  <div class="page-sub">Все ваши коммерческие предложения в одном месте</div>
+
+  <div id="upgrade-banner" class="upgrade-banner" style="display:none">
+    <div>
+      <div class="ub-t">Вы использовали все КП этого месяца</div>
+      <div class="ub-s">Перейдите на Pro для безлимитной генерации и доступа ко всем моделям ИИ</div>
+    </div>
+    <button class="btn acc" onclick="showUpgrade()">Перейти на Pro →</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-n" id="stat-used">—</div>
+      <div class="stat-l">КП этого месяца</div>
+      <div class="usage-bar"><div class="usage-fill" id="usage-fill" style="width:0%"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n" id="stat-total">—</div>
+      <div class="stat-l">Всего КП</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n" id="stat-plan">—</div>
+      <div class="stat-l">Тарифный план</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-n" id="stat-trial">—</div>
+      <div class="stat-l">До конца триала</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input class="search" type="text" id="search" placeholder="Поиск по названию или клиенту…" oninput="filterProposals()">
+    <button class="btn sol" onclick="window.location.href='/app'">+ Создать КП</button>
+  </div>
+
+  <div class="table-wrap">
+    <div id="table-container">
+      <div class="loading-row">Загружаем ваши КП…</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div id="pay-overlay" style="display:none;position:fixed;inset:0;background:rgba(26,22,18,.7);z-index:500;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);">
+  <div style="background:var(--white);border-radius:10px;max-width:540px;width:100%;border:1px solid var(--aline);overflow:hidden;">
+    <div style="padding:20px 24px;background:linear-gradient(135deg,#0F172A,#1E293B);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#E2E8F0;">Выберите тариф</div>
+      <button onclick="document.getElementById('pay-overlay').style.display='none'" style="background:none;border:1px solid rgba(255,255,255,.15);color:#94A3B8;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;">×</button>
+    </div>
+    <div style="padding:24px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;" id="plan-grid">
+        <div class="plan-card" data-plan="starter" onclick="selPlan('starter')" style="padding:14px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;transition:all .2s;">
+          <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px;">Starter</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);">990 ₽<span style="font-size:13px;font-weight:300">/мес</span></div>
+          <div style="font-size:10px;color:var(--ink3);margin-top:6px;line-height:1.5;">20 КП/мес<br>Claude Haiku/Sonnet</div>
+        </div>
+        <div class="plan-card sel-plan" data-plan="pro" onclick="selPlan('pro')" style="padding:14px;border:1.5px solid var(--accent);border-radius:6px;cursor:pointer;text-align:center;background:var(--apal);">
+          <div style="font-size:9px;font-weight:700;background:var(--accent);color:#fff;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:4px;">Популярный</div>
+          <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px;">Pro</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);">2 990 ₽<span style="font-size:13px;font-weight:300">/мес</span></div>
+          <div style="font-size:10px;color:var(--ink3);margin-top:6px;line-height:1.5;">Безлимит КП<br>Все 6 моделей ИИ</div>
+        </div>
+        <div class="plan-card" data-plan="agency" onclick="selPlan('agency')" style="padding:14px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;">
+          <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px;">Agency</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);">7 900 ₽<span style="font-size:13px;font-weight:300">/мес</span></div>
+          <div style="font-size:10px;color:var(--ink3);margin-top:6px;line-height:1.5;">White-label<br>API-доступ</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;">Способ оплаты</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;" id="method-grid">
+        <div onclick="selMethod('yookassa')" id="m-yookassa" style="padding:12px 8px;border:1.5px solid var(--accent);border-radius:6px;cursor:pointer;text-align:center;background:var(--apal);">
+          <div style="font-size:16px;margin-bottom:4px;">💳</div>
+          <div style="font-size:11px;font-weight:700;color:var(--accent);">Карты РФ</div>
+          <div style="font-size:10px;color:var(--ink3);">Visa, МИР, МС</div>
+        </div>
+        <div onclick="selMethod('crypto')" id="m-crypto" style="padding:12px 8px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;">
+          <div style="font-size:16px;margin-bottom:4px;">🪙</div>
+          <div style="font-size:11px;font-weight:700;color:var(--ink2);">Крипто</div>
+          <div style="font-size:10px;color:var(--ink3);">USDT, BTC, ETH, TON</div>
+        </div>
+        <div onclick="selMethod('stripe')" id="m-stripe" style="padding:12px 8px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;">
+          <div style="font-size:16px;margin-bottom:4px;">🌍</div>
+          <div style="font-size:11px;font-weight:700;color:var(--ink2);">Stripe</div>
+          <div style="font-size:10px;color:var(--ink3);">Visa/MC межд.</div>
+        </div>
+      </div>
+
+      <div id="crypto-currency" style="display:none;margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;">Криптовалюта</div>
+        <select id="crypto-sel" style="width:100%;padding:10px 14px;background:var(--cream);border:1px solid var(--aline);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;">
+          <option value="usdttrc20">USDT (TRC-20) — рекомендуется</option>
+          <option value="usdterc20">USDT (ERC-20)</option>
+          <option value="btc">Bitcoin (BTC)</option>
+          <option value="eth">Ethereum (ETH)</option>
+          <option value="ton">TON</option>
+          <option value="usdcsol">USDC (Solana)</option>
+        </select>
+      </div>
+
+      <button id="pay-btn" onclick="startPayment()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        💳 Оплатить через Карты РФ
+      </button>
+      <div style="text-align:center;font-size:10px;color:var(--ink3);margin-top:10px;line-height:1.6;">
+        Безопасная оплата · Отмена в любой момент · Чек на email
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOKEN = localStorage.getItem('sb-token')
+if (!TOKEN) window.location.href = '/auth/login'
+
+let allProposals = []
+let selPayPlan = 'pro'
+let selPayMethod = 'yookassa'
+
+async function loadData() {
+  try {
+    const [userRes, propRes] = await Promise.all([
+      fetch('/api/user', { headers: { Authorization: `Bearer ${TOKEN}` } }),
+      fetch('/api/proposals', { headers: { Authorization: `Bearer ${TOKEN}` } }),
+    ])
+    const userData = await userRes.json()
+    const propData = await propRes.json()
+
+    // Stats
+    const plan = userData.plan || 'trial'
+    const used = userData.usage?.used || 0
+    const limit = userData.usage?.limit || 3
+    const pct = Math.min(100, Math.round(used / limit * 100))
+
+    document.getElementById('stat-used').textContent = `${used}/${limit === 9999 ? '∞' : limit}`
+    document.getElementById('stat-plan').textContent = plan.charAt(0).toUpperCase() + plan.slice(1)
+    document.getElementById('plan-badge').textContent = plan.charAt(0).toUpperCase() + plan.slice(1)
+    document.getElementById('usage-fill').style.width = pct + '%'
+    if (pct >= 90) document.getElementById('usage-fill').classList.add('warn')
+
+    if (userData.trialEndsAt) {
+      const days = Math.max(0, Math.ceil((new Date(userData.trialEndsAt) - Date.now()) / 86400000))
+      document.getElementById('stat-trial').textContent = days > 0 ? `${days} дн.` : 'Истёк'
+    } else {
+      document.getElementById('stat-trial').textContent = '—'
+    }
+
+    allProposals = propData.proposals || []
+    document.getElementById('stat-total').textContent = allProposals.length
+
+    if (used >= limit && limit !== 9999) {
+      document.getElementById('upgrade-banner').style.display = 'flex'
+      document.getElementById('upgrade-btn').style.display = 'inline-block'
+    } else {
+      document.getElementById('upgrade-btn').style.display = ['free','starter'].includes(plan) ? 'inline-block' : 'none'
+    }
+
+    renderTable(allProposals)
+  } catch (e) {
+    console.error(e)
+    document.getElementById('table-container').innerHTML = '<div class="loading-row">Ошибка загрузки данных</div>'
+  }
+}
+
+function renderTable(list) {
+  const MODEL_LABELS = {
+    'claude-sonnet-4':'Claude Sonnet 4','claude-opus-4':'Claude Opus 4','claude-haiku-4':'Claude Haiku',
+    'gpt-4o':'GPT-4o','gpt-4o-mini':'GPT-4o mini','gemini-pro':'Gemini Pro'
+  }
+  if (!list.length) {
+    document.getElementById('table-container').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-ico">📄</div>
+        <div class="empty-t">Пока нет КП</div>
+        <div class="empty-s">Создайте первое коммерческое предложение</div>
+        <button class="btn sol" onclick="window.location.href='/app'">+ Создать КП</button>
+      </div>`
+    return
+  }
+  const rows = list.map(p => `
+    <tr onclick="openProposal('${p.id}')">
+      <td class="td-title">${escHtml(p.title)}</td>
+      <td>${escHtml(p.client_name || '—')}</td>
+      <td><span class="model-tag">${MODEL_LABELS[p.model] || p.model}</span></td>
+      <td>${p.word_count?.toLocaleString('ru') || '—'} сл.</td>
+      <td>${new Date(p.created_at).toLocaleDateString('ru-RU')}</td>
+      <td><button class="del-btn" onclick="event.stopPropagation();deleteProposal('${p.id}',this)">Удалить</button></td>
+    </tr>`).join('')
+
+  document.getElementById('table-container').innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Название</th><th>Клиент</th><th>Модель</th><th>Объём</th><th>Дата</th><th></th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`
+}
+
+function filterProposals() {
+  const q = document.getElementById('search').value.toLowerCase()
+  const filtered = allProposals.filter(p =>
+    p.title?.toLowerCase().includes(q) || p.client_name?.toLowerCase().includes(q)
+  )
+  renderTable(filtered)
+}
+
+async function deleteProposal(id, btn) {
+  if (!confirm('Удалить это КП?')) return
+  btn.disabled = true; btn.textContent = '…'
+  const r = await fetch(`/api/proposals?id=${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${TOKEN}` } })
+  if (r.ok) {
+    allProposals = allProposals.filter(p => p.id !== id)
+    renderTable(allProposals)
+    document.getElementById('stat-total').textContent = allProposals.length
+  }
+}
+
+function openProposal(id) {
+  window.location.href = `/app?proposal=${id}`
+}
+
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+}
+
+function showUpgrade() { document.getElementById('pay-overlay').style.display = 'flex' }
+
+function selPlan(plan) {
+  selPayPlan = plan
+  document.querySelectorAll('.plan-card').forEach(c => {
+    const sel = c.dataset.plan === plan
+    c.style.border = sel ? '1.5px solid var(--accent)' : '1.5px solid var(--aline)'
+    c.style.background = sel ? 'var(--apal)' : ''
+    c.querySelector('div').style.color = sel ? 'var(--accent)' : 'var(--ink2)'
+  })
+  updatePayBtn()
+}
+
+function selMethod(method) {
+  selPayMethod = method
+  document.querySelectorAll('#method-grid > div').forEach(c => {
+    c.style.border = '1.5px solid var(--aline)'; c.style.background = ''
+    c.querySelector('div:nth-child(2)').style.color = 'var(--ink2)'
+  })
+  const el = document.getElementById('m-' + method)
+  el.style.border = '1.5px solid var(--accent)'; el.style.background = 'var(--apal)'
+  el.querySelector('div:nth-child(2)').style.color = 'var(--accent)'
+  document.getElementById('crypto-currency').style.display = method === 'crypto' ? 'block' : 'none'
+  updatePayBtn()
+}
+
+function updatePayBtn() {
+  const labels = { yookassa: '💳 Оплатить через Карты РФ', crypto: '🪙 Оплатить криптовалютой', stripe: '🌍 Оплатить картой (Stripe)' }
+  document.getElementById('pay-btn').innerHTML = labels[selPayMethod] || '💳 Оплатить'
+}
+
+async function startPayment() {
+  const btn = document.getElementById('pay-btn')
+  btn.disabled = true; btn.textContent = 'Создаём платёж…'
+  try {
+    let url, body
+    if (selPayMethod === 'yookassa') {
+      url = '/api/yookassa-checkout'
+      body = { plan: selPayPlan, returnUrl: window.location.origin + '/dashboard?payment=success' }
+    } else if (selPayMethod === 'crypto') {
+      const currency = document.getElementById('crypto-sel').value
+      url = '/api/nowpayments-checkout'
+      body = { plan: selPayPlan, currency }
+    } else {
+      url = '/api/checkout'
+      body = { plan: selPayPlan, successUrl: window.location.origin + '/dashboard?payment=success', cancelUrl: window.location.origin + '/dashboard' }
+    }
+    const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` }, body: JSON.stringify(body) })
+    const d = await r.json()
+    if (!r.ok) throw new Error(d.error || 'Ошибка создания платежа')
+    const redirectUrl = d.confirmationUrl || d.invoiceUrl || d.url
+    if (redirectUrl) window.location.href = redirectUrl
+    else throw new Error('URL оплаты не получен')
+  } catch (e) {
+    alert('Ошибка: ' + e.message)
+    btn.disabled = false; updatePayBtn()
+  }
+}
+
+function logout() {
+  fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` }, body: JSON.stringify({ action: 'logout' }) })
+  localStorage.clear(); window.location.href = '/auth/login'
+}
+
+const params = new URLSearchParams(location.search)
+if (params.get('payment') === 'success') {
+  setTimeout(() => alert('✅ Оплата подтверждена! Ваш тариф обновлён.'), 500)
+}
+
+loadData()
+</script>
+</body>
+</html>

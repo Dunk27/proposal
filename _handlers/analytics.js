@@ -3,7 +3,7 @@
 // GET /api/analytics?period=30d  → метрики за период
 // POST /api/analytics {event, meta} → записать событие
 
-import { getUserFromToken, getSupabaseAdmin } from './lib/supabase.js'
+import { getUserFromToken, getSupabaseAdmin } from '../lib/supabase.js'
 
 // Ключевые события
 export const EVENTS = {

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Шаблоны КП — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--green:#27695C;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);}
+.hdr{padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aline);background:rgba(245,240,232,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;text-decoration:none;color:var(--ink);}
+.logo strong{font-weight:600;color:var(--accent);}
+.hdr-right{display:flex;gap:8px;}
+.btn{padding:8px 18px;border-radius:3px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s;}
+.btn.out{background:transparent;border:1px solid var(--aline);color:var(--ink2);}
+.btn.out:hover{border-color:var(--accent);color:var(--accent);}
+.btn.sol{background:var(--ink);color:var(--cream);}
+.btn.sol:hover{background:var(--accent);}
+.wrap{max-width:1060px;margin:0 auto;padding:48px 24px 80px;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:8px;}
+.page-sub{font-size:14px;color:var(--ink3);margin-bottom:36px;max-width:560px;line-height:1.7;}
+.search-bar{margin-bottom:28px;}
+.search-input{width:100%;max-width:400px;padding:10px 16px;background:var(--white);border:1px solid var(--aline);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;}
+.search-input:focus{border-color:var(--accent);}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.card{background:var(--white);border:1px solid var(--aline);border-radius:8px;padding:22px;cursor:pointer;transition:all .2s;position:relative;}
+.card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.card-ico{font-size:28px;margin-bottom:12px;}
+.card-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.card-industry{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.card-desc{font-size:12px;color:var(--ink3);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:12px;border-top:1px solid var(--cream3);}
+.tone-tag{padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:var(--apal);color:var(--accent);border:1px solid var(--aline);}
+.use-btn{padding:7px 16px;border:none;border-radius:3px;background:var(--ink);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;}
+.use-btn:hover{background:var(--accent);}
+.no-results{text-align:center;padding:60px 24px;color:var(--ink3);font-size:14px;}
+@media(max-width:780px){.grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.grid{grid-template-columns:1fr;}.hdr{padding:14px 16px;}.wrap{padding:28px 16px 60px;}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <a href="/app" class="logo">Propose<strong>AI</strong></a>
+  <div class="hdr-right">
+    <button class="btn out" onclick="window.location.href='/app'">← Генератор</button>
+    <button class="btn sol" onclick="window.location.href='/app'">+ Новое КП</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="page-title">Шаблоны КП</div>
+  <div class="page-sub">12 отраслевых шаблонов — нажмите «Использовать» и форма заполнится автоматически. Остаётся только добавить данные клиента.</div>
+  
+  <div class="search-bar">
+    <input class="search-input" type="text" id="search" placeholder="Поиск по отрасли или названию…" oninput="filter()">
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const TONE_LABELS = { consultative:'🧠 Консультативный', bold:'🚀 Смелый', warm:'🤝 Тёплый', formal:'📋 Официальный' }
+
+const TEMPLATES = [
+  { id:'it-development', icon:'💻', name:'IT-разработка', industry:'Информационные технологии', services:'Разработка веб-приложений и мобильных приложений, создание CRM и ERP-систем, интеграция с внешними API и 1С, техническая поддержка', usp:'10+ лет опыта, команда 30+ разработчиков, гарантия 1 год, работаем по SCRUM, фиксированный бюджет', cases:'Автоматизировали склад (экономия 3 млн ₽/год), разработали CRM для 500+ пользователей', clientNeed:'Нужна автоматизация бизнес-процессов, устали от Excel', tone:'consultative' },
+  { id:'marketing-agency', icon:'📢', name:'Маркетинговое агентство', industry:'Маркетинг и реклама', services:'Контекстная реклама Яндекс.Директ и Google Ads, таргетированная реклама ВКонтакте и Telegram, SEO-продвижение, SMM', usp:'Работаем с бюджетами от 50 000 ₽, еженедельная отчётность, гарантируем целевые заявки', cases:'Снизили стоимость заявки с 2 400 до 680 ₽, увеличили продажи на 340% за 6 месяцев', clientNeed:'Нужны продажи, текущая реклама не окупается', tone:'bold' },
+  { id:'consulting', icon:'🎯', name:'Бизнес-консалтинг', industry:'Консалтинг и управление', services:'Аудит бизнес-процессов, разработка стратегии развития, оптимизация оргструктуры, внедрение KPI и систем мотивации', usp:'20 лет опыта, работали с компаниями ТОП-500, конкретные результаты в договоре', cases:'Увеличили EBITDA на 28% за год, сократили издержки на 18 млн ₽', clientNeed:'Компания не растёт, нужна внешняя экспертиза', tone:'consultative' },
+  { id:'legal', icon:'⚖️', name:'Юридическая фирма', industry:'Юриспруденция', services:'Договорная работа, корпоративное право, налоговые споры, арбитраж и судебное представительство, M&A-сделки', usp:'15 лет в коммерческом праве, выиграли 94% дел, партнёры — бывшие судьи арбитражного суда', cases:'Взыскали 47 млн ₽ с контрагента, сопроводили M&A на 1,2 млрд ₽', clientNeed:'Юридические риски в бизнесе, нужна защита сделок', tone:'formal' },
+  { id:'construction', icon:'🏗️', name:'Строительство', industry:'Строительство', services:'Строительство коммерческих объектов под ключ, реконструкция и капремонт, дизайн-проект и инженерные сети', usp:'Лицензия СРО, строим с 2008 года, 300+ объектов, гарантия 5 лет, штрафы за просрочку в договоре', cases:'Построили логоцентр 12 000 м² за 8 месяцев, реконструировали завод без остановки', clientNeed:'Нужно построить объект, прошлый подрядчик подвёл со сроками', tone:'formal' },
+  { id:'hr', icon:'👥', name:'HR и рекрутинг', industry:'Управление персоналом', services:'Подбор персонала от линейного до топ-менеджмента, executive search, кадровый аутсорсинг, оценка персонала', usp:'Закрываем вакансии за 3–7 дней, база 150 000+ кандидатов, гарантийная замена 3 месяца', cases:'Закрыли 40 вакансий за месяц, снизили текучку с 40% до 18%', clientNeed:'Не можем найти людей, долго и дорого нанимаем сами', tone:'warm' },
+  { id:'logistics', icon:'🚛', name:'Логистика и доставка', industry:'Транспорт и логистика', services:'Грузовые перевозки по России и СНГ, международная логистика, таможенное оформление, складское хранение', usp:'Собственный автопарк 200+ единиц, страхование включено, трекинг в реальном времени, SLA 99,2%', cases:'Снизили логистические расходы на 22%, настроили фулфилмент для 3000 заказов/день', clientNeed:'Проблемы со сроками и сохранностью груза, дорогая логистика', tone:'consultative' },
+  { id:'accounting', icon:'📊', name:'Бухгалтерия на аутсорсе', industry:'Финансы и бухгалтерия', services:'Полное бухгалтерское и налоговое сопровождение, расчёт зарплаты, кадровый учёт, восстановление учёта', usp:'Страхование ответственности 10 млн ₽, экономия 40–60% vs штатный бухгалтер, гарантия точности', cases:'Сэкономили 2,3 млн ₽ на налогах, 0 штрафов за 5 лет работы с 200+ клиентами', clientNeed:'Хотят снизить расходы на бухгалтерию, устали от головной боли', tone:'formal' },
+  { id:'education', icon:'🎓', name:'Обучение и тренинги', industry:'Образование', services:'Корпоративное обучение: продажи, переговоры, управление, лидерство, soft skills. Онлайн и офлайн', usp:'Тренеры-практики с опытом 10+ лет, ROI обучения измеряем через 3 месяца', cases:'Конверсия продаж выросла с 12% до 31%, подготовили 20 руководителей к новым ролям', clientNeed:'Команда не достигает результатов, нужно повысить компетенции', tone:'warm' },
+  { id:'security', icon:'🔒', name:'Охрана и безопасность', industry:'Безопасность', services:'Физическая охрана объектов, видеонаблюдение и контроль доступа, пультовая охрана, экстренное реагирование', usp:'Лицензия МВД, сотрудники из силовых структур, реагирование за 5 минут, страховка 50 млн ₽', cases:'Обеспечили безопасность 3 офисных центров, предотвратили хищений на 8 млн ₽ за год', clientNeed:'Нужна надёжная охрана, были инциденты или риски', tone:'formal' },
+  { id:'cleaning', icon:'✨', name:'Клининг', industry:'Услуги для бизнеса', services:'Уборка офисов, торговых центров и производства, послестроительная уборка, дезинфекция, facility management', usp:'Работаем 365 дней, бригада не меняется, собственный инвентарь и химия, ЧП реакция за 2 часа', cases:'Обслуживаем 15 офисных центров, снизили затраты на клининг на 35%', clientNeed:'Хаос с уборкой, прошлый подрядчик ненадёжен', tone:'warm' },
+  { id:'design', icon:'🎨', name:'Дизайн и брендинг', industry:'Дизайн', services:'Фирменный стиль и брендбук, дизайн сайтов, UX/UI, упаковка и полиграфия, ребрендинг', usp:'200+ проектов, дизайнеры с опытом в международных агентствах, 3 правки в стоимости, авторские права передаём', cases:'Ребрендинг увеличил узнаваемость на 45%, дизайн приложения получил Runet Award', clientNeed:'Визуальный образ устарел или не работает на аудиторию', tone:'warm' },
+]
+
+let filtered = [...TEMPLATES]
+
+function filter() {
+  const q = document.getElementById('search').value.toLowerCase()
+  filtered = TEMPLATES.filter(t =>
+    t.name.toLowerCase().includes(q) ||
+    t.industry.toLowerCase().includes(q) ||
+    t.services.toLowerCase().includes(q)
+  )
+  render()
+}
+
+function useTemplate(id) {
+  const t = TEMPLATES.find(t => t.id === id)
+  if (!t) return
+  // Передать данные в приложение через sessionStorage
+  sessionStorage.setItem('kp-template', JSON.stringify(t))
+  window.location.href = '/app?template=' + id
+}
+
+function render() {
+  const g = document.getElementById('grid')
+  if (!filtered.length) {
+    g.innerHTML = '<div class="no-results" style="grid-column:1/-1">Ничего не найдено. Попробуйте другой запрос.</div>'
+    return
+  }
+  g.innerHTML = filtered.map(t => `
+    <div class="card" onclick="useTemplate('${t.id}')">
+      <div class="card-ico">${t.icon}</div>
+      <div class="card-industry">${t.industry}</div>
+      <div class="card-name">${t.name}</div>
+      <div class="card-desc">${t.services}</div>
+      <div class="card-footer">
+        <span class="tone-tag">${TONE_LABELS[t.tone] || t.tone}</span>
+        <button class="use-btn" onclick="event.stopPropagation();useTemplate('${t.id}')">Использовать →</button>
+      </div>
+    </div>`).join('')
+}
+
+render()
+</script>
+</body>
+</html>

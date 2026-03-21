@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProposeAI — Генератор КП</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style id="theme-style">
+/* ── THEME VARIABLES (изменяются через панель настроек) ── */
+:root {
+  --bg:       #F5F0E8;
+  --bg2:      #EDE7D9;
+  --bg3:      #E8DFC8;
+  --surface:  #FDFAF5;
+  --ink:      #1A1612;
+  --ink2:     #3D3530;
+  --ink3:     #7A6F66;
+  --accent:   #B8922A;
+  --accent2:  #D4AB42;
+  --apal:     rgba(184,146,42,0.12);
+  --aline:    rgba(184,146,42,0.3);
+  --red:      #C0392B;
+  --green:    #27695C;
+  --radius:   2px;
+  --font-head:'Cormorant Garamond',serif;
+  --font-body:'DM Sans',sans-serif;
+}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;}
+
+/* ─── HEADER ─── */
+.hdr{padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aline);position:sticky;top:0;background:rgba(var(--bg-rgb,245,240,232),.94);backdrop-filter:blur(14px);z-index:200;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-word{font-family:var(--font-head);font-size:24px;font-weight:300;color:var(--ink);}
+.logo-word strong{font-weight:600;color:var(--accent);}
+.logo-badge{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--ink3);text-transform:uppercase;border:1px solid var(--aline);padding:3px 7px;border-radius:var(--radius);}
+.logo-ai{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:500;color:var(--ink3);padding:4px 10px;background:var(--apal);border:1px solid var(--aline);border-radius:12px;cursor:pointer;transition:all .2s;}
+.logo-ai:hover{color:var(--accent);border-color:var(--accent);}
+.ai-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hdr-nav{display:flex;gap:6px;align-items:center;}
+.pill{padding:7px 16px;border-radius:var(--radius);font-size:11px;font-weight:600;letter-spacing:.5px;cursor:pointer;transition:all .2s;border:none;font-family:var(--font-body);}
+.pill.out{background:transparent;border:1px solid var(--aline);color:var(--ink2);}
+.pill.out:hover{border-color:var(--accent);color:var(--accent);}
+.pill.sol{background:var(--ink);color:var(--bg);border:1px solid var(--ink);}
+.pill.sol:hover{background:var(--ink2);}
+.pill.acc{background:var(--accent);color:#fff;border:1px solid var(--accent);}
+.pill.acc:hover{opacity:.9;}
+
+/* ─── AI BANNER ─── */
+.ai-bar{background:linear-gradient(135deg,#0F172A,#1E293B);border-bottom:1px solid rgba(255,255,255,.07);padding:10px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.ai-bar-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#64748B;white-space:nowrap;}
+.ai-chips{display:flex;gap:7px;flex-wrap:wrap;}
+.ac{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:16px;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.1);color:#CBD5E1;}
+.ac.hi{background:rgba(184,146,42,.18);border-color:rgba(184,146,42,.4);color:#D4AB42;}
+.ai-bar-r{margin-left:auto;font-size:10px;color:#475569;max-width:320px;text-align:right;line-height:1.5;}
+
+/* ─── LAYOUT ─── */
+.wrap{display:grid;grid-template-columns:490px 1fr;min-height:calc(100vh - 114px);}
+
+/* ─── FORM PANEL ─── */
+.fpanel{background:var(--surface);border-right:1px solid var(--aline);display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100vh - 114px);position:sticky;top:114px;}
+.fscroll{padding:28px 32px 20px;flex:1;}
+.fsec{padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--bg2);}
+.fsec:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+.stitle{font-family:var(--font-head);font-size:19px;font-weight:400;color:var(--ink);margin-bottom:14px;line-height:1.2;}
+
+/* AI SELECTOR */
+.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
+.ai-card{padding:10px;border:1.5px solid var(--bg3);border-radius:4px;cursor:pointer;transition:all .2s;background:var(--bg);text-align:center;}
+.ai-card:hover{border-color:var(--accent2);}
+.ai-card.sel{border-color:var(--accent);background:var(--apal);}
+.ai-card .aci{font-size:22px;margin-bottom:4px;}
+.ai-card .acn{font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:1px;}
+.ai-card.sel .acn{color:var(--accent);}
+.ai-card .acm{font-size:10px;color:var(--ink3);}
+
+/* UPLOAD */
+.drop{border:2px dashed var(--bg3);border-radius:6px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);position:relative;margin-bottom:10px;}
+.drop:hover,.drop.ov{border-color:var(--accent);background:var(--apal);}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.drop-ico{font-size:24px;margin-bottom:6px;}
+.drop-t{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:3px;}
+.drop-s{font-size:11px;color:var(--ink3);}
+.fmts{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;justify-content:center;}
+.fmt{padding:2px 6px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:.5px;background:var(--bg2);color:var(--ink3);border:1px solid var(--bg3);}
+.flist{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.fi{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg);border:1px solid var(--bg3);border-radius:3px;}
+.fi-ico{font-size:14px;flex-shrink:0;}
+.fi-name{font-size:11px;font-weight:500;color:var(--ink2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fi-sz{font-size:10px;color:var(--ink3);}
+.fi-rm{width:16px;height:16px;border-radius:50%;background:none;border:1px solid var(--bg3);color:var(--ink3);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.fi-rm:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.inote{padding:8px 12px;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.18);border-radius:3px;font-size:11px;color:#1E40AF;line-height:1.6;display:flex;gap:7px;}
+
+/* FIELD */
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;}
+.field input,.field textarea,.field select{width:100%;background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);padding:9px 12px;font-family:var(--font-body);font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;resize:none;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--apal);background:var(--surface);}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink3);opacity:.6;}
+.field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A6F66' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* TONE */
+.tone-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.tc{padding:9px 11px;border:1.5px solid var(--bg3);border-radius:var(--radius);cursor:pointer;transition:all .2s;background:var(--bg);}
+.tc:hover{border-color:var(--accent2);}
+.tc.sel{border-color:var(--accent);background:var(--apal);}
+.tc .tcn{font-size:11px;font-weight:600;color:var(--ink2);margin-bottom:1px;display:flex;align-items:center;gap:4px;}
+.tc.sel .tcn{color:var(--accent);}
+.tc .tcd{font-size:10px;color:var(--ink3);}
+
+/* BLOCKS */
+.bg-{display:flex;flex-wrap:wrap;gap:5px;}
+.bt{padding:4px 9px;border:1px solid var(--bg3);border-radius:var(--radius);font-size:10px;font-weight:600;color:var(--ink3);cursor:pointer;transition:all .18s;background:var(--bg);user-select:none;}
+.bt:hover{border-color:var(--accent2);color:var(--ink2);}
+.bt.on{background:var(--ink);border-color:var(--ink);color:var(--bg);}
+
+/* GEN BTN */
+.genbtn{margin:18px 32px 32px;padding:15px 24px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--radius);font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;}
+.genbtn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(184,146,42,.3),transparent);transform:translateX(-100%);transition:transform .5s;}
+.genbtn:hover::before{transform:translateX(100%);}
+.genbtn:hover{background:var(--accent);color:#fff;letter-spacing:2px;}
+.genbtn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none;}
+
+/* ─── OUTPUT ─── */
+.opanel{background:var(--bg);overflow-y:auto;max-height:calc(100vh - 114px);position:sticky;top:114px;}
+.empty{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px;text-align:center;}
+.empty-orn{width:68px;height:68px;border:1px solid var(--aline);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:20px;color:var(--accent);position:relative;}
+.empty-orn::before,.empty-orn::after{content:'';position:absolute;width:86px;height:86px;border:1px solid var(--aline);border-radius:50%;opacity:.4;}
+.empty-orn::after{width:106px;height:106px;opacity:.2;}
+.et{font-family:var(--font-head);font-size:26px;font-weight:300;color:var(--ink2);margin-bottom:10px;}
+.es{font-size:12px;color:var(--ink3);max-width:280px;line-height:1.7;}
+.fps{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:24px;}
+.fp{padding:5px 13px;border:1px solid var(--aline);border-radius:16px;font-size:10px;font-weight:600;color:var(--ink3);background:var(--surface);}
+
+/* LOADING */
+.loading{display:none;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:20px;padding:60px;}
+.loading.on{display:flex;}
+.spin{width:48px;height:48px;border:2px solid var(--bg3);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lbl{font-family:var(--font-head);font-size:20px;font-weight:300;color:var(--ink2);font-style:italic;}
+.lsteps{display:flex;flex-direction:column;gap:7px;align-items:center;}
+.ls{font-size:11px;color:var(--ink3);opacity:.5;transition:opacity .4s;display:flex;align-items:center;gap:7px;}
+.ls.on{opacity:1;color:var(--accent);}
+.ls.dn{opacity:.7;color:var(--green);}
+.ls .ld{width:4px;height:4px;border-radius:50%;background:currentColor;}
+
+/* RESULT */
+.result{display:none;flex-direction:column;}
+.result.on{display:flex;}
+.rtbar{padding:14px 32px;border-bottom:1px solid var(--aline);display:flex;align-items:center;justify-content:space-between;background:var(--surface);position:sticky;top:0;z-index:10;}
+.rtm{display:flex;flex-direction:column;gap:2px;}
+.rtt{font-family:var(--font-head);font-size:17px;font-weight:600;color:var(--ink);}
+.rti{font-size:10px;color:var(--ink3);}
+.rta{display:flex;gap:7px;}
+.tb{padding:6px 13px;border-radius:var(--radius);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .18s;font-family:var(--font-body);border:none;}
+.tb.g{background:transparent;border:1px solid var(--bg3);color:var(--ink3);}
+.tb.g:hover{border-color:var(--ink);color:var(--ink);}
+.tb.a{background:var(--accent);color:#fff;}
+.tb.a:hover{opacity:.9;}
+.sbar{padding:10px 32px;background:var(--bg2);border-bottom:1px solid var(--aline);display:flex;gap:20px;}
+.si{display:flex;align-items:baseline;gap:5px;}
+.sn{font-family:var(--font-head);font-size:19px;font-weight:600;color:var(--ink);}
+.sl{font-size:10px;color:var(--ink3);font-weight:500;}
+.sd{width:1px;background:var(--aline);align-self:stretch;margin:2px 0;}
+
+/* DOC */
+.doc{padding:40px 52px 80px;max-width:760px;margin:0 auto;}
+.doc h1{font-family:var(--font-head);font-size:32px;font-weight:300;color:var(--ink);line-height:1.25;margin-bottom:8px;}
+.doc h2{font-family:var(--font-head);font-size:20px;font-weight:600;color:var(--ink);margin:30px 0 11px;padding-bottom:9px;border-bottom:1px solid var(--aline);display:flex;align-items:center;gap:8px;}
+.doc h2::before{content:'';display:block;width:3px;height:18px;background:var(--accent);border-radius:1px;}
+.doc h3{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin:22px 0 8px;}
+.doc p{font-size:14px;color:var(--ink2);line-height:1.85;margin-bottom:12px;}
+.doc ul,.doc ol{padding-left:18px;margin-bottom:12px;}
+.doc li{font-size:14px;color:var(--ink2);line-height:1.75;margin-bottom:4px;padding-left:3px;}
+.doc ul li::marker{color:var(--accent);}
+.doc ol li::marker{color:var(--accent);font-weight:700;}
+.doc strong{color:var(--ink);font-weight:600;}
+.doc em{font-style:italic;}
+.doc .dh{padding-bottom:24px;margin-bottom:30px;border-bottom:2px solid var(--ink);}
+.hl{background:var(--apal);border-left:3px solid var(--accent);padding:14px 18px;margin:14px 0;border-radius:0 2px 2px 0;}
+.hl p{margin-bottom:0;}
+.errmsg{margin:32px;padding:18px 22px;border:1px solid rgba(192,57,43,.2);border-left:3px solid var(--red);background:rgba(192,57,43,.04);border-radius:0 2px 2px 0;color:var(--red);font-size:13px;line-height:1.6;}
+
+/* ─── SETTINGS DRAWER ─── */
+.drawer-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;justify-content:flex-end;}
+.drawer-ov.open{display:flex;}
+.drawer{width:380px;height:100%;background:var(--surface);border-left:1px solid var(--aline);display:flex;flex-direction:column;animation:slideIn .25s ease;overflow-y:auto;}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.drh{padding:20px 24px;border-bottom:1px solid var(--aline);display:flex;align-items:center;justify-content:space-between;}
+.drht{font-family:var(--font-head);font-size:20px;font-weight:400;color:var(--ink);}
+.drclose{width:30px;height:30px;border-radius:50%;border:1px solid var(--bg3);background:none;color:var(--ink3);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.drclose:hover{background:var(--bg2);color:var(--ink);}
+.drb{padding:20px 24px;display:flex;flex-direction:column;gap:20px;}
+.dr-sec{display:flex;flex-direction:column;gap:10px;}
+.dr-sec-t{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:2px;}
+.color-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.color-preset{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0;}
+.color-preset:hover,.color-preset.act{border-color:var(--ink);transform:scale(1.1);}
+.color-pick{display:flex;align-items:center;gap:8px;}
+.color-pick input[type=color]{width:36px;height:30px;border:1px solid var(--bg3);border-radius:3px;cursor:pointer;padding:2px;}
+.color-pick label{font-size:11px;color:var(--ink3);}
+.font-g{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.fnt-card{padding:10px;border:1.5px solid var(--bg3);border-radius:4px;cursor:pointer;transition:all .2s;background:var(--bg);text-align:center;}
+.fnt-card:hover{border-color:var(--accent2);}
+.fnt-card.sel{border-color:var(--accent);background:var(--apal);}
+.fnt-card .fn{font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:2px;}
+.fnt-card.sel .fn{color:var(--accent);}
+.fnt-card .fs{font-size:10px;color:var(--ink3);}
+.radius-g{display:flex;gap:8px;}
+.rad-opt{flex:1;padding:8px;border:1.5px solid var(--bg3);border-radius:4px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--ink3);transition:all .2s;background:var(--bg);}
+.rad-opt:hover{border-color:var(--accent2);}
+.rad-opt.sel{border-color:var(--accent);color:var(--accent);background:var(--apal);}
+.density-slider{display:flex;flex-direction:column;gap:6px;}
+.density-slider input{width:100%;accent-color:var(--accent);}
+.density-row{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);}
+
+/* ─── PAYMENT MODAL ─── */
+.modal-ov{position:fixed;inset:0;background:rgba(26,22,18,.75);z-index:600;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.modal-ov.open{display:flex;}
+.modal{background:var(--surface);border-radius:8px;max-width:560px;width:100%;border:1px solid var(--aline);overflow:hidden;animation:modalIn .25s ease;}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.mhdr{padding:20px 24px;border-bottom:1px solid var(--aline);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#0F172A,#1E293B);}
+.mttl{font-family:var(--font-head);font-size:20px;font-weight:400;color:#E2E8F0;}
+.mclose{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:none;color:#94A3B8;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.mclose:hover{background:rgba(255,255,255,.1);color:#E2E8F0;}
+.mbody{padding:24px;}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.plan{padding:16px;border:1.5px solid var(--bg3);border-radius:6px;cursor:pointer;transition:all .2s;background:var(--bg);text-align:center;}
+.plan:hover{border-color:var(--accent2);}
+.plan.sel{border-color:var(--accent);background:var(--apal);}
+.plan-name{font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px;}
+.plan.sel .plan-name{color:var(--accent);}
+.plan-price{font-family:var(--font-head);font-size:22px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.plan-desc{font-size:10px;color:var(--ink3);line-height:1.4;}
+.plan-badge{display:inline-block;padding:2px 7px;background:var(--accent);color:#fff;border-radius:10px;font-size:9px;font-weight:700;margin-bottom:6px;}
+.pay-email{margin-bottom:14px;}
+.pay-email input{width:100%;padding:10px 13px;border:1px solid var(--bg3);border-radius:var(--radius);font-family:var(--font-body);font-size:13px;color:var(--ink);background:var(--bg);outline:none;transition:border-color .2s;}
+.pay-email input:focus{border-color:var(--accent);}
+.pay-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--radius);font-family:var(--font-body);font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.pay-btn:hover{opacity:.9;transform:translateY(-1px);}
+.pay-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.pay-note{text-align:center;font-size:10px;color:var(--ink3);margin-top:10px;line-height:1.6;}
+.plan-features{list-style:none;padding:0;margin-top:8px;}
+.plan-features li{font-size:10px;color:var(--ink3);margin-bottom:2px;}
+.plan-features li::before{content:'✓ ';color:var(--green);}
+
+/* ─── AI INFO MODAL ─── */
+.ai-modal{max-width:600px;}
+.ai-mhdr{background:linear-gradient(135deg,#0F172A,#1E293B);}
+.model-card{background:linear-gradient(135deg,#0F172A,#1E293B);border:1px solid rgba(184,146,42,.3);border-radius:6px;padding:16px;display:flex;gap:12px;margin-bottom:10px;}
+.mc-ico{font-size:28px;flex-shrink:0;}
+.mc-name{font-family:var(--font-head);font-size:18px;font-weight:600;color:#D4AB42;margin-bottom:3px;}
+.mc-desc{font-size:11px;color:#94A3B8;line-height:1.6;}
+.cap-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.cap{padding:8px 11px;background:var(--bg);border:1px solid var(--bg3);border-radius:3px;font-size:11px;color:var(--ink2);display:flex;align-items:center;gap:6px;}
+.db-path{background:var(--bg);border:1px solid var(--bg3);border-radius:4px;padding:14px;font-family:monospace;font-size:11px;color:var(--ink2);line-height:1.8;}
+.db-path .path-line{display:flex;gap:10px;margin-bottom:4px;}
+.db-path .pk{color:var(--accent);font-weight:700;}
+.db-path .pv{color:var(--ink2);}
+.db-path .pc{color:var(--ink3);}
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-top:6px;}
+.fs-{padding:7px 10px;background:var(--bg);border:1px solid var(--bg3);border-radius:2px;font-size:10px;font-weight:600;color:var(--ink2);text-align:center;flex:1;min-width:80px;}
+.fa{padding:0 4px;color:var(--accent);font-size:13px;}
+
+/* ─── M-SECTION ─── */
+.msec{margin-bottom:18px;}
+.msec:last-child{margin-bottom:0;}
+.mst{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:9px;}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .wrap{grid-template-columns:1fr;}
+  .fpanel{max-height:none;position:relative;top:0;}
+  .opanel{max-height:none;position:relative;top:0;}
+  .hdr{padding:14px 16px;}
+  .ai-bar{padding:8px 16px;}
+  .fscroll{padding:20px 16px 16px;}
+  .genbtn{margin:14px 16px 24px;}
+  .doc{padding:28px 20px 52px;}
+  .rtbar{padding:12px 16px;}
+  .sbar{padding:9px 16px;}
+  .plans{grid-template-columns:1fr;}
+  .ai-grid{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── SETTINGS DRAWER ─── -->
+<div class="drawer-ov" id="drawer-ov" onclick="if(event.target===this)closeDrawer()">
+  <div class="drawer">
+    <div class="drh">
+      <div class="drht">⚙️ Настройки интерфейса</div>
+      <button class="drclose" onclick="closeDrawer()">×</button>
+    </div>
+    <div class="drb">
+
+      <div class="dr-sec">
+        <div class="dr-sec-t">Цветовая тема</div>
+        <div class="color-row" id="preset-row">
+          <div class="color-preset act" data-preset="classic" style="background:#B8922A" title="Классический золотой"></div>
+          <div class="color-preset" data-preset="blue" style="background:#2563EB" title="Синий бизнес"></div>
+          <div class="color-preset" data-preset="green" style="background:#16A34A" title="Зелёный"></div>
+          <div class="color-preset" data-preset="red" style="background:#DC2626" title="Красный"></div>
+          <div class="color-preset" data-preset="purple" style="background:#7C3AED" title="Фиолетовый"></div>
+          <div class="color-preset" data-preset="slate" style="background:#475569" title="Тёмно-серый"></div>
+        </div>
+        <div class="color-pick">
+          <input type="color" id="custom-color" value="#B8922A" oninput="applyCustomColor(this.value)">
+          <label>Свой цвет акцента</label>
+        </div>
+      </div>
+
+      <div class="dr-sec">
+        <div class="dr-sec-t">Фон интерфейса</div>
+        <div class="color-row" id="bg-row">
+          <div class="color-preset act" data-bg="parchment" style="background:#F5F0E8" title="Пергамент (по умолч.)"></div>
+          <div class="color-preset" data-bg="white" style="background:#FFFFFF;border:1px solid #ddd" title="Белый"></div>
+          <div class="color-preset" data-bg="dark" style="background:#0F172A" title="Тёмный"></div>
+          <div class="color-preset" data-bg="charcoal" style="background:#1C1C1E" title="Антрацит"></div>
+          <div class="color-preset" data-bg="navy" style="background:#0F2044" title="Тёмно-синий"></div>
+        </div>
+      </div>
+
+      <div class="dr-sec">
+        <div class="dr-sec-t">Шрифт</div>
+        <div class="font-g">
+          <div class="fnt-card sel" data-font="cormorant" onclick="setFont('cormorant',this)">
+            <div class="fn" style="font-family:'Cormorant Garamond',serif">Cormorant</div>
+            <div class="fs">Элегантный Serif</div>
+          </div>
+          <div class="fnt-card" data-font="playfair" onclick="setFont('playfair',this)">
+            <div class="fn" style="font-family:'Playfair Display',serif">Playfair</div>
+            <div class="fs">Классика</div>
+          </div>
+          <div class="fnt-card" data-font="inter" onclick="setFont('inter',this)">
+            <div class="fn" style="font-family:'Inter',sans-serif">Inter</div>
+            <div class="fs">Современный</div>
+          </div>
+          <div class="fnt-card" data-font="mono" onclick="setFont('mono',this)">
+            <div class="fn" style="font-family:monospace">Monospace</div>
+            <div class="fs">Технический</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dr-sec">
+        <div class="dr-sec-t">Скруглённость углов</div>
+        <div class="radius-g">
+          <div class="rad-opt sel" onclick="setRadius('0px',this)">■ Острые</div>
+          <div class="rad-opt" onclick="setRadius('6px',this)">▢ Мягкие</div>
+          <div class="rad-opt" onclick="setRadius('12px',this)">◯ Круглые</div>
+        </div>
+      </div>
+
+      <div class="dr-sec">
+        <div class="dr-sec-t">Плотность интерфейса</div>
+        <div class="density-slider">
+          <input type="range" min="1" max="3" value="2" id="density-sl" oninput="setDensity(this.value)">
+          <div class="density-row"><span>Компактный</span><span>Стандарт</span><span>Просторный</span></div>
+        </div>
+      </div>
+
+      <div class="dr-sec">
+        <div class="dr-sec-t">Сброс</div>
+        <button class="pill out" style="width:100%;padding:10px;" onclick="resetTheme()">↺ Сбросить до стандарта</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── AI INFO MODAL ─── -->
+<div class="modal-ov" id="ai-modal" onclick="if(event.target===this)closeAIModal()">
+  <div class="modal ai-modal">
+    <div class="mhdr ai-mhdr">
+      <div class="mttl">🤖 ИИ и база данных</div>
+      <button class="mclose" onclick="closeAIModal()">×</button>
+    </div>
+    <div class="mbody" style="max-height:80vh;overflow-y:auto;">
+
+      <div class="msec">
+        <div class="mst">Используемые ИИ-модели</div>
+        <div class="model-card">
+          <div class="mc-ico">🟠</div>
+          <div><div class="mc-name">Claude Sonnet / Opus / Haiku</div><div class="mc-desc">Anthropic — лучший для деловых русскоязычных текстов. Env: <code>ANTHROPIC_API_KEY</code></div></div>
+        </div>
+        <div class="model-card">
+          <div class="mc-ico">🟢</div>
+          <div><div class="mc-name">GPT-4o / GPT-4o mini</div><div class="mc-desc">OpenAI — широкие возможности, знакомая модель. Env: <code>OPENAI_API_KEY</code></div></div>
+        </div>
+        <div class="model-card">
+          <div class="mc-ico">🔵</div>
+          <div><div class="mc-name">Gemini Pro / Flash</div><div class="mc-desc">Google — быстрый и экономичный. Env: <code>GOOGLE_AI_KEY</code></div></div>
+        </div>
+      </div>
+
+      <div class="msec">
+        <div class="mst">Путь запроса</div>
+        <div class="flow">
+          <div class="fs-">📝 Форма</div><div class="fa">→</div>
+          <div class="fs-">🔒 /api/generate<br><small style="color:var(--ink3);font-weight:400">Vercel</small></div><div class="fa">→</div>
+          <div class="fs-">🤖 ИИ API</div><div class="fa">→</div>
+          <div class="fs-">📄 Готовое КП</div>
+        </div>
+      </div>
+
+      <div class="msec">
+        <div class="mst">📁 База данных — путь к хранилищу</div>
+        <div class="db-path">
+          <div class="path-line"><span class="pk">Провайдер:</span><span class="pv">Supabase (PostgreSQL) / PlanetScale (MySQL) / MongoDB Atlas</span></div>
+          <div class="path-line"><span class="pk">Env var:</span><span class="pv">DATABASE_URL</span></div>
+          <div style="margin-top:8px;margin-bottom:4px;font-size:10px;color:var(--ink3);font-weight:700;letter-spacing:1px;">ТАБЛИЦЫ / КОЛЛЕКЦИИ:</div>
+          <div class="path-line"><span class="pk">users</span><span class="pv">id · email · plan · createdAt</span></div>
+          <div class="path-line"><span class="pk">proposals</span><span class="pv">id · userId · title · content · model · tone · createdAt</span></div>
+          <div class="path-line"><span class="pk">company_profiles</span><span class="pv">id · userId · name · services · usp · cases</span></div>
+          <div class="path-line"><span class="pk">payments</span><span class="pv">id · userId · stripeSessionId · plan · amount · paidAt</span></div>
+          <div style="margin-top:10px;font-size:10px;color:var(--ink3);font-weight:700;letter-spacing:1px;">ПРИМЕР CONNECTION STRING:</div>
+          <div style="margin-top:4px;word-break:break-all;color:var(--accent);">postgresql://user:password@db.supabase.co:5432/postgres</div>
+          <div style="margin-top:4px;word-break:break-all;color:var(--accent);">mongodb+srv://user:pass@cluster0.mongodb.net/proposeai</div>
+        </div>
+        <p style="font-size:11px;color:var(--ink3);margin-top:10px;line-height:1.6;">Рекомендуем <strong>Supabase</strong> — бесплатный tier, встроенный Auth, REST API, хранилище файлов. Добавьте <code>DATABASE_URL</code> в Vercel → Settings → Environment Variables.</p>
+      </div>
+
+      <div class="msec">
+        <div class="mst">Возможности ИИ в сервисе</div>
+        <div class="cap-g">
+          <div class="cap">🎯 Анализ боли клиента</div>
+          <div class="cap">📐 Продающая структура</div>
+          <div class="cap">✍️ Деловой русский текст</div>
+          <div class="cap">🛡️ Снятие возражений</div>
+          <div class="cap">📊 Цифры и факты</div>
+          <div class="cap">🔄 Адаптация тона</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ─── PAYMENT MODAL (3 провайдера) ─── -->
+<div class="modal-ov" id="pay-modal" onclick="if(event.target===this)closePayModal()">
+  <div class="modal" style="max-width:560px;">
+    <div class="mhdr">
+      <div class="mttl">Выберите тариф и способ оплаты</div>
+      <button class="mclose" onclick="closePayModal()">×</button>
+    </div>
+    <div class="mbody">
+
+      <!-- Переключатель месяц/год -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;font-size:12px;color:var(--ink3);">
+        <span>Месячный</span>
+        <div id="annual-toggle" onclick="toggleAnnual()" style="position:relative;width:34px;height:18px;background:var(--bg3);border-radius:9px;cursor:pointer;transition:background .2s;flex-shrink:0;"></div>
+        <span>Годовой</span>
+        <span id="annual-discount-badge" style="display:none;padding:2px 8px;background:var(--accent);color:#fff;border-radius:99px;font-size:10px;font-weight:700;">−20%</span>
+      </div>
+
+      <div class="plans">
+        <div class="plan" data-plan="starter" onclick="selectPlan('starter')">
+          <div class="plan-name">Starter</div>
+          <div class="plan-price">990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
+          <ul class="plan-features"><li>20 КП/месяц</li><li>Claude Haiku/Sonnet</li></ul>
+        </div>
+        <div class="plan sel" data-plan="pro" onclick="selectPlan('pro')">
+          <div class="plan-badge">Популярный</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">2 990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
+          <ul class="plan-features"><li>Безлимит КП</li><li>Все 6 моделей ИИ</li></ul>
+        </div>
+        <div class="plan" data-plan="agency" onclick="selectPlan('agency')">
+          <div class="plan-name">Agency</div>
+          <div class="plan-price">7 900 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
+          <ul class="plan-features"><li>White-label</li><li>API-доступ</li></ul>
+        </div>
+      </div>
+
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin:18px 0 10px;">Способ оплаты</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;" id="pm-grid">
+        <div class="pm-card sel-pm" data-pm="yookassa" onclick="selectPM('yookassa')" style="padding:11px 8px;border:1.5px solid var(--accent);border-radius:6px;cursor:pointer;text-align:center;background:var(--apal);">
+          <div style="font-size:18px;margin-bottom:4px;">💳</div>
+          <div style="font-size:11px;font-weight:700;color:var(--accent);">Карты РФ</div>
+          <div style="font-size:9px;color:var(--ink3);margin-top:2px;">Visa · МИР · МС<br>ЮMoney · SberPay</div>
+        </div>
+        <div class="pm-card" data-pm="crypto" onclick="selectPM('crypto')" style="padding:11px 8px;border:1.5px solid var(--bg3);border-radius:6px;cursor:pointer;text-align:center;background:var(--bg);">
+          <div style="font-size:18px;margin-bottom:4px;">🪙</div>
+          <div style="font-size:11px;font-weight:700;color:var(--ink2);">Криптовалюта</div>
+          <div style="font-size:9px;color:var(--ink3);margin-top:2px;">USDT · BTC · ETH<br>TON · USDC · 300+</div>
+        </div>
+        <div class="pm-card" data-pm="stripe" onclick="selectPM('stripe')" style="padding:11px 8px;border:1.5px solid var(--bg3);border-radius:6px;cursor:pointer;text-align:center;background:var(--bg);">
+          <div style="font-size:18px;margin-bottom:4px;">🌍</div>
+          <div style="font-size:11px;font-weight:700;color:var(--ink2);">Stripe</div>
+          <div style="font-size:9px;color:var(--ink3);margin-top:2px;">Visa/MC межд.<br>Apple Pay</div>
+        </div>
+      </div>
+
+      <div id="crypto-sel-wrap" style="display:none;margin-bottom:14px;">
+        <select id="crypto-currency-sel" style="width:100%;padding:10px 13px;background:var(--bg);border:1px solid var(--bg3);border-radius:var(--radius);font-family:var(--font-body);font-size:13px;color:var(--ink);outline:none;">
+          <option value="usdttrc20">USDT (TRC-20) — рекомендуется</option>
+          <option value="usdterc20">USDT (ERC-20)</option>
+          <option value="btc">Bitcoin (BTC)</option>
+          <option value="eth">Ethereum (ETH)</option>
+          <option value="ton">TON</option>
+          <option value="usdcsol">USDC (Solana)</option>
+        </select>
+      </div>
+
+      <button class="pay-btn" id="pay-btn" onclick="startCheckout()">
+        <span>💳</span> <span id="pay-btn-label">Оплатить через Карты РФ</span>
+      </button>
+      <div class="pay-note">
+        Безопасная оплата · Отмена в любой момент · Чек на email<br>
+        <strong>YooKassa</strong> (РФ) · <strong>NOWPayments</strong> (крипто) · <strong>Stripe</strong> (международные)
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/components/upgrade-wall.js"></script>
+
+<!-- ─── HEADER ─── -->
+<header class="hdr">
+  <div class="logo">
+    <span class="logo-word">Propose<strong>AI</strong></span>
+    <span class="logo-badge" id="plan-badge-hdr" style="cursor:pointer" onclick="openPayModal()">Trial</span>
+    <div class="logo-ai" onclick="openAIModal()"><div class="ai-dot"></div><span id="cur-model-name">Claude Sonnet 4</span></div>
+  </div>
+  <nav class="hdr-nav">
+    <div id="usage-hdr" style="display:none;align-items:center;gap:8px;font-size:11px;color:var(--ink3);">
+      <span id="usage-label">0/20 КП</span>
+      <div style="width:60px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;"><div id="usage-hdr-bar" style="height:100%;border-radius:2px;background:var(--accent);width:0%;transition:width .4s;"></div></div>
+    </div>
+    <button class="pill out" onclick="window.location.href='/dashboard'" title="История КП">📚 История</button>
+    <button class="pill out" onclick="openDrawer()" title="Настройки интерфейса">⚙️ Дизайн</button>
+    <button class="pill out" onclick="clearAll()">Очистить</button>
+    <button class="pill acc" id="upgrade-hdr-btn" onclick="openPayModal()" style="display:none;">⬆️ Upgrade</button>
+    <button class="pill sol" onclick="document.getElementById('gen-btn').click()">Сгенерировать →</button>
+    <button class="pill out" id="logout-btn" onclick="doLogout()" style="display:none;">Выйти</button>
+  </nav>
+</header>
+
+<!-- ─── AI BANNER ─── -->
+<div class="ai-bar">
+  <span class="ai-bar-label">ИИ-движок:</span>
+  <div class="ai-chips">
+    <div class="ac hi">🤖 <span id="banner-model">Claude Sonnet 4</span></div>
+    <div class="ac">🔒 API-ключ на сервере</div>
+    <div class="ac">🇷🇺 Русский язык</div>
+    <div class="ac">🎨 Настраиваемый дизайн</div>
+    <div class="ac">💳 YooKassa · Крипто · Stripe</div>
+  </div>
+  <div class="ai-bar-r">Ключи хранятся в Vercel Env Variables — в браузер не передаются</div>
+</div>
+
+<div class="wrap">
+  <!-- FORM -->
+  <aside class="fpanel">
+    <div class="fscroll">
+
+      <!-- STEP 00: AI Model -->
+      <div class="fsec">
+        <div class="eyebrow">Шаг 00</div>
+        <div class="stitle">Выбор ИИ-модели</div>
+        <div class="ai-grid" id="ai-grid">
+          <div class="ai-card sel" data-model="claude-sonnet-4" onclick="selectAI(this)">
+            <div class="aci">🟠</div>
+            <div class="acn">Claude Sonnet 4</div>
+            <div class="acm">Anthropic · Лучший</div>
+          </div>
+          <div class="ai-card" data-model="claude-opus-4" onclick="selectAI(this)">
+            <div class="aci">🟠</div>
+            <div class="acn">Claude Opus 4</div>
+            <div class="acm">Anthropic · Мощный</div>
+          </div>
+          <div class="ai-card" data-model="claude-haiku-4" onclick="selectAI(this)">
+            <div class="aci">🟠</div>
+            <div class="acn">Claude Haiku 4</div>
+            <div class="acm">Anthropic · Быстрый</div>
+          </div>
+          <div class="ai-card" data-model="gpt-4o" onclick="selectAI(this)">
+            <div class="aci">🟢</div>
+            <div class="acn">GPT-4o</div>
+            <div class="acm">OpenAI · Умный</div>
+          </div>
+          <div class="ai-card" data-model="gpt-4o-mini" onclick="selectAI(this)">
+            <div class="aci">🟢</div>
+            <div class="acn">GPT-4o mini</div>
+            <div class="acm">OpenAI · Эконом</div>
+          </div>
+          <div class="ai-card" data-model="gemini-pro" onclick="selectAI(this)">
+            <div class="aci">🔵</div>
+            <div class="acn">Gemini Pro</div>
+            <div class="acm">Google · Быстрый</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 00b: Sources -->
+      <div class="fsec">
+        <div class="eyebrow">Шаг 00б</div>
+        <div class="stitle">Исходные материалы</div>
+        <div class="drop" id="drop-zone">
+          <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.txt,.xlsx,.csv,.pptx,.png,.jpg" onchange="handleFiles(this.files)">
+          <div class="drop-ico">📂</div>
+          <div class="drop-t">Перетащите файлы или нажмите</div>
+          <div class="drop-s">Прайс-листы, презентации, кейсы, описания услуг</div>
+          <div class="fmts">
+            <span class="fmt">PDF</span><span class="fmt">DOCX</span><span class="fmt">TXT</span>
+            <span class="fmt">XLSX</span><span class="fmt">PPTX</span><span class="fmt">CSV</span>
+          </div>
+        </div>
+        <div class="flist" id="flist"></div>
+        <div class="inote"><span>ℹ️</span><span>TXT и CSV читаются автоматически. Для PDF/DOCX — перенесите ключевые данные в поля ниже.</span></div>
+      </div>
+
+      <!-- STEP 01: Company -->
+      <div class="fsec">
+        <div class="eyebrow">Шаг 01</div>
+        <div class="stitle">О вашей компании</div>
+        <div class="frow">
+          <div class="field"><label>Название</label><input type="text" id="co-name" placeholder="ООО «Технологии»"></div>
+          <div class="field"><label>Отрасль</label><input type="text" id="co-industry" placeholder="IT, консалтинг…"></div>
+        </div>
+        <div class="field"><label>Услуги / Продукты</label><textarea id="co-services" rows="4" placeholder="Разработка CRM, облачная миграция, HR-платформа…"></textarea></div>
+        <div class="field"><label>Ключевые преимущества</label><textarea id="co-usp" rows="3" placeholder="15 лет опыта, ISO, 500+ клиентов, поддержка 24/7…"></textarea></div>
+        <div class="field"><label>Кейсы / Клиенты <span style="font-weight:400;text-transform:none;letter-spacing:0">(опц.)</span></label><textarea id="co-cases" rows="2" placeholder="Сбербанк, X увеличили выручку в 3× за 6 месяцев…"></textarea></div>
+      </div>
+
+      <!-- STEP 02: Client -->
+      <div class="fsec">
+        <div class="eyebrow">Шаг 02</div>
+        <div class="stitle">Запрос клиента</div>
+        <div class="frow">
+          <div class="field"><label>Компания клиента</label><input type="text" id="cl-name" placeholder="ООО «Ромашка»"></div>
+          <div class="field"><label>Отрасль клиента</label><input type="text" id="cl-industry" placeholder="Ритейл…"></div>
+        </div>
+        <div class="field"><label>Потребность / Боль клиента</label><textarea id="cl-need" rows="4" placeholder="Нужно автоматизировать учёт — сейчас всё в Excel, теряют 40 часов в неделю…"></textarea></div>
+        <div class="field"><label>Бюджет <span style="font-weight:400;text-transform:none;letter-spacing:0">(опц.)</span></label><input type="text" id="cl-budget" placeholder="500 000–1 500 000 ₽ / не раскрыт…"></div>
+        <div class="field"><label>Контекст / Возражения</label><textarea id="cl-context" rows="2" placeholder="Смотрят 3 подрядчика, нужен запуск к Q3…"></textarea></div>
+      </div>
+
+      <!-- STEP 03: Settings -->
+      <div class="fsec">
+        <div class="eyebrow">Шаг 03</div>
+        <div class="stitle">Настройки КП</div>
+        <div class="field">
+          <label>Тон и стиль</label>
+          <div class="tone-g" id="tone-g">
+            <div class="tc sel" data-tone="consultative"><div class="tcn">🧠 Консультативный</div><div class="tcd">Эксперт-советник</div></div>
+            <div class="tc" data-tone="bold"><div class="tcn">🚀 Смелый</div><div class="tcd">Напористо, без воды</div></div>
+            <div class="tc" data-tone="warm"><div class="tcn">🤝 Тёплый</div><div class="tcd">Фокус на отношениях</div></div>
+            <div class="tc" data-tone="formal"><div class="tcn">📋 Официальный</div><div class="tcd">Корпоративный</div></div>
+          </div>
+        </div>
+        <div class="frow" style="margin-top:12px;">
+          <div class="field">
+            <label>Объём</label>
+            <select id="length-sel">
+              <option value="short">Краткое (600–900 сл.)</option>
+              <option value="medium" selected>Среднее (1200–1800 сл.)</option>
+              <option value="long">Развёрнутое (2500–3500 сл.)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Ценовая подача</label>
+            <select id="price-sel">
+              <option value="value">Через ценность / ROI</option>
+              <option value="budget">Бюджетное решение</option>
+              <option value="premium">Премиум</option>
+              <option value="omit">Без цен</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-top:6px;">
+          <label>Включить разделы</label>
+          <div class="bg-" id="block-g">
+            <div class="bt on" data-b="greeting">Обращение</div>
+            <div class="bt on" data-b="pain">Анализ проблемы</div>
+            <div class="bt on" data-b="solution">Наше решение</div>
+            <div class="bt on" data-b="benefits">Выгоды</div>
+            <div class="bt on" data-b="process">Процесс</div>
+            <div class="bt on" data-b="cases">Кейсы</div>
+            <div class="bt on" data-b="pricing">Стоимость</div>
+            <div class="bt on" data-b="objections">Почему мы</div>
+            <div class="bt on" data-b="cta">Призыв</div>
+            <div class="bt" data-b="urgency">Срочность</div>
+            <div class="bt" data-b="guarantee">Гарантии</div>
+            <div class="bt" data-b="team">Команда</div>
+            <div class="bt" data-b="testimonials">Отзывы</div>
+            <div class="bt" data-b="faq">FAQ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="genbtn" id="gen-btn" onclick="generate()">✦ Сгенерировать КП</button>
+  </aside>
+
+  <!-- OUTPUT -->
+  <main class="opanel">
+    <div class="empty" id="empty-v" style="display:flex;">
+      <div class="empty-orn">✦</div>
+      <div class="et">Ваше КП появится здесь</div>
+      <div class="es">Выберите ИИ, заполните данные и нажмите «Сгенерировать КП»</div>
+      <div class="fps">
+        <span class="fp">🤖 6 ИИ-моделей</span>
+        <span class="fp">🎨 Настраиваемый дизайн</span>
+        <span class="fp">💳 Stripe-оплата</span>
+        <span class="fp">📁 База данных КП</span>
+      </div>
+    </div>
+
+    <div class="loading" id="loading-v">
+      <div class="spin"></div>
+      <div class="lbl">ИИ готовит предложение…</div>
+      <div class="lsteps">
+        <div class="ls"><span class="ld"></span>Анализирую боли клиента</div>
+        <div class="ls"><span class="ld"></span>Сопоставляю с вашим решением</div>
+        <div class="ls"><span class="ld"></span>Строю аргументы убеждения</div>
+        <div class="ls"><span class="ld"></span>Структурирую документ</div>
+        <div class="ls"><span class="ld"></span>Полирую финальный текст</div>
+      </div>
+    </div>
+
+    <div class="result" id="result-v">
+      <div class="rtbar">
+        <div class="rtm">
+          <div class="rtt" id="res-ttl">Коммерческое предложение</div>
+          <div class="rti" id="res-inf"></div>
+        </div>
+        <div class="rta">
+          <button class="tb g" onclick="generate()">↺ Перегенерировать</button>
+          <button class="tb g" id="copy-btn" onclick="copyText()">📋 Копировать</button>
+          <button class="tb a" onclick="downloadDoc()">⬇ Скачать</button>
+        </div>
+      </div>
+      <div class="sbar">
+        <div class="si"><span class="sn" id="sw">—</span><span class="sl">слов</span></div>
+        <div class="sd"></div>
+        <div class="si"><span class="sn" id="ss">—</span><span class="sl">разделов</span></div>
+        <div class="sd"></div>
+        <div class="si"><span class="sn" id="sr">—</span><span class="sl">мин</span></div>
+        <div class="sd"></div>
+        <div class="si"><span class="sn" id="sm" style="font-size:12px;color:var(--accent)">—</span><span class="sl">модель</span></div>
+      </div>
+      <div class="doc" id="doc-out"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// THEME ENGINE
+// ═══════════════════════════════════════════════════
+const PRESETS = {
+  classic: { accent:'#B8922A', accent2:'#D4AB42' },
+  blue:    { accent:'#2563EB', accent2:'#3B82F6' },
+  green:   { accent:'#16A34A', accent2:'#22C55E' },
+  red:     { accent:'#DC2626', accent2:'#EF4444' },
+  purple:  { accent:'#7C3AED', accent2:'#8B5CF6' },
+  slate:   { accent:'#475569', accent2:'#64748B' },
+};
+const BG_THEMES = {
+  parchment: { bg:'#F5F0E8', bg2:'#EDE7D9', bg3:'#E8DFC8', surface:'#FDFAF5', ink:'#1A1612', ink2:'#3D3530', ink3:'#7A6F66' },
+  white:     { bg:'#FFFFFF', bg2:'#F8F8F8', bg3:'#EBEBEB', surface:'#FFFFFF', ink:'#111111', ink2:'#333333', ink3:'#888888' },
+  dark:      { bg:'#0F172A', bg2:'#1E293B', bg3:'#334155', surface:'#1E293B', ink:'#F1F5F9', ink2:'#CBD5E1', ink3:'#64748B' },
+  charcoal:  { bg:'#1C1C1E', bg2:'#2C2C2E', bg3:'#3A3A3C', surface:'#2C2C2E', ink:'#F5F5F7', ink2:'#D1D1D6', ink3:'#8E8E93' },
+  navy:      { bg:'#0F2044', bg2:'#162B5A', bg3:'#1E3A70', surface:'#162B5A', ink:'#E8EEFF', ink2:'#A8B8E8', ink3:'#6878B0' },
+};
+const FONTS = {
+  cormorant: { head:"'Cormorant Garamond',serif", body:"'DM Sans',sans-serif", gLink:"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" },
+  playfair:  { head:"'Playfair Display',serif",  body:"'Source Sans 3',sans-serif", gLink:"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Sans+3:wght@300;400;600&display=swap" },
+  inter:     { head:"'Inter',sans-serif",          body:"'Inter',sans-serif",         gLink:"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" },
+  mono:      { head:"'Space Grotesk',monospace",   body:"'Space Grotesk',sans-serif",  gLink:"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" },
+};
+
+let curTheme = { preset:'classic', bg:'parchment', font:'cormorant', radius:'0px', density:2 };
+
+function applyTheme() {
+  const p = PRESETS[curTheme.preset] || PRESETS.classic;
+  const b = BG_THEMES[curTheme.bg] || BG_THEMES.parchment;
+  const f = FONTS[curTheme.font] || FONTS.cormorant;
+  const apalR = hexToRgb(p.accent);
+  const alineR = hexToRgb(p.accent);
+  const css = `:root {
+    --bg:${b.bg};--bg2:${b.bg2};--bg3:${b.bg3};--surface:${b.surface};
+    --ink:${b.ink};--ink2:${b.ink2};--ink3:${b.ink3};
+    --accent:${p.accent};--accent2:${p.accent2};
+    --apal:rgba(${apalR},0.12);--aline:rgba(${alineR},0.3);
+    --red:#C0392B;--green:#27695C;
+    --radius:${curTheme.radius};
+    --font-head:${f.head};--font-body:${f.body};
+  }`;
+  document.getElementById('theme-style').textContent = css;
+  // Load font if needed
+  const existingLink = document.getElementById('gfont-link');
+  if (existingLink) existingLink.remove();
+  const lnk = document.createElement('link');
+  lnk.id = 'gfont-link'; lnk.rel = 'stylesheet'; lnk.href = f.gLink;
+  document.head.appendChild(lnk);
+  // Density
+  const d = curTheme.density;
+  document.documentElement.style.setProperty('--pad', d===1?'0.7':d===3?'1.4':'1');
+}
+
+function hexToRgb(hex) {
+  const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return r ? `${parseInt(r[1],16)},${parseInt(r[2],16)},${parseInt(r[3],16)}` : '184,146,42';
+}
+
+function applyCustomColor(hex) {
+  curTheme.preset = 'custom';
+  document.querySelectorAll('.color-preset[data-preset]').forEach(e=>e.classList.remove('act'));
+  const match = Object.entries(PRESETS).find(([,v])=>v.accent===hex);
+  if (match) curTheme.preset = match[0];
+  else {
+    PRESETS.custom = { accent: hex, accent2: hex };
+    curTheme.preset = 'custom';
+  }
+  applyTheme();
+}
+
+function setFont(font, el) {
+  curTheme.font = font;
+  document.querySelectorAll('.fnt-card').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+  applyTheme();
+}
+
+function setRadius(r, el) {
+  curTheme.radius = r;
+  document.querySelectorAll('.rad-opt').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+  applyTheme();
+}
+
+function setDensity(v) { curTheme.density = parseInt(v); applyTheme(); }
+
+function resetTheme() {
+  curTheme = { preset:'classic', bg:'parchment', font:'cormorant', radius:'0px', density:2 };
+  document.getElementById('density-sl').value = 2;
+  document.querySelectorAll('.color-preset[data-preset]').forEach(e=>e.classList.toggle('act',e.dataset.preset==='classic'));
+  document.querySelectorAll('.color-preset[data-bg]').forEach(e=>e.classList.toggle('act',e.dataset.bg==='parchment'));
+  document.querySelectorAll('.fnt-card').forEach(e=>e.classList.toggle('sel',e.dataset.font==='cormorant'));
+  document.querySelectorAll('.rad-opt').forEach((e,i)=>e.classList.toggle('sel',i===0));
+  document.getElementById('custom-color').value = '#B8922A';
+  applyTheme();
+}
+
+// Preset clicks
+document.querySelectorAll('.color-preset[data-preset]').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.color-preset[data-preset]').forEach(e=>e.classList.remove('act'));
+    el.classList.add('act');
+    curTheme.preset = el.dataset.preset;
+    document.getElementById('custom-color').value = PRESETS[el.dataset.preset]?.accent || '#B8922A';
+    applyTheme();
+  });
+});
+
+document.querySelectorAll('.color-preset[data-bg]').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.color-preset[data-bg]').forEach(e=>e.classList.remove('act'));
+    el.classList.add('act');
+    curTheme.bg = el.dataset.bg;
+    applyTheme();
+  });
+});
+
+// Drawer
+function openDrawer() { document.getElementById('drawer-ov').classList.add('open'); }
+function closeDrawer() { document.getElementById('drawer-ov').classList.remove('open'); }
+
+// ═══════════════════════════════════════════════════
+// AI SELECTION
+// ═══════════════════════════════════════════════════
+const MODEL_NAMES = {
+  'claude-sonnet-4':'Claude Sonnet 4','claude-opus-4':'Claude Opus 4','claude-haiku-4':'Claude Haiku 4',
+  'gpt-4o':'GPT-4o','gpt-4o-mini':'GPT-4o mini','gemini-pro':'Gemini Pro','gemini-flash':'Gemini Flash'
+};
+let selectedModel = 'claude-sonnet-4';
+
+function selectAI(el) {
+  document.querySelectorAll('.ai-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedModel = el.dataset.model;
+  const name = MODEL_NAMES[selectedModel] || selectedModel;
+  document.getElementById('cur-model-name').textContent = name;
+  document.getElementById('banner-model').textContent = name;
+}
+
+// ═══════════════════════════════════════════════════
+// FILE UPLOAD
+// ═══════════════════════════════════════════════════
+let uploadedFiles = [];
+function handleFiles(fl) {
+  for(const f of fl){ if(!uploadedFiles.find(x=>x.name===f.name)) uploadedFiles.push(f); }
+  renderFiles();
+}
+function renderFiles() {
+  const icons = {PDF:'📄',DOC:'📝',DOCX:'📝',TXT:'📃',XLSX:'📊',CSV:'📊',PPTX:'🎞️',PNG:'🖼️',JPG:'🖼️'};
+  document.getElementById('flist').innerHTML = uploadedFiles.map((f,i)=>{
+    const ext = f.name.split('.').pop().toUpperCase();
+    const sz = f.size<1048576?(f.size/1024).toFixed(0)+' КБ':(f.size/1048576).toFixed(1)+' МБ';
+    return `<div class="fi"><span class="fi-ico">${icons[ext]||'📎'}</span><span class="fi-name">${f.name}</span><span class="fi-sz">${sz}</span><button class="fi-rm" onclick="rmFile(${i})">×</button></div>`;
+  }).join('');
+}
+function rmFile(i){ uploadedFiles.splice(i,1); renderFiles(); }
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('ov');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('ov'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('ov');handleFiles(e.dataTransfer.files);});
+async function readFileTxt(f) {
+  return new Promise(res=>{
+    const ext=f.name.split('.').pop().toLowerCase();
+    if(['txt','csv'].includes(ext)){const r=new FileReader();r.onload=e=>res(e.target.result.slice(0,3000));r.onerror=()=>res('');r.readAsText(f,'utf-8');}
+    else res(`[Файл: ${f.name}]`);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// TONES + BLOCKS
+// ═══════════════════════════════════════════════════
+document.querySelectorAll('.tc').forEach(c=>c.addEventListener('click',()=>{
+  document.querySelectorAll('.tc').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');
+}));
+document.querySelectorAll('.bt').forEach(t=>t.addEventListener('click',()=>t.classList.toggle('on')));
+
+// ═══════════════════════════════════════════════════
+// LOADING ANIM
+// ═══════════════════════════════════════════════════
+let li=null;
+function startLoad(){
+  const st=document.querySelectorAll('.ls');
+  st.forEach(s=>s.classList.remove('on','dn'));
+  let i=0;st[0].classList.add('on');
+  li=setInterval(()=>{st[i].classList.remove('on');st[i].classList.add('dn');i=Math.min(i+1,st.length-1);st[i].classList.add('on');},2200);
+}
+function stopLoad(){if(li){clearInterval(li);li=null;}}
+
+function showV(v){
+  document.getElementById('empty-v').style.display='none';
+  document.getElementById('loading-v').classList.remove('on');
+  document.getElementById('result-v').classList.remove('on');
+  if(v==='e')document.getElementById('empty-v').style.display='flex';
+  else if(v==='l')document.getElementById('loading-v').classList.add('on');
+  else if(v==='r')document.getElementById('result-v').classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════
+// GENERATE
+// ═══════════════════════════════════════════════════
+let rawText='';
+
+async function generate(){
+  const coN=document.getElementById('co-name').value.trim();
+  const coI=document.getElementById('co-industry').value.trim();
+  const coS=document.getElementById('co-services').value.trim();
+  const coU=document.getElementById('co-usp').value.trim();
+  const coC=document.getElementById('co-cases').value.trim();
+  const clN=document.getElementById('cl-name').value.trim();
+  const clI=document.getElementById('cl-industry').value.trim();
+  const clNd=document.getElementById('cl-need').value.trim();
+  const clB=document.getElementById('cl-budget').value.trim();
+  const clCt=document.getElementById('cl-context').value.trim();
+  const tone=document.querySelector('.tc.sel')?.dataset.tone||'consultative';
+  const length=document.getElementById('length-sel').value;
+  const price=document.getElementById('price-sel').value;
+  const blocks=[...document.querySelectorAll('.bt.on')].map(t=>t.dataset.b);
+  const plan=JSON.parse(localStorage.getItem('sb-user')||'{}')?.plan||'free';
+
+  if(!coS){alert('Опишите ваши услуги/продукты.');return;}
+  if(!clNd){alert('Опишите потребность клиента.');return;}
+
+  let fc='';
+  if(uploadedFiles.length>0){
+    const txts=await Promise.all(uploadedFiles.map(readFileTxt));
+    fc='\n\n## ЗАГРУЖЕННЫЕ МАТЕРИАЛЫ\n'+uploadedFiles.map((f,i)=>`### ${f.name}\n${txts[i]}`).join('\n\n');
+  }
+
+  const tM={consultative:'консультативный, позиция эксперта',bold:'смелый и прямой, без воды',warm:'тёплый и личный',formal:'официальный корпоративный'};
+  const lM={short:'600–900 слов',medium:'1200–1800 слов',long:'2500–3500 слов'};
+  const pM={value:'через ROI и ценность',budget:'бюджетное решение',premium:'премиум — обосновать стоимость',omit:'без конкретных цен'};
+  const bL={greeting:'персональное обращение',pain:'анализ проблемы',solution:'наше решение',benefits:'выгоды и результаты',process:'процесс работы',cases:'кейсы',pricing:'стоимость',objections:'почему мы / снятие возражений',cta:'призыв к действию',urgency:'срочность',guarantee:'гарантии',team:'команда',testimonials:'отзывы',faq:'частые вопросы'};
+
+  const prompt=`Ты — эксперт B2B-копирайтер. Напиши убедительное коммерческое предложение на РУССКОМ языке.
+
+## ПРОДАВЕЦ
+- Название: ${coN||'Наша компания'}
+- Отрасль: ${coI||'не указана'}
+- Услуги: ${coS}
+- Преимущества: ${coU||'профессионализм, качество'}
+- Кейсы: ${coC||'не указаны'}
+
+## КЛИЕНТ
+- Компания: ${clN||'клиент'}
+- Отрасль: ${clI||'не указана'}
+- Боль/запрос: ${clNd}
+- Бюджет: ${clB||'не раскрыт'}
+- Контекст: ${clCt||'нет'}
+${fc}
+
+## ПАРАМЕТРЫ
+- Тон: ${tM[tone]}
+- Объём: ${lM[length]}
+- Цены: ${pM[price]}
+- Разделы: ${blocks.map(b=>`- ${bL[b]||b}`).join('\n')}
+
+## ПРАВИЛА
+- ## для разделов, ### для подзаголовков, **жирный**, маркеры, > для ключевых цитат
+- Шапка: **Дата** · **Для:** · **От:** · затем # заголовок КП
+- Воронка: боль → решение → доказательства → возражения → CTA
+- Конкретные числа и сроки. Без штампов «динамично развивающаяся»
+
+Напиши полное КП:`;
+
+  document.getElementById('gen-btn').disabled=true;
+  showV('l');startLoad();
+  document.getElementById('res-ttl').textContent=`КП для ${clN||'клиента'}`;
+  document.getElementById('res-inf').textContent=`${coN||'Ваша компания'} → ${clN||'Клиент'} · ${new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'})} · ${MODEL_NAMES[selectedModel]||selectedModel}`;
+  document.getElementById('sm').textContent=MODEL_NAMES[selectedModel]||selectedModel;
+
+  try{
+    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,model:selectedModel,length,clientName:clN,clientIndustry:clI})});
+    const data=await res.json();
+    if(!res.ok){
+      // Показать апгрейд-стену при лимите вместо сухой ошибки
+      if(res.status===429&&data.upgrade){
+        stopLoad();showV('e');
+        showUpgradeWall(data.used||0,data.limit||3,plan||'free');
+        document.getElementById('gen-btn').disabled=false;
+        return;
+      }
+      // Платный план нужен для модели
+      if(res.status===403&&data.upgrade){
+        stopLoad();showV('e');
+        openPayModal();
+        document.getElementById('gen-btn').disabled=false;
+        return;
+      }
+      throw new Error(data.error||`Ошибка ${res.status}`);
+    }
+    rawText=data.text||'';
+    // Показать значок кэша если ответ из кэша
+    if(data.fromCache){
+      console.log(`⚡ Cache hit — сэкономлено ~${data.savedCost||8} ₽`);
+    }
+    // Показать использованную модель
+    if(data.isAutoSelected&&data.model){
+      document.getElementById('sm').textContent=(MODEL_NAMES[data.model]||data.model)+' (авто)';
+    }
+    stopLoad();renderDoc(rawText);updateStats(rawText);showV('r');
+    setTimeout(()=>document.getElementById('result-v').scrollIntoView({behavior:'smooth'}),100);
+  }catch(err){
+    stopLoad();showV('r');
+    document.getElementById('doc-out').innerHTML=`<div class="errmsg">⚠ Ошибка: ${err.message}<br><br>Проверьте API-ключ для модели <strong>${selectedModel}</strong> в Vercel → Settings → Environment Variables.</div>`;
+  }
+  document.getElementById('gen-btn').disabled=false;
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════
+function renderDoc(md){
+  const el=document.getElementById('doc-out');
+  const lines=md.split('\n');let html='',ul=false,ol=false;
+  for(const l of lines){
+    if(!/^\s*[-*+] /.test(l)&&ul){html+='</ul>';ul=false;}
+    if(!/^\s*\d+\. /.test(l)&&ol){html+='</ol>';ol=false;}
+    if(l.startsWith('# '))html+=`<div class="dh"><h1>${f(l.slice(2))}</h1></div>`;
+    else if(l.startsWith('## '))html+=`<h2>${f(l.slice(3))}</h2>`;
+    else if(l.startsWith('### '))html+=`<h3>${f(l.slice(4))}</h3>`;
+    else if(l.startsWith('> '))html+=`<div class="hl"><p>${f(l.slice(2))}</p></div>`;
+    else if(/^\s*[-*+] /.test(l)){if(!ul){html+='<ul>';ul=true;}html+=`<li>${f(l.replace(/^\s*[-*+] /,''))}</li>`;}
+    else if(/^\s*\d+\. /.test(l)){if(!ol){html+='<ol>';ol=true;}html+=`<li>${f(l.replace(/^\s*\d+\. /,''))}</li>`;}
+    else if(l.trim()==='')html+='';
+    else html+=`<p>${f(l)}</p>`;
+  }
+  if(ul)html+='</ul>';if(ol)html+='</ol>';
+  el.innerHTML=html;
+}
+function f(t){return t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/_(.+?)_/g,'<em>$1</em>').replace(/`(.+?)`/g,'<code>$1</code>');}
+
+function updateStats(tx){
+  const w=tx.trim().split(/\s+/).length;
+  document.getElementById('sw').textContent=w.toLocaleString('ru');
+  document.getElementById('ss').textContent=(tx.match(/^## /gm)||[]).length;
+  document.getElementById('sr').textContent=Math.ceil(w/200);
+}
+function copyText(){
+  if(!rawText)return;
+  navigator.clipboard.writeText(rawText).then(()=>{
+    const b=document.getElementById('copy-btn');b.textContent='✓ Скопировано!';
+    setTimeout(()=>b.textContent='📋 Копировать',2000);
+  });
+}
+async function downloadDoc(){
+  if(!rawText)return;
+  const TOKEN=localStorage.getItem('sb-token');
+  if(TOKEN){
+    try{
+      const clN=document.getElementById('cl-name').value.trim();
+      const r=await fetch('/api/export',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN},body:JSON.stringify({markdown:rawText,title:'КП для '+(clN||'клиента')})});
+      if(r.ok){const blob=await r.blob();const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`kp-${Date.now()}.docx`});a.click();return;}
+    }catch(e){}
+  }
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([rawText],{type:'text/plain;charset=utf-8'})),download:`kp-${Date.now()}.txt`});
+  a.click();URL.revokeObjectURL(a.href);
+}
+function clearAll(){
+  ['co-name','co-industry','co-services','co-usp','co-cases','cl-name','cl-industry','cl-need','cl-budget','cl-context'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  uploadedFiles=[];renderFiles();showV('e');rawText='';
+}
+
+// ═══════════════════════════════════════════════════
+// PAYMENT — 3 провайдера: YooKassa / Крипто / Stripe
+// v2: годовые тарифы + upgrade-wall при лимите
+// ═══════════════════════════════════════════════════
+let selPlan='pro';
+let selPM='yookassa';
+let selAnnual=false;
+
+// Цены для переключателя месяц/год
+const PRICES={
+  monthly:{starter:'990 ₽',pro:'2 990 ₽',agency:'7 900 ₽'},
+  annual: {starter:'792 ₽/мес',pro:'2 392 ₽/мес',agency:'6 320 ₽/мес'},
+};
+
+function selectPlan(p){
+  selPlan=p;
+  document.querySelectorAll('.plan').forEach(el=>el.classList.toggle('sel',el.dataset.plan===p));
+}
+
+function toggleAnnual(){
+  selAnnual=!selAnnual;
+  const tog=document.getElementById('annual-toggle');
+  if(tog)tog.classList.toggle('on',selAnnual);
+  // Обновить отображаемые цены
+  document.querySelectorAll('.plan').forEach(el=>{
+    const p=el.dataset.plan;
+    const priceEl=el.querySelector('.plan-price');
+    if(priceEl&&p){
+      const period=selAnnual?'annual':'monthly';
+      priceEl.innerHTML=PRICES[period][p]+'<span style="font-size:11px;font-weight:300">/мес</span>';
+    }
+  });
+  const discEl=document.getElementById('annual-discount-badge');
+  if(discEl)discEl.style.display=selAnnual?'inline-block':'none';
+}
+
+function selectPM(pm){
+  selPM=pm;
+  document.querySelectorAll('.pm-card').forEach(el=>{
+    const s=el.dataset.pm===pm;
+    el.style.border=s?'1.5px solid var(--accent)':'1.5px solid var(--bg3)';
+    el.style.background=s?'var(--apal)':'var(--bg)';
+    const nameEl=el.querySelector('div:nth-child(2)');
+    if(nameEl)nameEl.style.color=s?'var(--accent)':'var(--ink2)';
+  });
+  document.getElementById('crypto-sel-wrap').style.display=pm==='crypto'?'block':'none';
+  const lbls={yookassa:'Оплатить через Карты РФ',crypto:'Оплатить криптовалютой',stripe:'Оплатить через Stripe'};
+  document.getElementById('pay-btn-label').textContent=lbls[pm]||'Оплатить';
+}
+
+function openPayModal(){document.getElementById('pay-modal').classList.add('open');}
+function closePayModal(){document.getElementById('pay-modal').classList.remove('open');}
+
+// Показать апгрейд-стену вместо сухой ошибки
+function showUpgradeWall(used,limit,plan){
+  if(window.UpgradeWall){
+    window.UpgradeWall.show({used,limit,plan});
+  }else{
+    openPayModal();
+  }
+}
+
+async function startCheckout(){
+  const TOKEN=localStorage.getItem('sb-token');
+  const btn=document.getElementById('pay-btn');
+  btn.disabled=true;
+  document.getElementById('pay-btn-label').textContent='Создаём платёж…';
+  const planId=`${selPlan}_${selAnnual?'annual':'monthly'}`;
+  try{
+    let url,body;
+    const appOrigin=window.location.origin;
+    if(selPM==='yookassa'){
+      url='/api/yookassa-checkout';
+      body={planId,returnUrl:appOrigin+'/dashboard?payment=success'};
+    }else if(selPM==='crypto'){
+      url='/api/nowpayments-checkout';
+      body={planId,currency:document.getElementById('crypto-currency-sel').value};
+    }else{
+      url='/api/checkout';
+      body={planId,successUrl:appOrigin+'/dashboard?payment=success',cancelUrl:appOrigin+'/dashboard'};
+    }
+    const authHeader=TOKEN?{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN}:{'Content-Type':'application/json'};
+    const res=await fetch(url,{method:'POST',headers:authHeader,body:JSON.stringify(body)});
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||'Ошибка сервера');
+    const redirect=data.confirmationUrl||data.invoiceUrl||data.url;
+    if(redirect)window.location.href=redirect;
+    else throw new Error('URL оплаты не получен');
+  }catch(err){
+    alert('Ошибка оплаты: '+err.message);
+    btn.disabled=false;
+    const lbls={yookassa:'Оплатить через Карты РФ',crypto:'Оплатить криптовалютой',stripe:'Оплатить через Stripe'};
+    document.getElementById('pay-btn-label').textContent=lbls[selPM]||'Оплатить';
+  }
+}
+
+const urlP=new URLSearchParams(window.location.search);
+if(urlP.get('payment')==='success'){
+  setTimeout(()=>alert('✅ Оплата прошла успешно! Ваш тариф обновлён.'),500);
+}
+
+// ═══════════════════════════════════════════════════
+// AUTH + USER STATE
+// ═══════════════════════════════════════════════════
+const TOKEN=localStorage.getItem('sb-token');
+
+function doLogout(){
+  if(TOKEN)fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN},body:JSON.stringify({action:'logout'})});
+  localStorage.clear();window.location.href='/auth/login';
+}
+
+async function initUserState(){
+  if(!TOKEN)return;
+  document.getElementById('logout-btn').style.display='inline-block';
+  try{
+    const r=await fetch('/api/user',{headers:{'Authorization':'Bearer '+TOKEN}});
+    if(!r.ok)return;
+    const d=await r.json();
+    const plan=d.plan||'trial';
+    const PLAN_LABELS={free:'Free',trial:'Trial',starter:'Starter',pro:'Pro',agency:'Agency'};
+    document.getElementById('plan-badge-hdr').textContent=PLAN_LABELS[plan]||plan;
+    const used=d.usage?.used||0;
+    const limit=d.usage?.limit||3;
+    if(limit<9999){
+      const pct=Math.min(100,Math.round(used/limit*100));
+      document.getElementById('usage-label').textContent=`${used}/${limit} КП`;
+      document.getElementById('usage-hdr-bar').style.width=pct+'%';
+      if(pct>=90)document.getElementById('usage-hdr-bar').style.background='var(--red)';
+      document.getElementById('usage-hdr').style.display='flex';
+    }
+    if(['free','trial','starter'].includes(plan)){
+      document.getElementById('upgrade-hdr-btn').style.display='inline-block';
+    }
+    if(d.companyProfile&&d.companyProfile.name){
+      const f=id=>document.getElementById(id);
+      if(f('co-name')&&!f('co-name').value)f('co-name').value=d.companyProfile.name||'';
+      if(f('co-industry')&&!f('co-industry').value)f('co-industry').value=d.companyProfile.industry||'';
+      if(f('co-services')&&!f('co-services').value)f('co-services').value=d.companyProfile.services||'';
+      if(f('co-usp')&&!f('co-usp').value)f('co-usp').value=d.companyProfile.usp||'';
+      if(f('co-cases')&&!f('co-cases').value)f('co-cases').value=d.companyProfile.cases||'';
+    }
+  }catch(e){console.error('initUserState:',e);}
+}
+
+// Передавать токен в generate
+const _origGenerate=generate;
+generate=async function(){
+  const authToken=localStorage.getItem('sb-token');
+  if(!authToken){
+    if(confirm('Для генерации КП необходима авторизация. Войти в аккаунт?'))window.location.href='/auth/login';
+    return;
+  }
+  return _origGenerate.apply(this,arguments);
+};
+
+// Inject auth header into fetch('/api/generate')
+const _origFetch=window.fetch;
+window.fetch=function(url,...args){
+  if(typeof url==='string'&&url.includes('/api/generate')){
+    const opts=args[0]||{};
+    const token=localStorage.getItem('sb-token');
+    if(token){
+      opts.headers={...(opts.headers||{}),'Authorization':'Bearer '+token};
+      args[0]=opts;
+    }
+  }
+  return _origFetch(url,...args);
+};
+
+// ═══════════════════════════════════════════════════
+// AI MODAL
+// ═══════════════════════════════════════════════════
+function openAIModal(){document.getElementById('ai-modal').classList.add('open');}
+function closeAIModal(){document.getElementById('ai-modal').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDrawer();closePayModal();closeAIModal();}});
+
+// Load template from URL if present
+const _tplParam = new URLSearchParams(location.search).get('template')
+if (_tplParam) {
+  const _tpl = JSON.parse(localStorage.getItem('kp_template') || 'null')
+  if (_tpl) {
+    const _f = id => document.getElementById(id)
+    if(_f('co-services') && _tpl.coServices) _f('co-services').value = _tpl.coServices
+    if(_f('co-usp')      && _tpl.coUsp)      _f('co-usp').value      = _tpl.coUsp
+    if(_f('co-industry') && _tpl.industry)   _f('co-industry').value = _tpl.industry
+    if(_f('cl-need')     && _tpl.clientNeed) _f('cl-need').value     = _tpl.clientNeed
+    // Set tone
+    if (_tpl.tone) {
+      document.querySelectorAll('.tc').forEach(c => c.classList.toggle('sel', c.dataset.tone === _tpl.tone))
+    }
+    localStorage.removeItem('kp_template')
+    console.log('Template loaded:', _tpl.title)
+  }
+}
+
+// Apply referral code from URL
+const _refParam = new URLSearchParams(location.search).get('ref')
+if (_refParam) localStorage.setItem('kp_ref_code', _refParam)
+
+// Init
+applyTheme();
+initUserState();
+</script>
+</body>
+</html>

@@ -1,6 +1,5 @@
-// api/index.js — единственная Serverless Function на Vercel
-// Handlers лежат в _handlers/ (вне папки api/)
-// Vercel автоматически направляет /api/* сюда — парсим путь из req.url
+// api/index.js — единственная Serverless Function на Vercel Hobby
+// Все handlers в _handlers/, lib в lib/ (вне папки api/)
 
 import abTest              from '../_handlers/ab-test.js'
 import admin               from '../_handlers/admin.js'
@@ -46,20 +45,20 @@ const routes = {
   'referral':             referral,
   'user':                 user,
   'webhook':              webhook,
+  'stripe-webhook':       webhook,
   'yookassa-checkout':    yookassaCheckout,
   'yookassa-webhook':     yookassaWebhook,
 }
 
 export default async function handler(req, res) {
-  // req.url = '/api/auth', '/api/proposals?id=1' и т.д.
-  const urlPath = (req.url || '').split('?')[0]           // '/api/auth'
-  const parts   = urlPath.replace(/^\/+/, '').split('/') // ['api', 'auth']
+  // req.url = '/api/auth', '/api/proposals?id=1', etc.
+  const urlPath = (req.url || '').split('?')[0]
+  const parts = urlPath.replace(/^\/+/, '').split('/')
   const segment = (parts[1] || parts[0] || '').toLowerCase()
 
   const routeHandler = routes[segment]
   if (!routeHandler) {
     return res.status(404).json({ error: `Unknown API route: /api/${segment}` })
   }
-
   return routeHandler(req, res)
 }

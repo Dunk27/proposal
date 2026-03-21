@@ -3,7 +3,7 @@
 // GET  /api/ab-test?experiment=upgrade-wall    → вернуть вариант для пользователя
 // POST /api/ab-test {experiment, variant, event} → записать событие (view/click/paid)
 
-import { getUserFromToken, getSupabaseAdmin } from './lib/supabase.js'
+import { getUserFromToken, getSupabaseAdmin } from '../lib/supabase.js'
 
 // Определения экспериментов
 const EXPERIMENTS = {

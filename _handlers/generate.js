@@ -1,14 +1,14 @@
 // api/generate.js — Мульти-ИИ генерация
 // v2: кэширование Redis + авто-выбор модели по длине + план-гейт
-import { getUserFromToken, checkUserPlan, checkAndIncrementUsage, getSupabaseAdmin } from './lib/supabase.js'
+import { getUserFromToken, checkUserPlan, checkAndIncrementUsage, getSupabaseAdmin } from '../lib/supabase.js'
 // Analytics tracked server-side via Supabase directly (no external calls needed)
 async function trackEvent(supabase, userId, event, properties = {}) {
   try {
     await supabase.from('analytics_events').insert({ user_id: userId, event, properties })
   } catch (e) { /* non-blocking */ }
 }
-import { makeCacheKey, getCache, setCache }       from './lib/cache.js'
-import { routeModel, canUseModel, MODEL_COST_RUB } from './lib/model-router.js'
+import { makeCacheKey, getCache, setCache }       from '../lib/cache.js'
+import { routeModel, canUseModel, MODEL_COST_RUB } from '../lib/model-router.js'
 import { trackEvent, EVENTS }                               from './analytics.js'
 
 export default async function handler(req, res) {
@@ -68,7 +68,6 @@ export default async function handler(req, res) {
     const supabaseForTrack = getSupabaseAdmin()
     await trackEvent(supabaseForTrack, user.id, 'cache_hit', { model })
     await trackEvent(supabaseForTrack, user.id, 'kp_generated', { model, length, fromCache: true })
-    await trackEvent(user.id, EVENTS.KP_GENERATED, { model, length, fromCache: true, plan })
     return res.status(200).json({ text: cached.text, used: count, limit, plan, model, fromCache: true, savedCost: estimatedCostRub })
   }
 
@@ -145,10 +144,6 @@ export default async function handler(req, res) {
     const supabaseTrack = getSupabaseAdmin()
     await trackEvent(supabaseTrack, user.id, 'kp_generated', { model, length, isAutoSelected, estimatedCostRub })
     await trackEvent(supabaseTrack, user.id, 'model_used', { model })
-
-    // Track analytics
-    await trackEvent(user.id, EVENTS.KP_GENERATED, { model, length, fromCache: false, plan, wordCount })
-    if (count === 1) await trackEvent(user.id, EVENTS.FIRST_KP, { model })
 
     return res.status(200).json({
       text, used: count, limit, plan,

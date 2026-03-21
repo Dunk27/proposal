@@ -1,6 +1,9 @@
 {
   "version": 2,
-  "outputDirectory": "public",
+  "builds": [
+    { "src": "api/index.js", "use": "@vercel/node" },
+    { "src": "public/**",    "use": "@vercel/static" }
+  ],
   "crons": [
     { "path": "/api/cron?job=trial-reminder", "schedule": "0 9 * * *" },
     { "path": "/api/cron?job=trial-expire",   "schedule": "0 3 * * *" },
@@ -8,18 +11,25 @@
     { "path": "/api/cron?job=re-engage",      "schedule": "0 10 * * 1" },
     { "path": "/api/cron?job=usage-warning",  "schedule": "0 8 * * *" }
   ],
-  "rewrites": [
-    { "source": "/auth/login",    "destination": "/auth/login.html" },
-    { "source": "/auth/:path*",   "destination": "/auth/:path*.html" },
-    { "source": "/onboarding",    "destination": "/onboarding/index.html" },
-    { "source": "/dashboard",     "destination": "/dashboard.html" },
-    { "source": "/account",       "destination": "/account/index.html" },
-    { "source": "/admin",         "destination": "/admin/index.html" },
-    { "source": "/metrics",       "destination": "/metrics/index.html" },
-    { "source": "/templates",     "destination": "/templates/index.html" },
-    { "source": "/legal/privacy", "destination": "/legal/privacy.html" },
-    { "source": "/legal/terms",   "destination": "/legal/terms.html" },
-    { "source": "/app",           "destination": "/index.html" },
-    { "source": "/",              "destination": "/landing.html" }
+  "routes": [
+    { "src": "/api/(.*)",          "dest": "/api/index.js" },
+    { "src": "/components/(.*)",   "dest": "/public/components/$1" },
+    { "src": "/auth/login",        "dest": "/public/auth/login.html" },
+    { "src": "/auth/(.*)",         "dest": "/public/auth/$1.html" },
+    { "src": "/onboarding",        "dest": "/public/onboarding/index.html" },
+    { "src": "/dashboard",         "dest": "/public/dashboard.html" },
+    { "src": "/account",           "dest": "/public/account/index.html" },
+    { "src": "/account/referral",  "dest": "/public/account/referral.html" },
+    { "src": "/admin",             "dest": "/public/admin/index.html" },
+    { "src": "/admin/analytics",   "dest": "/public/admin/analytics.html" },
+    { "src": "/metrics",           "dest": "/public/metrics/index.html" },
+    { "src": "/templates",         "dest": "/public/templates.html" },
+    { "src": "/pricing",           "dest": "/public/pricing.html" },
+    { "src": "/legal/privacy",     "dest": "/public/legal/privacy.html" },
+    { "src": "/legal/terms",       "dest": "/public/legal/terms.html" },
+    { "src": "/health",            "dest": "/api/index.js" },
+    { "src": "/app",               "dest": "/public/index.html" },
+    { "src": "/",                  "dest": "/public/landing.html" },
+    { "src": "/(.*)",              "dest": "/public/$1" }
   ]
 }

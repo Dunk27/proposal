@@ -2,7 +2,7 @@
 // GET  /api/billing         — текущий план + история платежей
 // POST /api/billing {action:'cancel'}   — отмена подписки
 // POST /api/billing {action:'portal'}   — Stripe customer portal
-import { getUserFromToken, getSupabaseAdmin } from './lib/supabase.js'
+import { getUserFromToken, getSupabaseAdmin } from '../lib/supabase.js'
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')

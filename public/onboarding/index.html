@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Настройка профиля — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--accent2:#D4AB42;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--green:#27695C;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+.hdr{padding:18px 32px;border-bottom:1px solid var(--aline);display:flex;align-items:center;justify-content:space-between;background:var(--white);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ink);}
+.logo strong{font-weight:600;color:var(--accent);}
+.skip{font-size:12px;color:var(--ink3);cursor:pointer;text-decoration:underline;}
+.skip:hover{color:var(--accent);}
+.main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;}
+.card{background:var(--white);border:1px solid var(--aline);border-radius:12px;width:100%;max-width:560px;overflow:hidden;}
+.card-top{padding:28px 32px 0;}
+.steps-row{display:flex;gap:6px;margin-bottom:24px;}
+.step-dot{height:3px;flex:1;border-radius:2px;background:var(--cream3);transition:background .3s;}
+.step-dot.done{background:var(--accent);}
+.step-dot.active{background:var(--accent);}
+.step-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--ink);margin-bottom:6px;}
+.step-sub{font-size:13px;color:var(--ink3);margin-bottom:24px;line-height:1.6;}
+.card-body{padding:0 32px 28px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
+.field input,.field textarea,.field select{width:100%;background:var(--cream);border:1px solid var(--cream3);border-radius:4px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s;resize:none;}
+.field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--apal);}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink3);opacity:.6;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.card-footer{padding:16px 32px 28px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--cream2);}
+.btn{padding:12px 28px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .2s;}
+.btn-back{background:transparent;border:1px solid var(--cream3);color:var(--ink3);}
+.btn-back:hover{border-color:var(--ink3);}
+.btn-next{background:var(--ink);color:var(--cream);}
+.btn-next:hover{background:var(--accent);}
+.btn-finish{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+.btn-finish:hover{opacity:.9;}
+.progress-text{font-size:12px;color:var(--ink3);}
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+.congrats{text-align:center;padding:20px 0 8px;}
+.congrats-ico{font-size:48px;margin-bottom:16px;}
+.congrats-t{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;}
+.congrats-s{font-size:13px;color:var(--ink3);line-height:1.6;max-width:360px;margin:0 auto 24px;}
+.features-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left;}
+.feat{background:var(--cream);border:1px solid var(--cream3);border-radius:6px;padding:10px 12px;}
+.feat-ico{font-size:16px;margin-bottom:4px;}
+.feat-t{font-size:12px;font-weight:600;color:var(--ink2);}
+.feat-s{font-size:11px;color:var(--ink3);margin-top:2px;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">Propose<strong>AI</strong></div>
+  <span class="skip" onclick="skip()">Пропустить настройку →</span>
+</div>
+<div class="main">
+  <div class="card">
+    <div class="card-top">
+      <div class="steps-row">
+        <div class="step-dot active" id="dot-0"></div>
+        <div class="step-dot" id="dot-1"></div>
+        <div class="step-dot" id="dot-2"></div>
+      </div>
+
+      <!-- ШАГ 0: Компания -->
+      <div class="step-panel active" id="step-0">
+        <div class="step-label">Шаг 1 из 3</div>
+        <div class="step-title">О вашей компании</div>
+        <div class="step-sub">Заполните один раз — данные автоматически подставляются в каждое новое КП.</div>
+      </div>
+
+      <!-- ШАГ 1: Услуги -->
+      <div class="step-panel" id="step-1">
+        <div class="step-label">Шаг 2 из 3</div>
+        <div class="step-title">Услуги и преимущества</div>
+        <div class="step-sub">Чем точнее описание — тем убедительнее получатся КП.</div>
+      </div>
+
+      <!-- ШАГ 2: Готово -->
+      <div class="step-panel" id="step-2">
+        <div class="step-label">Шаг 3 из 3</div>
+        <div class="step-title">Всё готово!</div>
+        <div class="step-sub">Профиль сохранён. Теперь создайте первое коммерческое предложение.</div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <!-- ШАГ 0 BODY -->
+      <div class="step-panel active" id="body-0">
+        <div class="frow">
+          <div class="field"><label>Название компании</label><input id="f-name" type="text" placeholder="ООО «Технологии»"></div>
+          <div class="field"><label>Отрасль</label><input id="f-industry" type="text" placeholder="IT, консалтинг…"></div>
+        </div>
+        <div class="field"><label>Кейсы / Клиенты (опционально)</label><textarea id="f-cases" rows="2" placeholder="Работали со Сбербанком, увеличили выручку клиента в 3× за 6 месяцев…"></textarea></div>
+      </div>
+
+      <!-- ШАГ 1 BODY -->
+      <div class="step-panel" id="body-1">
+        <div class="field"><label>Что вы продаёте — услуги или продукты</label><textarea id="f-services" rows="3" placeholder="Разработка CRM-систем, облачная миграция, автоматизация бизнес-процессов, техническая поддержка…"></textarea></div>
+        <div class="field"><label>Ключевые преимущества (УТП)</label><textarea id="f-usp" rows="3" placeholder="15 лет опыта, ISO-сертификация, команда 50+ специалистов, гарантия результата, поддержка 24/7…"></textarea></div>
+      </div>
+
+      <!-- ШАГ 2 BODY -->
+      <div class="step-panel" id="body-2">
+        <div class="congrats">
+          <div class="congrats-ico">✨</div>
+          <div class="congrats-t">Профиль настроен</div>
+          <div class="congrats-s">Теперь все ваши данные автоматически подставляются при создании КП. У вас есть <strong id="trial-days-left">14 дней</strong> Pro-доступа.</div>
+          <div class="features-grid">
+            <div class="feat"><div class="feat-ico">🤖</div><div class="feat-t">6 ИИ-моделей</div><div class="feat-s">Claude, GPT-4o, Gemini</div></div>
+            <div class="feat"><div class="feat-ico">📄</div><div class="feat-t">Экспорт DOCX</div><div class="feat-s">Готовый Word-документ</div></div>
+            <div class="feat"><div class="feat-ico">📚</div><div class="feat-t">История КП</div><div class="feat-s">Все КП сохраняются</div></div>
+            <div class="feat"><div class="feat-ico">🎨</div><div class="feat-t">Темы оформления</div><div class="feat-s">Настройте под бренд</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button class="btn btn-back" id="back-btn" onclick="prevStep()" style="visibility:hidden;">← Назад</button>
+      <span class="progress-text" id="prog-text">1 / 3</span>
+      <button class="btn btn-next" id="next-btn" onclick="nextStep()">Далее →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOKEN = localStorage.getItem('sb-token')
+if (!TOKEN) window.location.href = '/auth/login'
+
+let step = 0
+const STEPS = 3
+
+function showStep(n) {
+  step = n
+  document.querySelectorAll('.step-panel').forEach((el, i) => el.classList.toggle('active', Math.floor(i / 2) === n || i === n))
+  // dots
+  for (let i = 0; i < STEPS; i++) {
+    const dot = document.getElementById('dot-' + i)
+    dot.classList.toggle('active', i === n)
+    dot.classList.toggle('done', i < n)
+  }
+  // header step panels
+  document.querySelectorAll('#step-0,#step-1,#step-2').forEach((el, i) => el.classList.toggle('active', i === n))
+  document.querySelectorAll('#body-0,#body-1,#body-2').forEach((el, i) => el.classList.toggle('active', i === n))
+
+  document.getElementById('back-btn').style.visibility = n > 0 ? 'visible' : 'hidden'
+  document.getElementById('prog-text').textContent = `${n + 1} / ${STEPS}`
+  const nb = document.getElementById('next-btn')
+  if (n === STEPS - 1) {
+    nb.className = 'btn btn-finish'
+    nb.textContent = '🚀 Создать первое КП'
+    nb.onclick = finish
+  } else {
+    nb.className = 'btn btn-next'
+    nb.textContent = 'Далее →'
+    nb.onclick = nextStep
+  }
+}
+
+async function nextStep() {
+  if (step === 0) {
+    const name = document.getElementById('f-name').value.trim()
+    if (!name) { document.getElementById('f-name').focus(); return }
+    showStep(1)
+  } else if (step === 1) {
+    const services = document.getElementById('f-services').value.trim()
+    if (!services) { document.getElementById('f-services').focus(); return }
+    await saveProfile()
+    showStep(2)
+  }
+}
+
+function prevStep() { if (step > 0) showStep(step - 1) }
+
+async function saveProfile() {
+  const data = {
+    name: document.getElementById('f-name').value.trim(),
+    industry: document.getElementById('f-industry').value.trim(),
+    cases: document.getElementById('f-cases').value.trim(),
+    services: document.getElementById('f-services').value.trim(),
+    usp: document.getElementById('f-usp').value.trim(),
+  }
+  try {
+    await fetch('/api/onboarding', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${TOKEN}` },
+      body: JSON.stringify(data),
+    })
+  } catch (e) { console.error(e) }
+}
+
+async function finish() { window.location.href = '/app' }
+function skip() { window.location.href = '/app' }
+
+// Показать дни триала
+const user = JSON.parse(localStorage.getItem('sb-user') || '{}')
+async function loadTrialDays() {
+  try {
+    const r = await fetch('/api/user', { headers: { Authorization: `Bearer ${TOKEN}` } })
+    const d = await r.json()
+    if (d.trialEndsAt) {
+      const days = Math.max(0, Math.ceil((new Date(d.trialEndsAt) - Date.now()) / 86400000))
+      document.getElementById('trial-days-left').textContent = `${days} дней`
+    }
+    // Предзаполнить если профиль уже есть
+    if (d.companyProfile) {
+      const p = d.companyProfile
+      if (p.name) document.getElementById('f-name').value = p.name
+      if (p.industry) document.getElementById('f-industry').value = p.industry
+      if (p.cases) document.getElementById('f-cases').value = p.cases
+      if (p.services) document.getElementById('f-services').value = p.services
+      if (p.usp) document.getElementById('f-usp').value = p.usp
+    }
+  } catch (e) {}
+}
+loadTrialDays()
+</script>
+</body>
+</html>
