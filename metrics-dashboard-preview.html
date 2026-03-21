@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Метрики — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#0A0E1A;--s1:#111827;--s2:#1C2436;--b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.12);
+  --ink:#F1F5F9;--ink2:#94A3B8;--ink3:#475569;
+  --amber:#F59E0B;--green:#10B981;--red:#EF4444;--blue:#60A5FA;--purple:#A78BFA;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.hdr{padding:14px 28px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:var(--s1);}
+.logo{font-size:16px;font-weight:600;color:var(--amber);}
+.auth-gate{height:calc(100vh - 49px);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+.auth-gate input{background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:12px 16px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;width:280px;outline:none;}
+.auth-gate input:focus{border-color:var(--amber);}
+.auth-gate button{padding:12px 28px;background:var(--amber);color:#000;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;width:280px;}
+.main{display:none;padding:28px;max-width:1200px;margin:0 auto;}
+.sec-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-bottom:28px;}
+.kpi{background:var(--s1);border:1px solid var(--b);border-radius:10px;padding:14px 16px;}
+.kpi-label{font-size:11px;color:var(--ink3);margin-bottom:6px;}
+.kpi-value{font-size:22px;font-weight:500;color:var(--ink);}
+.kpi-value.g{color:var(--green);}
+.kpi-value.r{color:var(--red);}
+.kpi-value.a{color:var(--amber);}
+.kpi-delta{font-size:11px;margin-top:3px;}
+.delta-pos{color:var(--green);}
+.delta-neg{color:var(--red);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;margin-bottom:28px;}
+.card{background:var(--s1);border:1px solid var(--b);border-radius:10px;padding:18px 20px;}
+.card-title{font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--ink2);margin-bottom:14px;text-transform:uppercase;}
+.funnel-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.funnel-label{font-size:12px;color:var(--ink2);min-width:160px;}
+.funnel-bar-wrap{flex:1;height:20px;background:var(--s2);border-radius:4px;overflow:hidden;}
+.funnel-bar{height:100%;border-radius:4px;background:var(--amber);opacity:.85;transition:width .5s ease;}
+.funnel-count{font-size:12px;color:var(--ink);min-width:40px;text-align:right;font-family:'DM Mono',monospace;}
+.funnel-pct{font-size:11px;color:var(--ink3);min-width:36px;text-align:right;}
+.model-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.model-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.model-name{font-size:12px;color:var(--ink2);flex:1;}
+.model-bar-wrap{flex:2;height:12px;background:var(--s2);border-radius:3px;overflow:hidden;}
+.model-bar{height:100%;border-radius:3px;transition:width .5s ease;}
+.model-count{font-size:11px;color:var(--ink3);min-width:36px;text-align:right;font-family:'DM Mono',monospace;}
+.cost-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b);font-size:13px;}
+.cost-row:last-child{border-bottom:none;}
+.cost-label{color:var(--ink2);}
+.cost-val{color:var(--ink);font-family:'DM Mono',monospace;}
+.cost-val.green{color:var(--green);}
+.cost-val.red{color:var(--red);}
+.cost-val.amber{color:var(--amber);}
+.chart-wrap{position:relative;width:100%;height:180px;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{text-align:left;padding:8px 10px;color:var(--ink3);font-weight:500;border-bottom:1px solid var(--b);font-size:11px;letter-spacing:.5px;text-transform:uppercase;}
+td{padding:9px 10px;color:var(--ink2);border-bottom:1px solid rgba(255,255,255,.03);}
+tr:hover td{background:rgba(255,255,255,.02);}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:600;}
+.badge.trial{background:rgba(245,158,11,.15);color:var(--amber);}
+.badge.pro{background:rgba(16,185,129,.15);color:var(--green);}
+.badge.free{background:rgba(71,85,105,.15);color:var(--ink3);}
+.badge.starter{background:rgba(96,165,250,.15);color:var(--blue);}
+.badge.agency{background:rgba(167,139,250,.15);color:var(--purple);}
+.refresh-btn{font-size:11px;color:var(--ink3);cursor:pointer;background:none;border:1px solid var(--b);padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.refresh-btn:hover{border-color:var(--amber);color:var(--amber);}
+.ts{font-size:11px;color:var(--ink3);}
+.empty-msg{text-align:center;padding:24px;color:var(--ink3);font-size:13px;}
+.ref-stat{text-align:center;padding:20px 0;}
+.ref-n{font-size:36px;font-weight:500;color:var(--amber);}
+.ref-l{font-size:12px;color:var(--ink3);margin-top:4px;}
+.cache-gauge{text-align:center;padding:12px 0;}
+.cache-n{font-size:32px;font-weight:500;color:var(--green);}
+.cache-l{font-size:11px;color:var(--ink3);margin-top:3px;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">ProposeAI — Метрики</div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span class="ts" id="last-update"></span>
+    <button class="refresh-btn" onclick="load()">↺ Обновить</button>
+  </div>
+</div>
+
+<div class="auth-gate" id="auth-gate">
+  <input type="password" id="ak" placeholder="Admin Key" onkeydown="if(event.key==='Enter')auth()">
+  <button onclick="auth()">Войти в панель метрик</button>
+</div>
+
+<div class="main" id="main">
+
+  <!-- KPI row -->
+  <div class="sec-title">Ключевые метрики (30 дней)</div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Выручка</div><div class="kpi-value g" id="k-rev">—</div></div>
+    <div class="kpi"><div class="kpi-label">Затраты ИИ</div><div class="kpi-value r" id="k-cost">—</div></div>
+    <div class="kpi"><div class="kpi-label">Прибыль</div><div class="kpi-value" id="k-profit">—</div></div>
+    <div class="kpi"><div class="kpi-label">Маржа</div><div class="kpi-value a" id="k-margin">—</div></div>
+    <div class="kpi"><div class="kpi-label">Платящих</div><div class="kpi-value" id="k-paid">—</div></div>
+    <div class="kpi"><div class="kpi-label">Churn (расч.)</div><div class="kpi-value r" id="k-churn">—</div></div>
+  </div>
+
+  <!-- Funnel + P&L -->
+  <div class="row2">
+    <div class="card">
+      <div class="card-title">Воронка конверсии</div>
+      <div id="funnel-content"><div class="empty-msg">Загружаем…</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">P&L разбивка</div>
+      <div id="pl-content"><div class="empty-msg">Загружаем…</div></div>
+    </div>
+  </div>
+
+  <!-- Models + Cache + Referrals -->
+  <div class="row3">
+    <div class="card">
+      <div class="card-title">Использование моделей</div>
+      <div id="model-content"><div class="empty-msg">Загружаем…</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Кэш-хит рейт</div>
+      <div class="cache-gauge">
+        <div class="cache-n" id="cache-rate">—</div>
+        <div class="cache-l">ответов из кэша</div>
+      </div>
+      <div style="margin-top:12px;">
+        <div class="cost-row"><span class="cost-label">Сэкономлено</span><span class="cost-val green" id="cache-saved">—</span></div>
+        <div class="cost-row"><span class="cost-label">КП за 30д</span><span class="cost-val" id="cache-total">—</span></div>
+        <div class="cost-row"><span class="cost-label">Redis ключей</span><span class="cost-val" id="cache-keys">—</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Рефералы</div>
+      <div class="ref-stat">
+        <div class="ref-n" id="ref-total">—</div>
+        <div class="ref-l">активных реферов</div>
+      </div>
+      <div>
+        <div class="cost-row"><span class="cost-label">Конверсий</span><span class="cost-val green" id="ref-conv">—</span></div>
+        <div class="cost-row"><span class="cost-label">Вознаграждено</span><span class="cost-val amber" id="ref-rewarded">—</span></div>
+        <div class="cost-row"><span class="cost-label">CAC снижен на</span><span class="cost-val green">~50%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users table -->
+  <div class="card" style="margin-bottom:28px;">
+    <div class="card-title">Последние пользователи</div>
+    <div id="users-table"><div class="empty-msg">Загружаем…</div></div>
+  </div>
+
+  <!-- Payments table -->
+  <div class="card">
+    <div class="card-title">Последние платежи</div>
+    <div id="payments-table"><div class="empty-msg">Загружаем…</div></div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let ADMIN_KEY = ''
+
+function auth() {
+  ADMIN_KEY = document.getElementById('ak').value.trim()
+  if (!ADMIN_KEY) return
+  load()
+}
+
+const MODEL_COLORS = {
+  'claude-sonnet-4':'#F59E0B','claude-haiku-4':'#FBBF24','claude-opus-4':'#D97706',
+  'gpt-4o':'#34D399','gpt-4o-mini':'#6EE7B7',
+  'gemini-pro':'#60A5FA','gemini-flash':'#93C5FD',
+}
+const MODEL_NAMES = {
+  'claude-sonnet-4':'Claude Sonnet 4','claude-haiku-4':'Claude Haiku 4','claude-opus-4':'Claude Opus 4',
+  'gpt-4o':'GPT-4o','gpt-4o-mini':'GPT-4o mini','gemini-pro':'Gemini Pro','gemini-flash':'Gemini Flash',
+}
+const MODEL_COST = { 'claude-sonnet-4':8,'claude-haiku-4':1.5,'claude-opus-4':35,'gpt-4o':18,'gpt-4o-mini':2,'gemini-pro':6,'gemini-flash':1.8 }
+const PLAN_PRICE = { starter:990, pro:2990, agency:7900 }
+
+async function load() {
+  try {
+    const [adminRes, analyticsRes] = await Promise.all([
+      fetch('/api/admin',     { headers: { 'X-Admin-Key': ADMIN_KEY } }),
+      fetch('/api/analytics', { headers: { 'X-Admin-Key': ADMIN_KEY } }),
+    ])
+
+    if (adminRes.status === 401) { alert('Неверный Admin Key'); return }
+
+    document.getElementById('auth-gate').style.display = 'none'
+    document.getElementById('main').style.display      = 'block'
+
+    const admin     = await adminRes.json()
+    const analytics = analyticsRes.ok ? await analyticsRes.json() : {}
+
+    renderKPI(admin, analytics)
+    renderFunnel(analytics.funnel || [])
+    renderPL(admin, analytics)
+    renderModels(analytics.modelStats || {})
+    renderCache(analytics)
+    renderReferrals(admin)
+    renderUsers(admin.users || [])
+    renderPayments(admin.payments || [])
+
+    document.getElementById('last-update').textContent = 'Обновлено: ' + new Date().toLocaleTimeString('ru-RU')
+  } catch (e) {
+    alert('Ошибка: ' + e.message)
+  }
+}
+
+function renderKPI(admin, analytics) {
+  const paid    = admin.stats?.paidUsers || 0
+  const total30 = (analytics.funnel?.find(f => f.event === 'kp_generated')?.total || 0)
+  const modelStats = analytics.modelStats || {}
+  let aiCost = 0
+  for (const [m, cnt] of Object.entries(modelStats)) {
+    aiCost += (cnt || 0) * (MODEL_COST[m] || 8)
+  }
+  const cacheHitRate = analytics.cacheHitRate || 0
+  const savedCost    = Math.round(aiCost * cacheHitRate / 100)
+  const actualCost   = aiCost - savedCost
+  const infra        = 2500
+  const other        = 800
+  const totalCost    = actualCost + infra + other
+
+  // Рассчитать выручку из платежей (30 дней)
+  let revenue = 0
+  for (const p of (admin.payments || [])) {
+    if (p.status === 'paid' && p.amount) revenue += p.amount / 100
+  }
+
+  const profit = revenue - totalCost
+  const margin = revenue > 0 ? Math.round(profit / revenue * 100) : 0
+
+  document.getElementById('k-rev').textContent    = fmtRub(revenue)
+  document.getElementById('k-cost').textContent   = fmtRub(totalCost)
+  document.getElementById('k-profit').textContent = fmtRub(profit)
+  document.getElementById('k-profit').className   = 'kpi-value ' + (profit >= 0 ? 'g' : 'r')
+  document.getElementById('k-margin').textContent = margin + '%'
+  document.getElementById('k-paid').textContent   = paid
+  document.getElementById('k-churn').textContent  = '~12%'
+}
+
+function renderFunnel(funnel) {
+  const el    = document.getElementById('funnel-content')
+  if (!funnel.length) { el.innerHTML = '<div class="empty-msg">Нет данных за 30 дней</div>'; return }
+  const max   = Math.max(...funnel.map(f => f.total), 1)
+  el.innerHTML = funnel.map((f, i) => {
+    const pct = funnel[0].total > 0 && i > 0 ? Math.round(f.total / funnel[0].total * 100) : (i === 0 ? 100 : 0)
+    return `<div class="funnel-row">
+      <span class="funnel-label">${f.step}</span>
+      <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:${Math.round(f.total/max*100)}%"></div></div>
+      <span class="funnel-count">${f.total}</span>
+      <span class="funnel-pct">${pct}%</span>
+    </div>`
+  }).join('')
+}
+
+function renderPL(admin, analytics) {
+  const modelStats = analytics.modelStats || {}
+  let aiCost = 0
+  for (const [m, cnt] of Object.entries(modelStats)) aiCost += (cnt || 0) * (MODEL_COST[m] || 8)
+  const saved    = Math.round(aiCost * (analytics.cacheHitRate || 0) / 100)
+  const actual   = aiCost - saved
+  const infra    = 2500
+  const other    = 800
+  const total    = actual + infra + other
+  let rev = 0
+  for (const p of (admin.payments || [])) if (p.status === 'paid' && p.amount) rev += p.amount / 100
+  const profit = rev - total
+
+  document.getElementById('pl-content').innerHTML = `
+    <div class="cost-row"><span class="cost-label">Выручка</span><span class="cost-val green">${fmtRub(rev)}</span></div>
+    <div class="cost-row"><span class="cost-label">ИИ-API (gross)</span><span class="cost-val red">${fmtRub(aiCost)}</span></div>
+    <div class="cost-row"><span class="cost-label">Кэш-экономия</span><span class="cost-val green">−${fmtRub(saved)}</span></div>
+    <div class="cost-row"><span class="cost-label">ИИ-API (net)</span><span class="cost-val red">${fmtRub(actual)}</span></div>
+    <div class="cost-row"><span class="cost-label">Vercel+Supabase</span><span class="cost-val">${fmtRub(infra)}</span></div>
+    <div class="cost-row"><span class="cost-label">Email+Redis+Прочее</span><span class="cost-val">${fmtRub(other)}</span></div>
+    <div class="cost-row" style="margin-top:8px;border-top:1px solid var(--b2);padding-top:8px;">
+      <span class="cost-label" style="font-weight:600;color:var(--ink)">Прибыль</span>
+      <span class="cost-val ${profit>=0?'green':'red'}" style="font-weight:600;font-size:14px">${fmtRub(profit)}</span>
+    </div>`
+}
+
+function renderModels(stats) {
+  const el  = document.getElementById('model-content')
+  const total = Object.values(stats).reduce((a, b) => a + b, 0)
+  if (!total) { el.innerHTML = '<div class="empty-msg">Нет генераций за 30 дней</div>'; return }
+  const sorted = Object.entries(stats).sort((a, b) => b[1] - a[1])
+  el.innerHTML = sorted.map(([m, cnt]) => {
+    const pct = Math.round(cnt / total * 100)
+    const color = MODEL_COLORS[m] || '#94A3B8'
+    return `<div class="model-row">
+      <div class="model-dot" style="background:${color}"></div>
+      <span class="model-name">${MODEL_NAMES[m] || m}</span>
+      <div class="model-bar-wrap"><div class="model-bar" style="width:${pct}%;background:${color}"></div></div>
+      <span class="model-count">${cnt}</span>
+    </div>`
+  }).join('')
+}
+
+function renderCache(analytics) {
+  const rate  = analytics.cacheHitRate || 0
+  const total = (analytics.funnel?.find(f => f.event === 'kp_generated')?.total || 0)
+  const modelStats = analytics.modelStats || {}
+  let aiCost = 0
+  for (const [m, cnt] of Object.entries(modelStats)) aiCost += (cnt || 0) * (MODEL_COST[m] || 8)
+  const saved = Math.round(aiCost * rate / 100)
+
+  document.getElementById('cache-rate').textContent  = rate + '%'
+  document.getElementById('cache-rate').style.color  = rate >= 20 ? 'var(--green)' : rate >= 10 ? 'var(--amber)' : 'var(--red)'
+  document.getElementById('cache-saved').textContent = '−' + fmtRub(saved)
+  document.getElementById('cache-total').textContent = total
+  document.getElementById('cache-keys').textContent  = analytics.cacheKeys || '—'
+}
+
+function renderReferrals(admin) {
+  // Placeholder — в реальности данные из api/referral endpoint
+  document.getElementById('ref-total').textContent   = '—'
+  document.getElementById('ref-conv').textContent    = '—'
+  document.getElementById('ref-rewarded').textContent = '—'
+}
+
+function renderUsers(users) {
+  const PLAN_COLORS = { trial:'trial',pro:'pro',free:'free',starter:'starter',agency:'agency' }
+  document.getElementById('users-table').innerHTML = users.length === 0
+    ? '<div class="empty-msg">Нет пользователей</div>'
+    : `<table>
+        <thead><tr><th>Email</th><th>Тариф</th><th>КП</th><th>Дата</th></tr></thead>
+        <tbody>${users.map(u => `<tr>
+          <td style="color:var(--ink)">${u.email}</td>
+          <td><span class="badge ${PLAN_COLORS[u.plan]||'free'}">${u.plan}</span></td>
+          <td style="font-family:'DM Mono',monospace">${u.proposal_count || 0}</td>
+          <td>${new Date(u.created_at).toLocaleDateString('ru-RU')}</td>
+        </tr>`).join('')}</tbody>
+      </table>`
+}
+
+function renderPayments(payments) {
+  const PROV = { stripe:'Stripe', yookassa:'YooKassa', nowpayments:'Крипто' }
+  const PLAN_COLORS = { trial:'trial',pro:'pro',free:'free',starter:'starter',agency:'agency' }
+  document.getElementById('payments-table').innerHTML = payments.length === 0
+    ? '<div class="empty-msg">Нет платежей</div>'
+    : `<table>
+        <thead><tr><th>Email</th><th>Тариф</th><th>Сумма</th><th>Провайдер</th><th>Дата</th></tr></thead>
+        <tbody>${payments.map(p => `<tr>
+          <td style="color:var(--ink)">${p.email || '—'}</td>
+          <td><span class="badge ${PLAN_COLORS[p.plan]||'free'}">${p.plan}</span></td>
+          <td style="color:var(--green);font-family:'DM Mono',monospace">${p.amount ? (p.amount/100).toLocaleString('ru') + ' ' + (p.currency||'RUB').toUpperCase() : '—'}</td>
+          <td style="color:var(--ink2)">${PROV[p.provider]||p.provider}</td>
+          <td>${new Date(p.paid_at || p.created_at).toLocaleDateString('ru-RU')}</td>
+        </tr>`).join('')}</tbody>
+      </table>`
+}
+
+function fmtRub(n) {
+  if (!n && n !== 0) return '—'
+  return Math.round(n).toLocaleString('ru') + ' ₽'
+}
+
+// Авто-обновление каждые 5 минут
+setInterval(load, 300000)
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Реферальная программа — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--accent2:#D4AB42;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--green:#27695C;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+.hdr{padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aline);background:rgba(245,240,232,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;text-decoration:none;color:var(--ink);}
+.logo strong{font-weight:600;color:var(--accent);}
+.btn{padding:8px 18px;border-radius:3px;font-size:12px;font-weight:600;letter-spacing:.5px;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s;text-decoration:none;display:inline-block;}
+.btn.out{background:transparent;border:1px solid var(--aline);color:var(--ink2);}.btn.out:hover{border-color:var(--accent);color:var(--accent);}
+.wrap{max-width:760px;margin:0 auto;padding:40px 24px 80px;}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;margin-bottom:6px;}
+.page-sub{font-size:13px;color:var(--ink3);margin-bottom:36px;line-height:1.6;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+.stat{background:var(--white);border:1px solid var(--aline);border-radius:8px;padding:18px 20px;text-align:center;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--ink);}
+.stat-l{font-size:11px;color:var(--ink3);margin-top:4px;}
+.card{background:var(--white);border:1px solid var(--aline);border-radius:8px;padding:24px;margin-bottom:16px;}
+.card-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.card-sub{font-size:12px;color:var(--ink3);margin-bottom:18px;line-height:1.6;}
+.ref-url-box{background:var(--cream);border:1px solid var(--aline);border-radius:6px;padding:14px 16px;display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ref-url{font-family:monospace;font-size:13px;color:var(--ink2);flex:1;word-break:break-all;}
+.copy-btn{padding:8px 16px;border:1px solid var(--aline);border-radius:4px;background:var(--cream2);color:var(--ink2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;}
+.copy-btn:hover{background:var(--ink);color:var(--cream);}
+.share-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.share-btn{padding:9px 18px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.share-tg{background:#229ED9;color:#fff;}.share-tg:hover{opacity:.9;}
+.share-vk{background:#4C75A3;color:#fff;}.share-vk:hover{opacity:.9;}
+.share-wa{background:#25D366;color:#fff;}.share-wa:hover{opacity:.9;}
+.share-em{background:var(--ink);color:var(--cream);}.share-em:hover{background:var(--accent);}
+.divider{height:1px;background:var(--cream2);margin:20px 0;}
+.apply-form{display:flex;gap:10px;align-items:flex-end;}
+.field-sm{flex:1;}
+.field-sm label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);margin-bottom:6px;}
+.field-sm input{width:100%;background:var(--cream);border:1px solid var(--cream3);border-radius:4px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s;text-transform:uppercase;}
+.field-sm input:focus{border-color:var(--accent);}
+.apply-btn{padding:10px 20px;background:var(--green);color:#fff;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .2s;}
+.apply-btn:hover{opacity:.9;}
+.result-msg{padding:10px 14px;border-radius:4px;font-size:13px;margin-top:12px;display:none;}
+.result-msg.ok{background:rgba(39,105,92,.08);border:1px solid rgba(39,105,92,.2);color:var(--green);}
+.result-msg.err{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.2);color:#C0392B;}
+.how-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.how-item{display:flex;align-items:flex-start;gap:12px;}
+.how-num{width:28px;height:28px;border-radius:50%;background:var(--apal);border:1px solid var(--aline);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--accent);flex-shrink:0;}
+.how-text{font-size:13px;color:var(--ink2);line-height:1.6;padding-top:4px;}
+.how-text strong{color:var(--ink);}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr 1fr;}.hdr{padding:14px 16px;}.wrap{padding:24px 16px;}.ref-url-box{flex-direction:column;}.apply-form{flex-direction:column;}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <a href="/app" class="logo">Propose<strong>AI</strong></a>
+  <div style="display:flex;gap:8px;">
+    <a href="/account" class="btn out">← Аккаунт</a>
+  </div>
+</header>
+<div class="wrap">
+  <div class="page-title">Реферальная программа</div>
+  <div class="page-sub">Приглашайте коллег и друзей — оба получите по <strong>+30 дней бесплатно</strong>.<br>Без ограничений на количество приглашений.</div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n" id="s-rewarded">—</div><div class="stat-l">Успешных приглашений</div></div>
+    <div class="stat"><div class="stat-n" id="s-pending">—</div><div class="stat-l">В ожидании оплаты</div></div>
+    <div class="stat"><div class="stat-n" id="s-months">—</div><div class="stat-l">Бесплатных месяцев</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Ваша реферальная ссылка</div>
+    <div class="card-sub">Поделитесь ссылкой — новый пользователь получит +30 дней Pro при регистрации. Когда он оплатит подписку — вы получите +30 дней.</div>
+    <div class="ref-url-box">
+      <div class="ref-url" id="ref-url">Загружаем…</div>
+      <button class="copy-btn" id="copy-link-btn" onclick="copyLink()">Копировать</button>
+    </div>
+    <div class="share-row">
+      <button class="share-btn share-tg" onclick="shareTo('telegram')">Telegram</button>
+      <button class="share-btn share-vk" onclick="shareTo('vk')">ВКонтакте</button>
+      <button class="share-btn share-wa" onclick="shareTo('whatsapp')">WhatsApp</button>
+      <button class="share-btn share-em" onclick="shareTo('email')">Email</button>
+    </div>
+    <div style="font-size:11px;color:var(--ink3);">Ваш код: <strong id="ref-code" style="font-family:monospace;color:var(--accent);letter-spacing:1px;">—</strong></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Применить чужой код</div>
+    <div class="card-sub">Если вас пригласил знакомый — введите его реферальный код и получите +30 дней.</div>
+    <div class="apply-form">
+      <div class="field-sm">
+        <label>Реферальный код</label>
+        <input type="text" id="apply-code" placeholder="REF123ABC" maxlength="12">
+      </div>
+      <button class="apply-btn" onclick="applyCode()">Применить</button>
+    </div>
+    <div class="result-msg" id="apply-result"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Как это работает</div>
+    <ul class="how-list">
+      <li class="how-item">
+        <div class="how-num">1</div>
+        <div class="how-text">Скопируйте вашу уникальную ссылку и поделитесь с коллегами или в социальных сетях</div>
+      </li>
+      <li class="how-item">
+        <div class="how-num">2</div>
+        <div class="how-text">Друг регистрируется по вашей ссылке и получает <strong>+30 дней Pro бесплатно</strong> сразу</div>
+      </li>
+      <li class="how-item">
+        <div class="how-num">3</div>
+        <div class="how-text">Когда друг оплачивает любой тариф — вы получаете <strong>+30 дней к вашей подписке</strong> автоматически</div>
+      </li>
+      <li class="how-item">
+        <div class="how-num">∞</div>
+        <div class="how-text">Количество приглашений не ограничено — каждый успешный реферал даёт ещё +30 дней</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const TOKEN = localStorage.getItem('sb-token')
+if (!TOKEN) window.location.href = '/auth/login'
+
+let refUrl = '', refCode = ''
+
+async function loadData() {
+  try {
+    const r = await fetch('/api/referral', { headers: { Authorization: `Bearer ${TOKEN}` } })
+    const d = await r.json()
+    refUrl  = d.refUrl  || ''
+    refCode = d.refCode || ''
+    document.getElementById('ref-url').textContent   = refUrl
+    document.getElementById('ref-code').textContent  = refCode
+    document.getElementById('s-rewarded').textContent = d.rewarded || 0
+    document.getElementById('s-pending').textContent  = d.pending  || 0
+    document.getElementById('s-months').textContent   = (d.rewarded || 0) + ' мес'
+  } catch (e) { console.error(e) }
+}
+
+function copyLink() {
+  if (!refUrl) return
+  navigator.clipboard.writeText(refUrl).then(() => {
+    const btn = document.getElementById('copy-link-btn')
+    btn.textContent = '✓ Скопировано!'
+    setTimeout(() => btn.textContent = 'Копировать', 2000)
+  })
+}
+
+const SHARE_MSG = encodeURIComponent('Пользуюсь ProposeAI для генерации коммерческих предложений — за 30 секунд готовое КП с продающей структурой. Попробуй бесплатно, по моей ссылке +30 дней Pro:')
+
+function shareTo(platform) {
+  const url = encodeURIComponent(refUrl)
+  const links = {
+    telegram: `https://t.me/share/url?url=${url}&text=${SHARE_MSG}`,
+    vk:       `https://vk.com/share.php?url=${url}&title=${SHARE_MSG}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${SHARE_MSG}%20${url}`,
+    email:    `mailto:?subject=ProposeAI%20%E2%80%94%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D0%9A%D0%9F%20%D0%B7%D0%B0%2030%20%D1%81%D0%B5%D0%BA%D1%83%D0%BD%D0%B4&body=${SHARE_MSG}%20${url}`,
+  }
+  if (links[platform]) window.open(links[platform], '_blank')
+}
+
+async function applyCode() {
+  const code = document.getElementById('apply-code').value.trim().toUpperCase()
+  const msg  = document.getElementById('apply-result')
+  if (!code) { showMsg('Введите реферальный код', 'err'); return }
+  try {
+    const r = await fetch('/api/referral', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` },
+      body:    JSON.stringify({ action: 'apply', refCode: code }),
+    })
+    const d = await r.json()
+    if (!r.ok) throw new Error(d.error || 'Ошибка')
+    showMsg('✓ ' + d.message, 'ok')
+    document.getElementById('apply-code').value = ''
+    loadData()
+  } catch (e) {
+    showMsg('✗ ' + e.message, 'err')
+  }
+}
+
+function showMsg(text, type) {
+  const el = document.getElementById('apply-result')
+  el.textContent = text
+  el.className   = 'result-msg ' + type
+  el.style.display = 'block'
+  if (type === 'ok') setTimeout(() => el.style.display = 'none', 5000)
+}
+
+loadData()
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron?job=trial-reminder",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron?job=trial-expire",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron?job=reset-usage",
+      "schedule": "0 0 1 * *"
+    },
+    {
+      "path": "/api/cron?job=re-engage",
+      "schedule": "0 10 * * 1"
+    },
+    {
+      "path": "/api/cron?job=usage-warning",
+      "schedule": "0 8 * * *"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/components/(.*)",
+      "dest": "/public/components/$1"
+    },
+    {
+      "src": "/api/generate",
+      "dest": "/api/generate.js"
+    },
+    {
+      "src": "/api/auth",
+      "dest": "/api/auth.js"
+    },
+    {
+      "src": "/api/proposals",
+      "dest": "/api/proposals.js"
+    },
+    {
+      "src": "/api/user",
+      "dest": "/api/user.js"
+    },
+    {
+      "src": "/api/export",
+      "dest": "/api/export.js"
+    },
+    {
+      "src": "/api/billing",
+      "dest": "/api/billing.js"
+    },
+    {
+      "src": "/api/email",
+      "dest": "/api/email.js"
+    },
+    {
+      "src": "/api/cron",
+      "dest": "/api/cron.js"
+    },
+    {
+      "src": "/api/onboarding",
+      "dest": "/api/onboarding.js"
+    },
+    {
+      "src": "/api/invite",
+      "dest": "/api/invite.js"
+    },
+    {
+      "src": "/api/admin",
+      "dest": "/api/admin.js"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/checkout",
+      "dest": "/api/checkout.js"
+    },
+    {
+      "src": "/api/yookassa-checkout",
+      "dest": "/api/yookassa-checkout.js"
+    },
+    {
+      "src": "/api/yookassa-webhook",
+      "dest": "/api/yookassa-webhook.js"
+    },
+    {
+      "src": "/api/nowpayments-checkout",
+      "dest": "/api/nowpayments-checkout.js"
+    },
+    {
+      "src": "/api/nowpayments-webhook",
+      "dest": "/api/nowpayments-webhook.js"
+    },
+    {
+      "src": "/api/stripe-webhook",
+      "dest": "/api/webhook.js"
+    },
+    {
+      "src": "/auth/login",
+      "dest": "/public/auth/login.html"
+    },
+    {
+      "src": "/auth/(.*)",
+      "dest": "/public/auth/$1.html"
+    },
+    {
+      "src": "/onboarding",
+      "dest": "/public/onboarding/index.html"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/public/dashboard.html"
+    },
+    {
+      "src": "/account",
+      "dest": "/public/account/index.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/public/admin/index.html"
+    },
+    {
+      "src": "/legal/privacy",
+      "dest": "/public/legal/privacy.html"
+    },
+    {
+      "src": "/legal/terms",
+      "dest": "/public/legal/terms.html"
+    },
+    {
+      "src": "/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/app",
+      "dest": "/public/index.html"
+    },
+    {
+      "src": "/",
+      "dest": "/public/landing.html"
+    },
+    {
+      "src": "/api/referral",
+      "dest": "/api/referral.js"
+    },
+    {
+      "src": "/templates",
+      "dest": "/public/templates.html"
+    },
+    {
+      "src": "/pricing",
+      "dest": "/public/pricing.html"
+    },
+    {
+      "src": "/api/ab-test",
+      "dest": "/api/ab-test.js"
+    },
+    {
+      "src": "/api/analytics",
+      "dest": "/api/analytics.js"
+    },
+    {
+      "src": "/account/referral",
+      "dest": "/public/account/referral.html"
+    },
+    {
+      "src": "/admin/analytics",
+      "dest": "/public/admin/analytics.html"
+    },
+    {
+      "src": "/metrics",
+      "dest": "/public/metrics/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ]
+}

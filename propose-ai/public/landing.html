@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProposeAI — Коммерческие предложения за 30 секунд</title>
+<meta name="description" content="ИИ-сервис для создания продающих КП. Claude, GPT-4o, Gemini. Оплата картами РФ, криптовалютой. 14 дней бесплатно.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--accent2:#D4AB42;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--green:#27695C;--dark:#0F172A;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);}
+/* NAV */
+nav{padding:16px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aline);position:sticky;top:0;background:rgba(245,240,232,.95);backdrop-filter:blur(14px);z-index:100;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink);text-decoration:none;}
+.nav-logo strong{font-weight:600;color:var(--accent);}
+.nav-links{display:flex;align-items:center;gap:24px;}
+.nav-link{font-size:13px;color:var(--ink3);text-decoration:none;transition:color .2s;}
+.nav-link:hover{color:var(--accent);}
+.nav-btn{padding:9px 22px;border-radius:3px;font-size:12px;font-weight:600;letter-spacing:.5px;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s;text-decoration:none;display:inline-block;}
+.nav-btn.out{background:transparent;border:1px solid var(--aline);color:var(--ink2);}
+.nav-btn.out:hover{border-color:var(--accent);color:var(--accent);}
+.nav-btn.sol{background:var(--ink);color:var(--cream);}
+.nav-btn.sol:hover{background:var(--accent);}
+/* HERO */
+.hero{max-width:900px;margin:0 auto;padding:80px 24px 72px;text-align:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border:1px solid var(--aline);border-radius:99px;font-size:11px;font-weight:600;color:var(--ink3);background:var(--white);margin-bottom:28px;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,6vw,68px);font-weight:300;line-height:1.1;color:var(--ink);margin-bottom:20px;}
+.hero h1 em{font-style:italic;color:var(--accent);}
+.hero p{font-size:16px;color:var(--ink3);max-width:560px;margin:0 auto 36px;line-height:1.7;}
+.hero-btns{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.btn-primary{padding:16px 36px;background:var(--ink);color:var(--cream);border:none;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .25s;text-decoration:none;display:inline-block;}
+.btn-primary:hover{background:var(--accent);}
+.btn-secondary{padding:15px 28px;background:transparent;border:1px solid var(--aline);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+.hero-note{font-size:12px;color:var(--ink3);margin-top:16px;}
+.hero-note strong{color:var(--green);}
+/* STATS */
+.stats{background:var(--dark);padding:40px 48px;display:flex;justify-content:center;gap:60px;flex-wrap:wrap;}
+.stat-i{text-align:center;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--accent2);}
+.stat-l{font-size:12px;color:rgba(203,213,225,.6);margin-top:4px;letter-spacing:.5px;}
+/* FEATURES */
+.section{max-width:1060px;margin:0 auto;padding:80px 24px;}
+.section-eyebrow{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);font-weight:300;color:var(--ink);margin-bottom:48px;line-height:1.2;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.feat-card{background:var(--white);border:1px solid var(--aline);border-radius:8px;padding:24px;}
+.feat-ico{font-size:28px;margin-bottom:14px;}
+.feat-t{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+.feat-s{font-size:13px;color:var(--ink3);line-height:1.6;}
+/* HOW IT WORKS */
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:steps;}
+.how-step{text-align:center;padding:20px 16px;position:relative;}
+.how-step::before{counter-increment:steps;content:counter(steps);display:block;width:36px;height:36px;border-radius:50%;background:var(--apal);border:1px solid var(--aline);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--accent);line-height:34px;margin:0 auto 16px;}
+.how-t{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+.how-s{font-size:12px;color:var(--ink3);line-height:1.6;}
+/* MODELS */
+.models-row{display:flex;gap:12px;flex-wrap:wrap;}
+.model-chip{padding:10px 16px;border:1px solid var(--aline);border-radius:6px;background:var(--white);display:flex;align-items:center;gap:8px;}
+.mc-ico{font-size:18px;}
+.mc-t{font-size:13px;font-weight:600;color:var(--ink2);}
+.mc-s{font-size:11px;color:var(--ink3);}
+/* PAYMENT */
+.pay-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:32px;}
+.pay-card{flex:1;min-width:180px;padding:20px;border:1px solid var(--aline);border-radius:8px;background:var(--white);}
+.pay-ico{font-size:28px;margin-bottom:10px;}
+.pay-t{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.pay-s{font-size:12px;color:var(--ink3);line-height:1.5;}
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.price-card{background:var(--white);border:1px solid var(--aline);border-radius:8px;padding:28px;transition:border-color .2s;}
+.price-card:hover{border-color:var(--accent);}
+.price-card.popular{border:2px solid var(--accent);}
+.price-badge{display:inline-block;padding:3px 10px;background:var(--accent);color:#fff;border-radius:99px;font-size:10px;font-weight:700;margin-bottom:10px;}
+.price-name{font-size:14px;font-weight:700;color:var(--ink2);margin-bottom:8px;}
+.price-amount{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.price-period{font-size:13px;color:var(--ink3);}
+.price-divider{height:1px;background:var(--cream3);margin:18px 0;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+.price-features li{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:8px;}
+.price-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;}
+.price-features li.no::before{content:'–';color:var(--ink3);}
+.price-features li.no{color:var(--ink3);}
+.price-btn{width:100%;padding:13px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:block;text-align:center;}
+.price-btn.sol{background:var(--ink);color:var(--cream);}
+.price-btn.sol:hover{background:var(--accent);}
+.price-btn.acc{background:var(--accent);color:#fff;}
+.price-btn.acc:hover{opacity:.9;}
+.price-btn.out{background:transparent;border:1px solid var(--aline);color:var(--ink2);}
+.price-btn.out:hover{border-color:var(--accent);color:var(--accent);}
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:2px;}
+.faq-item{border:1px solid var(--aline);border-radius:6px;background:var(--white);overflow:hidden;}
+.faq-q{padding:16px 20px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.faq-q:hover{color:var(--accent);}
+.faq-icon{font-size:18px;color:var(--accent);transition:transform .2s;}
+.faq-a{padding:0 20px;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;font-size:13px;color:var(--ink3);line-height:1.7;}
+.faq-item.open .faq-a{max-height:200px;padding:0 20px 16px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+/* CTA */
+.cta-section{background:var(--dark);padding:80px 24px;text-align:center;}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;color:var(--cream);margin-bottom:16px;}
+.cta-title em{color:var(--accent2);font-style:italic;}
+.cta-sub{font-size:14px;color:rgba(203,213,225,.6);max-width:480px;margin:0 auto 36px;line-height:1.7;}
+/* FOOTER */
+footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.foot-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--cream2);}
+.foot-logo strong{font-weight:600;color:var(--accent);}
+.foot-links{display:flex;gap:20px;}
+.foot-link{font-size:12px;color:rgba(203,213,225,.4);text-decoration:none;}
+.foot-link:hover{color:var(--accent2);}
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:14px 16px;}
+  .stats{gap:32px;padding:32px 24px;}
+  .features-grid,.pricing-grid{grid-template-columns:1fr;}
+  .how-grid{grid-template-columns:1fr 1fr;}
+  .hero{padding:56px 16px 48px;}
+  footer{flex-direction:column;align-items:flex-start;padding:24px 16px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Propose<strong>AI</strong></a>
+  <div class="nav-links">
+    <a href="#features" class="nav-link">Функции</a>
+    <a href="#pricing" class="nav-link">Тарифы</a>
+    <a href="#faq" class="nav-link">FAQ</a>
+    <a href="/auth/login" class="nav-btn out">Войти</a>
+    <a href="/auth/login" class="nav-btn sol">Попробовать бесплатно</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><div class="badge-dot"></div>14 дней бесплатно — без карты</div>
+  <h1>Коммерческое предложение<br>за <em>30 секунд</em></h1>
+  <p>Введите данные о клиенте — ИИ пишет продающий текст по проверенной структуре. Claude Sonnet 4, GPT-4o, Gemini Pro на выбор.</p>
+  <div class="hero-btns">
+    <a href="/auth/login" class="btn-primary">Создать первое КП бесплатно →</a>
+    <a href="/app" class="btn-secondary">Посмотреть демо</a>
+  </div>
+  <div class="hero-note"><strong>Бесплатно 14 дней</strong> · Карты РФ · Криптовалюта · Без карты при регистрации</div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-i"><div class="stat-n">30 сек</div><div class="stat-l">среднее время генерации</div></div>
+  <div class="stat-i"><div class="stat-n">6</div><div class="stat-l">ИИ-моделей на выбор</div></div>
+  <div class="stat-i"><div class="stat-n">14</div><div class="stat-l">разделов в структуре КП</div></div>
+  <div class="stat-i"><div class="stat-n">3</div><div class="stat-l">способа оплаты</div></div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-eyebrow">Возможности</div>
+  <div class="section-title">Всё что нужно для<br>продающих КП</div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-ico">🤖</div>
+      <div class="feat-t">6 ИИ-моделей</div>
+      <div class="feat-s">Claude Sonnet/Opus/Haiku, GPT-4o, GPT-4o mini, Gemini Pro. Выбирайте под задачу и бюджет.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">📐</div>
+      <div class="feat-t">Продающая структура</div>
+      <div class="feat-s">14 блоков: от анализа боли до призыва к действию. ИИ пишет по воронке продаж, не просто текст.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">🎨</div>
+      <div class="feat-t">Настраиваемый дизайн</div>
+      <div class="feat-s">6 цветовых тем, 4 шрифтовые пары, тёмные темы. Интерфейс под ваш фирменный стиль.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">📄</div>
+      <div class="feat-t">Экспорт в DOCX</div>
+      <div class="feat-s">Скачать готовый Word-документ с форматированием. Сразу отправлять клиенту.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">📚</div>
+      <div class="feat-t">История и профили</div>
+      <div class="feat-s">Все КП сохраняются в личном кабинете. Профиль компании заполняется один раз.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-ico">📂</div>
+      <div class="feat-t">Загрузка материалов</div>
+      <div class="feat-s">Прайс-листы, презентации, кейсы — ИИ учитывает ваши документы при генерации.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="background:var(--white);padding:80px 0;">
+  <div class="section" style="padding-top:0;padding-bottom:0;">
+    <div class="section-eyebrow">Как это работает</div>
+    <div class="section-title">От данных до готового КП<br>за 4 шага</div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-t">Выберите ИИ-модель</div>
+        <div class="how-s">Claude, GPT-4o или Gemini — в зависимости от задачи</div>
+      </div>
+      <div class="how-step">
+        <div class="how-t">Опишите компанию и клиента</div>
+        <div class="how-s">Услуги, УТП, кейсы, боль клиента, бюджет</div>
+      </div>
+      <div class="how-step">
+        <div class="how-t">Настройте параметры</div>
+        <div class="how-s">Тон, объём, разделы, ценовое позиционирование</div>
+      </div>
+      <div class="how-step">
+        <div class="how-t">Скачайте DOCX</div>
+        <div class="how-s">Готовое КП с продающей структурой — отправляйте клиенту</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELS -->
+<section class="section">
+  <div class="section-eyebrow">ИИ-модели</div>
+  <div class="section-title">Выбирайте лучшую<br>модель под задачу</div>
+  <div class="models-row">
+    <div class="model-chip"><div class="mc-ico">🟠</div><div><div class="mc-t">Claude Sonnet 4</div><div class="mc-s">Лучший для деловых текстов</div></div></div>
+    <div class="model-chip"><div class="mc-ico">🟠</div><div><div class="mc-t">Claude Opus 4</div><div class="mc-s">Максимальное качество</div></div></div>
+    <div class="model-chip"><div class="mc-ico">🟠</div><div><div class="mc-t">Claude Haiku 4</div><div class="mc-s">Быстро и дёшево</div></div></div>
+    <div class="model-chip"><div class="mc-ico">🟢</div><div><div class="mc-t">GPT-4o</div><div class="mc-s">OpenAI, универсальный</div></div></div>
+    <div class="model-chip"><div class="mc-ico">🟢</div><div><div class="mc-t">GPT-4o mini</div><div class="mc-s">Экономичный вариант</div></div></div>
+    <div class="model-chip"><div class="mc-ico">🔵</div><div><div class="mc-t">Gemini Pro</div><div class="mc-s">Google, быстрый</div></div></div>
+  </div>
+</section>
+
+<!-- PAYMENT -->
+<section style="background:var(--white);padding:80px 0;">
+  <div class="section" style="padding-top:0;padding-bottom:0;">
+    <div class="section-eyebrow">Оплата</div>
+    <div class="section-title">Удобная оплата для<br>любого клиента</div>
+    <div class="pay-row">
+      <div class="pay-card">
+        <div class="pay-ico">💳</div>
+        <div class="pay-t">Карты РФ — YooKassa</div>
+        <div class="pay-s">Visa, МИР, Mastercard, ЮMoney, SberPay, T-Pay</div>
+      </div>
+      <div class="pay-card">
+        <div class="pay-ico">🪙</div>
+        <div class="pay-t">Криптовалюта — NOWPayments</div>
+        <div class="pay-s">USDT (TRC-20/ERC-20), BTC, ETH, TON, USDC и 300+ монет</div>
+      </div>
+      <div class="pay-card">
+        <div class="pay-ico">🌍</div>
+        <div class="pay-t">Международные — Stripe</div>
+        <div class="pay-s">Visa, Mastercard из любой страны. Apple Pay, Google Pay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="section-eyebrow">Тарифы</div>
+  <div class="section-title">Простые и честные цены</div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Starter</div>
+      <div class="price-amount">990 ₽</div>
+      <div class="price-period">в месяц</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li>20 КП в месяц</li>
+        <li>Claude Haiku + Sonnet</li>
+        <li>Экспорт TXT</li>
+        <li>История КП</li>
+        <li class="no">GPT-4o / Gemini</li>
+        <li class="no">Экспорт DOCX</li>
+      </ul>
+      <a href="/auth/login" class="price-btn out">Начать →</a>
+    </div>
+    <div class="price-card popular">
+      <div class="price-badge">Популярный</div>
+      <div class="price-name">Pro</div>
+      <div class="price-amount">2 990 ₽</div>
+      <div class="price-period">в месяц</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li>Безлимит КП</li>
+        <li>Все 6 ИИ-моделей</li>
+        <li>Экспорт DOCX</li>
+        <li>История КП</li>
+        <li>Профиль компании</li>
+        <li>Приоритетная поддержка</li>
+      </ul>
+      <a href="/auth/login" class="price-btn acc">Попробовать бесплатно →</a>
+    </div>
+    <div class="price-card">
+      <div class="price-name">Agency</div>
+      <div class="price-amount">7 900 ₽</div>
+      <div class="price-period">в месяц</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li>Всё из Pro</li>
+        <li>White-label брендинг</li>
+        <li>API-доступ</li>
+        <li>База клиентов</li>
+        <li>Неограниченная команда</li>
+        <li>Выделенная поддержка</li>
+      </ul>
+      <a href="/auth/login" class="price-btn sol">Связаться →</a>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:13px;color:var(--ink3);margin-top:20px;">Все тарифы включают <strong style="color:var(--green);">14 дней бесплатного доступа</strong> без карты</p>
+</section>
+
+<!-- FAQ -->
+<section style="background:var(--white);padding:80px 0;" id="faq">
+  <div class="section" style="padding-top:0;padding-bottom:0;max-width:720px;">
+    <div class="section-eyebrow">FAQ</div>
+    <div class="section-title">Часто задаваемые<br>вопросы</div>
+    <div class="faq-list" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-title">Создайте первое КП<br><em>прямо сейчас</em></div>
+  <div class="cta-sub">14 дней бесплатно. Без карты при регистрации. Отмена в любой момент.</div>
+  <a href="/auth/login" class="btn-primary" style="font-size:14px;padding:18px 44px;">Начать бесплатно →</a>
+</section>
+
+<footer>
+  <div class="foot-logo">Propose<strong>AI</strong></div>
+  <div class="foot-links">
+    <a href="/legal/privacy" class="foot-link">Конфиденциальность</a>
+    <a href="/legal/terms" class="foot-link">Условия</a>
+    <a href="mailto:support@yourdomain.ru" class="foot-link">Поддержка</a>
+  </div>
+</footer>
+
+<script>
+const faqs = [
+  { q: 'Нужна ли карта для регистрации?', a: 'Нет. Вы получаете 14 дней Pro-доступа бесплатно, без ввода платёжных данных. Карта понадобится только если вы решите продолжить после триала.' },
+  { q: 'Какие ИИ-модели используются?', a: 'Claude Sonnet 4, Claude Opus 4, Claude Haiku 4 (Anthropic), GPT-4o и GPT-4o mini (OpenAI), Gemini Pro (Google). На тарифе Pro доступны все 6 моделей.' },
+  { q: 'Как оплатить картой РФ?', a: 'Принимаем карты Visa, МИР, Mastercard через YooKassa. Также доступны ЮMoney и SberPay. Для оплаты нужен договор с ИП или ООО.' },
+  { q: 'Можно ли оплатить криптовалютой?', a: 'Да. Принимаем USDT (TRC-20 и ERC-20), Bitcoin, Ethereum, TON, USDC и более 300 других монет через NOWPayments.' },
+  { q: 'Где хранятся мои КП?', a: 'В вашем личном аккаунте на защищённых серверах (Supabase PostgreSQL). Другие пользователи не имеют доступа к вашим данным — это гарантирует Row Level Security.' },
+  { q: 'Можно ли экспортировать КП в Word?', a: 'Да, на тарифе Pro и Agency. Кнопка «Скачать DOCX» появляется после генерации. На Starter — экспорт в TXT.' },
+  { q: 'Что происходит когда истекает триал?', a: 'Вы автоматически переходите на тариф Free (3 КП в месяц). Никаких списаний без вашего согласия. Можете продолжить или не продолжать — решаете вы.' },
+]
+
+const list = document.getElementById('faq-list')
+list.innerHTML = faqs.map((f, i) => `
+<div class="faq-item" id="faq-${i}">
+  <div class="faq-q" onclick="toggleFaq(${i})">${f.q}<span class="faq-icon">+</span></div>
+  <div class="faq-a">${f.a}</div>
+</div>`).join('')
+
+function toggleFaq(i) {
+  document.querySelectorAll('.faq-item').forEach((el, j) => el.classList.toggle('open', j === i && !el.classList.contains('open')))
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault()
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' })
+  })
+})
+</script>
+</body>
+</html>
