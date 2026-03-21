@@ -1,5 +1,6 @@
 // api/index.js — единственная Serverless Function на Vercel
-// Handlers лежат в _handlers/ (вне папки api/, чтобы Vercel их не трогал)
+// Handlers лежат в _handlers/ (вне папки api/)
+// Vercel автоматически направляет /api/* сюда — парсим путь из req.url
 
 import abTest              from '../_handlers/ab-test.js'
 import admin               from '../_handlers/admin.js'
@@ -50,18 +51,10 @@ const routes = {
 }
 
 export default async function handler(req, res) {
-  let segment = ''
-
-  if (req.query?.slug) {
-    segment = Array.isArray(req.query.slug) ? req.query.slug[0] : req.query.slug
-    delete req.query.slug
-  } else {
-    const urlPath = (req.url || '').split('?')[0]
-    const parts = urlPath.replace(/^\/+/, '').split('/')
-    segment = parts[0] === 'api' ? (parts[1] || '') : parts[0]
-  }
-
-  segment = segment.toLowerCase()
+  // req.url = '/api/auth', '/api/proposals?id=1' и т.д.
+  const urlPath = (req.url || '').split('?')[0]           // '/api/auth'
+  const parts   = urlPath.replace(/^\/+/, '').split('/') // ['api', 'auth']
+  const segment = (parts[1] || parts[0] || '').toLowerCase()
 
   const routeHandler = routes[segment]
   if (!routeHandler) {
