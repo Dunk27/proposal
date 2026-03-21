@@ -1,5 +1,5 @@
 // api/user.js — профиль пользователя, план, usage, company profile
-import { getUserFromToken, getSupabaseAdmin, checkUserPlan } from '../lib/supabase.js'
+import { getUserFromToken, getSupabaseAdmin, checkUserPlan } from './lib/supabase.js'
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')

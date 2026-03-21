@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "crons": [
+    { "path": "/api/cron?job=trial-reminder", "schedule": "0 9 * * *" },
+    { "path": "/api/cron?job=trial-expire",   "schedule": "0 3 * * *" },
+    { "path": "/api/cron?job=reset-usage",    "schedule": "0 0 1 * *" },
+    { "path": "/api/cron?job=re-engage",      "schedule": "0 10 * * 1" },
+    { "path": "/api/cron?job=usage-warning",  "schedule": "0 8 * * *" }
+  ],
+  "rewrites": [
+    { "source": "/auth/login",         "destination": "/auth/login.html" },
+    { "source": "/auth/:path*",        "destination": "/auth/:path*.html" },
+    { "source": "/onboarding",         "destination": "/onboarding/index.html" },
+    { "source": "/dashboard",          "destination": "/dashboard.html" },
+    { "source": "/account",            "destination": "/account/index.html" },
+    { "source": "/admin",              "destination": "/admin/index.html" },
+    { "source": "/metrics",            "destination": "/metrics/index.html" },
+    { "source": "/templates",          "destination": "/templates/index.html" },
+    { "source": "/legal/privacy",      "destination": "/legal/privacy.html" },
+    { "source": "/legal/terms",        "destination": "/legal/terms.html" },
+    { "source": "/app",                "destination": "/index.html" },
+    { "source": "/",                   "destination": "/landing.html" }
+  ]
+}

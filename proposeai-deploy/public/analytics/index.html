@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аналитика — ProposeAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#0F172A;--s1:#1E293B;--s2:#0D1B2E;--b:rgba(255,255,255,.07);--ink:#F1F5F9;--ink2:#CBD5E1;--ink3:#64748B;--gold:#D4AB42;--green:#34D399;--red:#F87171;--blue:#60A5FA;--purple:#A78BFA;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.hdr{padding:14px 28px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--ink2);}
+.logo strong{color:var(--gold);font-weight:600;}
+.hdr-right{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--ink3);}
+.pill{padding:6px 14px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.5px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.pill.out{background:transparent;border:1px solid var(--b);color:var(--ink3);}
+.pill.out:hover{border-color:var(--gold);color:var(--gold);}
+.main{max-width:1200px;margin:0 auto;padding:28px 24px 80px;}
+.section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:28px;}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:28px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.metric{background:var(--s1);border:1px solid var(--b);border-radius:8px;padding:16px 20px;}
+.metric-label{font-size:11px;color:var(--ink3);margin-bottom:6px;letter-spacing:.5px;}
+.metric-value{font-size:26px;font-weight:500;}
+.metric-value.green{color:var(--green);}
+.metric-value.red{color:var(--red);}
+.metric-value.gold{color:var(--gold);}
+.metric-value.blue{color:var(--blue);}
+.metric-sub{font-size:11px;color:var(--ink3);margin-top:4px;}
+.metric-sub.up{color:var(--green);}
+.metric-sub.dn{color:var(--red);}
+.panel{background:var(--s1);border:1px solid var(--b);border-radius:8px;padding:20px;}
+.panel-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink3);margin-bottom:16px;}
+.chart-wrap{position:relative;width:100%;}
+.funnel{display:flex;flex-direction:column;gap:8px;}
+.funnel-row{display:flex;align-items:center;gap:12px;}
+.funnel-label{font-size:12px;color:var(--ink2);min-width:130px;}
+.funnel-bar-wrap{flex:1;height:24px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden;}
+.funnel-bar{height:100%;border-radius:3px;transition:width .6s ease;display:flex;align-items:center;padding-left:10px;}
+.funnel-pct{font-size:11px;font-weight:700;}
+.funnel-n{font-size:11px;color:var(--ink3);min-width:50px;text-align:right;}
+.event-list{display:flex;flex-direction:column;gap:6px;}
+.event-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:4px;}
+.event-name{font-size:12px;color:var(--ink2);}
+.event-count{font-size:13px;font-weight:600;color:var(--blue);}
+.ab-table{width:100%;border-collapse:collapse;font-size:12px;}
+.ab-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--b);}
+.ab-table td{padding:8px 12px;color:var(--ink2);border-bottom:1px solid rgba(255,255,255,.04);}
+.ab-table tr:last-child td{border-bottom:none;}
+.winner{color:var(--green);font-weight:600;}
+.unit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px;}
+.unit-card{background:var(--s2);border:1px solid var(--b);border-radius:6px;padding:14px;}
+.unit-label{font-size:10px;color:var(--ink3);margin-bottom:4px;letter-spacing:.5px;}
+.unit-value{font-size:20px;font-weight:500;color:var(--ink);}
+.unit-formula{font-size:10px;color:var(--ink3);margin-top:4px;font-family:monospace;}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.slider-label{font-size:12px;color:var(--ink3);min-width:160px;}
+.slider-val{font-size:12px;font-weight:600;color:var(--gold);min-width:60px;text-align:right;}
+.divider{height:1px;background:var(--b);margin:20px 0;}
+.status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;}
+.status-dot.live{background:var(--green);animation:pulse-g 2s infinite;}
+@keyframes pulse-g{0%,100%{opacity:1}50%{opacity:.4}}
+@media(max-width:900px){.grid4,.grid3{grid-template-columns:1fr 1fr;}.grid2{grid-template-columns:1fr;}.unit-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="logo">Propose<strong>AI</strong> — Аналитика</div>
+  <div class="hdr-right">
+    <span class="status-dot live"></span>
+    <span id="last-updated">Загружаем…</span>
+    <button class="pill out" onclick="window.location.href='/admin'">Admin →</button>
+    <button class="pill out" onclick="window.location.href='/dashboard'">Назад</button>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- KPI -->
+  <div class="section-title">Ключевые метрики</div>
+  <div class="grid4">
+    <div class="metric"><div class="metric-label">MRR</div><div class="metric-value gold" id="m-mrr">—</div><div class="metric-sub" id="m-mrr-sub">ежемесячная выручка</div></div>
+    <div class="metric"><div class="metric-label">Платящих клиентов</div><div class="metric-value blue" id="m-paying">—</div><div class="metric-sub" id="m-paying-sub">из всех пользователей</div></div>
+    <div class="metric"><div class="metric-label">Конверсия Trial→Paid</div><div class="metric-value" id="m-conv">—</div><div class="metric-sub">% триалов купивших</div></div>
+    <div class="metric"><div class="metric-label">Churn/мес</div><div class="metric-value red" id="m-churn">—</div><div class="metric-sub">% отменивших подписку</div></div>
+  </div>
+
+  <!-- Unit Economics -->
+  <div class="section-title">Unit-экономика (симулятор)</div>
+  <div class="panel" style="margin-bottom:28px;">
+    <div style="display:flex;gap:32px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:260px;">
+        <div class="panel-title">Параметры</div>
+        <div class="slider-row"><span class="slider-label">Пользователей</span><input type="range" min="50" max="5000" value="500" step="50" id="s-users" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-users">500</span></div>
+        <div class="slider-row"><span class="slider-label">% платящих</span><input type="range" min="1" max="40" value="10" step="1" id="s-conv" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-conv">10%</span></div>
+        <div class="slider-row"><span class="slider-label">ARPU, ₽</span><input type="range" min="990" max="7900" value="2500" step="100" id="s-arpu" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-arpu">2 500</span></div>
+        <div class="slider-row"><span class="slider-label">Churn, %</span><input type="range" min="2" max="25" value="10" step="1" id="s-churn" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-churn">10%</span></div>
+        <div class="slider-row"><span class="slider-label">CAC, ₽</span><input type="range" min="200" max="5000" value="800" step="100" id="s-cac" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-cac">800</span></div>
+        <div class="slider-row"><span class="slider-label">AI cost/КП, ₽</span><input type="range" min="1" max="20" value="5" step="1" id="s-ai" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-ai">5</span></div>
+        <div class="slider-row"><span class="slider-label">КП/платящий/мес</span><input type="range" min="1" max="50" value="12" step="1" id="s-kp" oninput="calcUnit()" style="flex:1;accent-color:var(--gold)"><span class="slider-val" id="v-kp">12</span></div>
+      </div>
+      <div style="flex:1;min-width:260px;">
+        <div class="panel-title">Результаты</div>
+        <div class="unit-grid">
+          <div class="unit-card"><div class="unit-label">MRR</div><div class="unit-value" id="u-mrr" style="color:var(--gold)">—</div><div class="unit-formula">users × conv% × ARPU</div></div>
+          <div class="unit-card"><div class="unit-label">Затраты AI/мес</div><div class="unit-value" id="u-ai" style="color:var(--red)">—</div><div class="unit-formula">paying × KP × ai_cost</div></div>
+          <div class="unit-card"><div class="unit-label">Gross Margin</div><div class="unit-value" id="u-margin">—</div><div class="unit-formula">(MRR − AI) / MRR</div></div>
+          <div class="unit-card"><div class="unit-label">LTV</div><div class="unit-value" id="u-ltv" style="color:var(--blue)">—</div><div class="unit-formula">ARPU / churn%</div></div>
+          <div class="unit-card"><div class="unit-label">LTV/CAC</div><div class="unit-value" id="u-ratio">—</div><div class="unit-formula">LTV ÷ CAC</div></div>
+          <div class="unit-card"><div class="unit-label">Прибыль/мес</div><div class="unit-value" id="u-profit">—</div><div class="unit-formula">MRR − все затраты</div></div>
+        </div>
+        <div id="unit-verdict" style="font-size:12px;line-height:1.7;color:var(--ink3);background:rgba(255,255,255,.04);border-radius:6px;padding:12px;margin-top:4px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Воронка -->
+  <div class="grid2">
+    <div class="panel">
+      <div class="panel-title">Воронка конверсии</div>
+      <div class="funnel" id="funnel">
+        <div class="funnel-row"><span class="funnel-label">Зарегистрировались</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:var(--blue)"><span class="funnel-pct" style="color:#fff" id="f-reg">—</span></div></div><span class="funnel-n" id="fn-reg">—</span></div>
+        <div class="funnel-row"><span class="funnel-label">Создали первое КП</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="background:var(--purple)" id="fb-first"><span class="funnel-pct" style="color:#fff" id="f-first">—</span></div></div><span class="funnel-n" id="fn-first">—</span></div>
+        <div class="funnel-row"><span class="funnel-label">Смотрели апгрейд</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="background:var(--gold)" id="fb-view"><span class="funnel-pct" style="color:#000" id="f-view">—</span></div></div><span class="funnel-n" id="fn-view">—</span></div>
+        <div class="funnel-row"><span class="funnel-label">Оплатили</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="background:var(--green)" id="fb-paid"><span class="funnel-pct" style="color:#000" id="f-paid">—</span></div></div><span class="funnel-n" id="fn-paid">—</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">События за 30 дней</div>
+      <div class="event-list" id="event-list">
+        <div style="color:var(--ink3);font-size:12px;text-align:center;padding:20px;">Загружаем…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- A/B тесты -->
+  <div class="panel" style="margin-bottom:28px;">
+    <div class="panel-title">A/B тесты — текущие эксперименты</div>
+    <div id="ab-content">
+      <table class="ab-table">
+        <thead><tr><th>Эксперимент</th><th>Вариант</th><th>Показы</th><th>Клики</th><th>CTR</th><th>Оплаты</th><th>Conv%</th><th>Статус</th></tr></thead>
+        <tbody id="ab-tbody"><tr><td colspan="8" style="text-align:center;color:var(--ink3);padding:20px;">Загружаем данные…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Шаблоны и рефералы -->
+  <div class="grid2">
+    <div class="panel">
+      <div class="panel-title">Топ шаблонов КП</div>
+      <div id="templates-list" style="display:flex;flex-direction:column;gap:6px;">
+        <div style="color:var(--ink3);font-size:12px;padding:12px 0;">Загружаем…</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Рефералы</div>
+      <div class="grid4" style="grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0;">
+        <div class="unit-card"><div class="unit-label">Всего рефералов</div><div class="unit-value blue" id="r-total">—</div></div>
+        <div class="unit-card"><div class="unit-label">Конвертировали</div><div class="unit-value green" id="r-rewarded">—</div></div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--ink3);line-height:1.6;">
+        Реферальная программа снижает CAC на 40–60%. Каждый платящий клиент приводит в среднем 0.3–0.5 новых пользователей.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const ADMIN_KEY = localStorage.getItem('propose_admin_key') || ''
+
+// ── Unit Economics Calculator ────────────────────────────────
+function calcUnit() {
+  const users  = +document.getElementById('s-users').value
+  const convP  = +document.getElementById('s-conv').value / 100
+  const arpu   = +document.getElementById('s-arpu').value
+  const churnP = +document.getElementById('s-churn').value / 100
+  const cac    = +document.getElementById('s-cac').value
+  const ai     = +document.getElementById('s-ai').value
+  const kp     = +document.getElementById('s-kp').value
+
+  document.getElementById('v-users').textContent  = users.toLocaleString('ru')
+  document.getElementById('v-conv').textContent   = document.getElementById('s-conv').value + '%'
+  document.getElementById('v-arpu').textContent   = arpu.toLocaleString('ru')
+  document.getElementById('v-churn').textContent  = document.getElementById('s-churn').value + '%'
+  document.getElementById('v-cac').textContent    = cac.toLocaleString('ru')
+  document.getElementById('v-ai').textContent     = ai + ' ₽'
+  document.getElementById('v-kp').textContent     = kp
+
+  const paying  = Math.round(users * convP)
+  const mrr     = paying * arpu
+  const aiCost  = paying * kp * ai
+  const infra   = 3500  // Vercel + Supabase + Redis + Email
+  const total   = aiCost + infra
+  const profit  = mrr - total
+  const margin  = mrr > 0 ? ((mrr - aiCost) / mrr * 100) : 0
+  const ltv     = churnP > 0 ? arpu / churnP : 0
+  const ratio   = cac > 0 ? ltv / cac : 0
+
+  const fmt = n => Math.round(n).toLocaleString('ru')
+  document.getElementById('u-mrr').textContent    = fmt(mrr) + ' ₽'
+  document.getElementById('u-ai').textContent     = fmt(aiCost) + ' ₽'
+  document.getElementById('u-margin').textContent = Math.round(margin) + '%'
+  document.getElementById('u-ltv').textContent    = fmt(ltv) + ' ₽'
+  document.getElementById('u-ratio').textContent  = ratio.toFixed(1) + 'x'
+  document.getElementById('u-profit').textContent = fmt(profit) + ' ₽'
+
+  document.getElementById('u-margin').style.color = margin > 60 ? 'var(--green)' : margin > 40 ? 'var(--gold)' : 'var(--red)'
+  document.getElementById('u-ratio').style.color  = ratio > 3 ? 'var(--green)' : ratio > 1 ? 'var(--gold)' : 'var(--red)'
+  document.getElementById('u-profit').style.color = profit > 0 ? 'var(--green)' : 'var(--red)'
+
+  const verdicts = []
+  if (ratio < 1)     verdicts.push('⚠️ LTV/CAC < 1 — привлечение клиентов дороже чем они приносят')
+  if (ratio >= 3)    verdicts.push('✅ LTV/CAC > 3 — здоровый юнит-экономика')
+  if (margin < 40)   verdicts.push('⚠️ Margin < 40% — высокие затраты на ИИ, включите авто-выбор модели')
+  if (margin > 60)   verdicts.push('✅ Маржа отличная — кэш и Haiku работают')
+  if (churnP > 0.15) verdicts.push('⚠️ Churn > 15% — проблема с retention, нужны re-engage письма')
+  if (churnP < 0.06) verdicts.push('✅ Низкий churn — годовые планы работают')
+  document.getElementById('unit-verdict').innerHTML = verdicts.join('<br>') || '→ Корректируйте параметры для анализа'
+}
+
+// ── Load Analytics ───────────────────────────────────────────
+async function loadAnalytics() {
+  const TOKEN = localStorage.getItem('sb-token')
+
+  // Проверить есть ли admin доступ
+  const key = localStorage.getItem('propose_admin_key') || prompt('Admin Key (для аналитики):') || ''
+  if (key) localStorage.setItem('propose_admin_key', key)
+
+  try {
+    const [adminRes, analyticsRes, abRes] = await Promise.all([
+      fetch('/api/admin',     { headers: { 'X-Admin-Key': key } }),
+      fetch('/api/analytics?period=30d', { headers: { 'X-Admin-Key': key } }),
+      fetch('/api/ab-test?experiment=upgrade-wall&report=true', { headers: { 'X-Admin-Key': key } }),
+    ])
+
+    const admin     = adminRes.ok     ? await adminRes.json()     : {}
+    const analytics = analyticsRes.ok ? await analyticsRes.json() : {}
+    const ab        = abRes.ok        ? await abRes.json()        : {}
+
+    document.getElementById('last-updated').textContent = 'Обновлено ' + new Date().toLocaleTimeString('ru-RU')
+
+    // KPI
+    const stats   = admin.stats || {}
+    const total   = stats.totalUsers  || 0
+    const paying  = stats.paidUsers   || 0
+    const trial   = stats.trialUsers  || 0
+    const conv    = total > 0 ? Math.round(paying / total * 100) : 0
+    document.getElementById('m-mrr').textContent     = stats.mrr ? Math.round(stats.mrr).toLocaleString('ru') + ' ₽' : '—'
+    document.getElementById('m-paying').textContent  = paying
+    document.getElementById('m-paying-sub').textContent = `из ${total} пользователей (${conv}%)`
+    document.getElementById('m-conv').textContent    = conv + '%'
+    document.getElementById('m-churn').textContent   = stats.churnRate ? stats.churnRate + '%' : '~10%'
+
+    // Воронка
+    const sum = analytics.summary || {}
+    const reg   = sum.newUsers    || total || 1
+    const first = sum.activatedUsers || 0
+    const views = sum.upgradeViews   || 0
+    const paid  = sum.upgradesPaid   || paying
+
+    const set = (id, val, of_, barId) => {
+      const pct = of_ > 0 ? Math.round(val / of_ * 100) : 0
+      document.getElementById(id).textContent = pct + '%'
+      document.getElementById('fn-' + id.slice(2)).textContent = val
+      if (barId) document.getElementById(barId).style.width = Math.max(3, pct) + '%'
+    }
+    document.getElementById('f-reg').textContent  = '100%'
+    document.getElementById('fn-reg').textContent = reg
+    set('f-first', first, reg, 'fb-first')
+    set('f-view',  views, reg, 'fb-view')
+    set('f-paid',  paid,  reg, 'fb-paid')
+
+    // События
+    const ec = analytics.eventCounts || {}
+    const EVENT_LABELS = {
+      kp_generated:'Генераций КП', first_kp:'Первых КП', upgrade_viewed:'Просмотров апгрейда',
+      upgrade_paid:'Оплат', export_docx:'Экспортов DOCX', export_pdf:'Экспортов PDF',
+      referral_sent:'Рефералов активировано', referral_used:'Реф. кодов использовано',
+      churn:'Отток', template_used:'Шаблонов использовано',
+    }
+    const eventsEl = document.getElementById('event-list')
+    if (Object.keys(ec).length === 0) {
+      eventsEl.innerHTML = '<div style="color:var(--ink3);font-size:12px;text-align:center;padding:20px;">Нет данных за 30 дней</div>'
+    } else {
+      eventsEl.innerHTML = Object.entries(ec)
+        .sort(([,a],[,b]) => b - a)
+        .map(([k, v]) => `
+          <div class="event-row">
+            <span class="event-name">${EVENT_LABELS[k] || k}</span>
+            <span class="event-count">${v.toLocaleString('ru')}</span>
+          </div>`).join('')
+    }
+
+    // Топ шаблонов
+    const tpl = analytics.topTemplates || []
+    const tplEl = document.getElementById('templates-list')
+    if (!tpl.length) {
+      tplEl.innerHTML = '<div style="color:var(--ink3);font-size:12px;">Нет данных</div>'
+    } else {
+      tplEl.innerHTML = tpl.slice(0, 6).map((t, i) => `
+        <div class="event-row">
+          <span class="event-name">${i + 1}. ${t.template || t}</span>
+          <span class="event-count">${t.count || '—'}</span>
+        </div>`).join('')
+    }
+
+    // Рефералы
+    document.getElementById('r-total').textContent   = analytics.referrals?.total   || '—'
+    document.getElementById('r-rewarded').textContent = analytics.referrals?.rewarded || '—'
+
+    // A/B тесты
+    const report = ab.report || []
+    const tbody  = document.getElementById('ab-tbody')
+    if (!report.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--ink3);padding:20px;">Тесты не запущены — нужно накопить данные</td></tr>'
+    } else {
+      const maxConv = Math.max(...report.map(r => r.convRate || 0))
+      tbody.innerHTML = report.map(r => {
+        const isWinner = r.convRate === maxConv && r.paid > 0
+        return `<tr>
+          <td>${r.experiment}</td>
+          <td class="${isWinner ? 'winner' : ''}">${r.variant}${isWinner ? ' 🏆' : ''}</td>
+          <td>${(r.views||0).toLocaleString('ru')}</td>
+          <td>${(r.clicks||0).toLocaleString('ru')}</td>
+          <td>${r.ctr || '—'}</td>
+          <td>${(r.paid||0).toLocaleString('ru')}</td>
+          <td class="${isWinner ? 'winner' : ''}">${r.convRate ? r.convRate + '%' : '—'}</td>
+          <td><span style="color:var(--green)">● Live</span></td>
+        </tr>`
+      }).join('')
+    }
+
+  } catch (e) {
+    console.error(e)
+    document.getElementById('last-updated').textContent = 'Ошибка загрузки'
+  }
+}
+
+calcUnit()
+loadAnalytics()
+setInterval(loadAnalytics, 60000) // обновлять каждую минуту
+</script>
+</body>
+</html>

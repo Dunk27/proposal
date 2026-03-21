@@ -1,7 +1,7 @@
 // api/checkout.js — Stripe checkout (месячные + годовые)
 // v2: поддержка annual-планов + getUserFromToken
-import { getUserFromToken } from '../lib/supabase.js'
-import { getPlan }          from '../lib/plans.js'
+import { getUserFromToken } from './lib/supabase.js'
+import { getPlan }          from './lib/plans.js'
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')

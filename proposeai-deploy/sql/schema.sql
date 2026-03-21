@@ -238,3 +238,38 @@ CREATE INDEX IF NOT EXISTS ae_user_idx       ON analytics_events(user_id);
 CREATE INDEX IF NOT EXISTS ae_created_at_idx ON analytics_events(created_at DESC);
 -- Нет RLS — только сервис-роль пишет/читает
 ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+
+-- ── АНАЛИТИКА СОБЫТИЙ ────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS analytics_events (
+  id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id    UUID REFERENCES users(id) ON DELETE SET NULL,
+  event      TEXT NOT NULL,
+  meta       JSONB DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS ae_user_idx    ON analytics_events(user_id);
+CREATE INDEX IF NOT EXISTS ae_event_idx   ON analytics_events(event);
+CREATE INDEX IF NOT EXISTS ae_created_idx ON analytics_events(created_at DESC);
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+-- Только сервер пишет и читает (через service_role)
+
+-- ── A/B ТЕСТИРОВАНИЕ ─────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS ab_assignments (
+  id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id    UUID REFERENCES users(id) ON DELETE CASCADE,
+  experiment TEXT NOT NULL,
+  variant    TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, experiment)
+);
+CREATE TABLE IF NOT EXISTS ab_events (
+  id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id    UUID REFERENCES users(id) ON DELETE CASCADE,
+  experiment TEXT NOT NULL,
+  variant    TEXT NOT NULL,
+  event      TEXT NOT NULL,    -- 'view' | 'click' | 'paid'
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS abe_exp_idx ON ab_events(experiment, variant, event);
+ALTER TABLE ab_assignments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ab_events ENABLE ROW LEVEL SECURITY;

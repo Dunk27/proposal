@@ -4,7 +4,8 @@
 // PDF:  HTML-to-PDF через Chromium (@sparticuz/chromium + puppeteer-core) — только Pro/Agency
 // Env: нет специальных — PDF работает через Vercel serverless с размером до 50MB
 
-import { getUserFromToken, checkUserPlan } from '../lib/supabase.js'
+import { getUserFromToken, checkUserPlan } from './lib/supabase.js'
+import { trackEvent, EVENTS } from './analytics.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
@@ -28,9 +29,11 @@ export default async function handler(req, res) {
   }
 
   if (format === 'pdf') {
-    return exportPdf(res, { markdown, title, companyName, accentColor })
+    await trackEvent(user.id, EVENTS.EXPORT_PDF, { plan, title: title.slice(0, 40) })
+  return exportPdf(res, { markdown, title, companyName, accentColor })
   }
 
+  await trackEvent(user.id, EVENTS.EXPORT_DOCX, { plan, title: title.slice(0, 40) })
   return exportDocx(res, { markdown, title })
 }
 

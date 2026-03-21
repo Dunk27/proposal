@@ -3,7 +3,7 @@
 // GET  /api/invite?code=xxx      — проверить инвайт
 // POST /api/invite {action:'use', code, email, password} — использовать инвайт
 
-import { getSupabaseAdmin } from '../lib/supabase.js'
+import { getSupabaseAdmin } from './lib/supabase.js'
 import { sendEmail } from './email.js'
 
 export default async function handler(req, res) {

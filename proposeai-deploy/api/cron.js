@@ -2,7 +2,7 @@
 // Vercel Cron (vercel.json) вызывает эти эндпоинты по расписанию
 // Env: CRON_SECRET — защита от случайных вызовов
 
-import { getSupabaseAdmin }                from '../lib/supabase.js'
+import { getSupabaseAdmin }                from './lib/supabase.js'
 import { sendEmail, trialEndingSoonEmail,
          limitReachedEmail }              from './email.js'
 

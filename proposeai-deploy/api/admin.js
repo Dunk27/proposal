@@ -2,7 +2,7 @@
 // Защищён ADMIN_KEY (задать в Vercel env)
 // Только GET — никаких деструктивных операций через API
 
-import { getSupabaseAdmin } from '../lib/supabase.js'
+import { getSupabaseAdmin } from './lib/supabase.js'
 
 export default async function handler(req, res) {
   const adminKey = req.headers['x-admin-key']
