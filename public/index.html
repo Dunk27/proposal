@@ -466,18 +466,18 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
 
       <div class="plans">
         <div class="plan" data-plan="starter" onclick="selectPlan('starter')">
-          <div class="plan-name">Starter</div>
+          <div class="plan-name">Стартовый</div>
           <div class="plan-price">990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
           <ul class="plan-features"><li>20 КП/месяц</li><li>Claude Haiku/Sonnet</li></ul>
         </div>
         <div class="plan sel" data-plan="pro" onclick="selectPlan('pro')">
           <div class="plan-badge">Популярный</div>
-          <div class="plan-name">Pro</div>
+          <div class="plan-name">Оптимальный</div>
           <div class="plan-price">2 990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
           <ul class="plan-features"><li>Безлимит КП</li><li>Все 6 моделей ИИ</li></ul>
         </div>
         <div class="plan" data-plan="agency" onclick="selectPlan('agency')">
-          <div class="plan-name">Agency</div>
+          <div class="plan-name">ПРО</div>
           <div class="plan-price">7 900 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
           <ul class="plan-features"><li>White-label</li><li>API-доступ</li></ul>
         </div>
@@ -1238,7 +1238,7 @@ async function initUserState(){
     if(!r.ok)return;
     const d=await r.json();
     const plan=d.plan||'trial';
-    const PLAN_LABELS={free:'Free',trial:'Trial',starter:'Starter',pro:'Pro',agency:'Agency'};
+    const PLAN_LABELS={free:'Free',trial:'Trial',starter:'Стартовый',pro:'Оптимальный',agency:'ПРО'};
     document.getElementById('plan-badge-hdr').textContent=PLAN_LABELS[plan]||plan;
     const used=d.usage?.used||0;
     const limit=d.usage?.limit||3;

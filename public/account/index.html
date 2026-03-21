@@ -193,7 +193,7 @@ async function loadData() {
 
     // Биллинг
     const plan = bill.plan || 'trial'
-    const PLAN_NAMES = { free:'Free', trial:'Trial (бесплатный)', starter:'Starter', pro:'Pro', agency:'Agency' }
+    const PLAN_NAMES = { free:'Free', trial:'Trial (бесплатный)', starter:'Стартовый', pro:'Оптимальный', agency:'ПРО' }
     document.getElementById('b-plan-name').textContent = PLAN_NAMES[plan] || plan
     document.getElementById('b-plan-badge').textContent = plan.charAt(0).toUpperCase() + plan.slice(1)
 
@@ -219,7 +219,7 @@ async function loadData() {
     // Платежи
     const pays = bill.payments || []
     const PROV_ICONS = { stripe: '🌍', yookassa: '💳', nowpayments: '🪙' }
-    const PLAN_LABELS = { starter: 'Starter', pro: 'Pro', agency: 'Agency' }
+    const PLAN_LABELS = { starter: 'Стартовый', pro: 'Оптимальный', agency: 'ПРО' }
     if (pays.length === 0) {
       document.getElementById('pay-sub').textContent = 'Платежей пока нет'
     } else {

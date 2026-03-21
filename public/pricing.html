@@ -112,9 +112,9 @@ tbody td:not(:first-child){text-align:center;}
         <tr>
           <th style="width:40%">Функция</th>
           <th>Free</th>
-          <th>Starter</th>
-          <th style="color:var(--accent)">Pro</th>
-          <th>Agency</th>
+          <th>Стартовый</th>
+          <th style="color:var(--accent)">Оптимальный</th>
+          <th>ПРО</th>
         </tr>
       </thead>
       <tbody id="compare-body"></tbody>
@@ -129,22 +129,22 @@ const PLANS = {
   monthly: [
     { name:'Free',    amount:0,     period:'/мес', subprice:'Бесплатно навсегда', popular:false, btn:'out', btnText:'Начать бесплатно', planId:'free_monthly',
       features:['3 КП в месяц','Claude Haiku',{text:'Экспорт TXT',no:false},{text:'GPT-4o / Gemini',no:true},{text:'DOCX экспорт',no:true}] },
-    { name:'Starter', amount:990,   period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Начать', planId:'starter_monthly',
+    { name:'Стартовый', amount:990,   period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Начать', planId:'starter_monthly',
       features:['20 КП в месяц','Llama 3.3 · Gemini Flash · Mistral','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
-    { name:'Pro',     amount:2990,  period:'/мес', subprice:'', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_monthly',
+    { name:'Оптимальный',     amount:2990,  period:'/мес', subprice:'', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_monthly',
       features:['Безлимит КП','Все 6 ИИ-моделей','Экспорт DOCX + PDF','История КП','Автовыбор модели','Приоритетная поддержка'] },
-    { name:'Agency',  amount:7900,  period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_monthly',
-      features:['Всё из Pro','White-label брендинг','API-доступ','Безлимит команда','Выделенная поддержка','Персональный менеджер'] },
+    { name:'ПРО',  amount:7900,  period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_monthly',
+      features:['Всё из Оптимального','White-label брендинг','API-доступ','Безлимит команда','Выделенная поддержка','Персональный менеджер'] },
   ],
   annual: [
     { name:'Free',    amount:0,     period:'/год',  subprice:'Бесплатно навсегда', popular:false, btn:'out', btnText:'Начать бесплатно', planId:'free_annual',
       features:['3 КП в месяц','Claude Haiku',{text:'Экспорт TXT',no:false},{text:'GPT-4o / Gemini',no:true},{text:'DOCX экспорт',no:true}] },
-    { name:'Starter', amount:9504,  period:'/год',  subprice:'<strong>792 ₽/мес</strong> — экономия 1 584 ₽', popular:false, btn:'sol', btnText:'Начать', planId:'starter_annual',
+    { name:'Стартовый', amount:9504,  period:'/год',  subprice:'<strong>792 ₽/мес</strong> — экономия 1 584 ₽', popular:false, btn:'sol', btnText:'Начать', planId:'starter_annual',
       features:['20 КП в месяц','Llama 3.3 · Gemini Flash · Mistral','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
-    { name:'Pro',     amount:28704, period:'/год',  subprice:'<strong>2 392 ₽/мес</strong> — экономия 7 176 ₽', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_annual',
+    { name:'Оптимальный',     amount:28704, period:'/год',  subprice:'<strong>2 392 ₽/мес</strong> — экономия 7 176 ₽', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_annual',
       features:['Безлимит КП','Все 6 ИИ-моделей','Экспорт DOCX + PDF','История КП','Автовыбор модели','Приоритетная поддержка'] },
-    { name:'Agency',  amount:75840, period:'/год',  subprice:'<strong>6 320 ₽/мес</strong> — экономия 18 960 ₽', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_annual',
-      features:['Всё из Pro','White-label брендинг','API-доступ','Безлимит команда','Выделенная поддержка','Персональный менеджер'] },
+    { name:'ПРО',  amount:75840, period:'/год',  subprice:'<strong>6 320 ₽/мес</strong> — экономия 18 960 ₽', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_annual',
+      features:['Всё из Оптимального','White-label брендинг','API-доступ','Безлимит команда','Выделенная поддержка','Персональный менеджер'] },
   ],
 }
 
