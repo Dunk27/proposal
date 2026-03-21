@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--accent2:#D4AB42;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--green:#27695C;--dark:#0F172A;}
+:root{--cream:#F4F7FD;--cream2:#E8EEF9;--cream3:#D6E3F5;--white:#FAFCFF;--ink:#111827;--ink2:#374151;--ink3:#6B7280;--accent:#3D6FBF;--accent2:#5584CC;--apal:rgba(61,111,191,0.1);--aline:rgba(61,111,191,0.25);--green:#2A4F8F;--dark:#0F172A;}
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);}
 /* NAV */
@@ -127,7 +127,7 @@ footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;j
 <body>
 
 <nav>
-  <a href="/" class="nav-logo">Propose<strong>AI</strong></a>
+  <a href="/" class="nav-logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
   <div class="nav-links">
     <a href="#features" class="nav-link">Функции</a>
     <a href="#pricing" class="nav-link">Тарифы</a>
@@ -141,7 +141,7 @@ footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;j
 <section class="hero">
   <div class="hero-badge"><div class="badge-dot"></div>14 дней бесплатно — без карты</div>
   <h1>Коммерческое предложение<br>за <em>30 секунд</em></h1>
-  <p>Введите данные о клиенте — ИИ пишет продающий текст по проверенной структуре. Claude Sonnet 4, GPT-4o, Gemini Pro на выбор.</p>
+  <p>Введите данные о клиенте — ИИ пишет продающий текст по проверенной структуре. Llama 3.3, Gemini 2.0 Flash, Mistral — бесплатно. Claude и GPT-4o — для Pro.</p>
   <div class="hero-btns">
     <a href="/auth/login" class="btn-primary">Создать первое КП бесплатно →</a>
     <a href="/app" class="btn-secondary">Посмотреть демо</a>
@@ -165,7 +165,7 @@ footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;j
     <div class="feat-card">
       <div class="feat-ico">🤖</div>
       <div class="feat-t">6 ИИ-моделей</div>
-      <div class="feat-s">Claude Sonnet/Opus/Haiku, GPT-4o, GPT-4o mini, Gemini Pro. Выбирайте под задачу и бюджет.</div>
+      <div class="feat-s">Llama 3.3 (бесплатно), Gemini 2.0 Flash (бесплатно), Mistral, Claude, GPT-4o. Первый тариф — только бесплатные модели.</div>
     </div>
     <div class="feat-card">
       <div class="feat-ico">📐</div>
@@ -231,7 +231,7 @@ footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;j
     <div class="model-chip"><div class="mc-ico">🟠</div><div><div class="mc-t">Claude Haiku 4</div><div class="mc-s">Быстро и дёшево</div></div></div>
     <div class="model-chip"><div class="mc-ico">🟢</div><div><div class="mc-t">GPT-4o</div><div class="mc-s">OpenAI, универсальный</div></div></div>
     <div class="model-chip"><div class="mc-ico">🟢</div><div><div class="mc-t">GPT-4o mini</div><div class="mc-s">Экономичный вариант</div></div></div>
-    <div class="model-chip"><div class="mc-ico">🔵</div><div><div class="mc-t">Gemini Pro</div><div class="mc-s">Google, быстрый</div></div></div>
+    <div class="model-chip"><div class="mc-ico">🔵</div><div><div class="mc-t">Gemini 2.0 Flash</div><div class="mc-s">Google, бесплатно</div></div></div>
   </div>
 </section>
 
@@ -272,10 +272,11 @@ footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;j
       <div class="price-divider"></div>
       <ul class="price-features">
         <li>20 КП в месяц</li>
-        <li>Claude Haiku + Sonnet</li>
+        <li>Llama 3.3 · Gemini Flash · Mistral</li>
+        <li>Только бесплатные ИИ</li>
         <li>Экспорт TXT</li>
         <li>История КП</li>
-        <li class="no">GPT-4o / Gemini</li>
+        <li class="no">Claude / GPT-4o</li>
         <li class="no">Экспорт DOCX</li>
       </ul>
       <a href="/auth/login" class="price-btn out">Начать →</a>
@@ -343,7 +344,7 @@ footer{background:var(--ink);padding:32px 48px;display:flex;align-items:center;j
 <script>
 const faqs = [
   { q: 'Нужна ли карта для регистрации?', a: 'Нет. Вы получаете 14 дней Pro-доступа бесплатно, без ввода платёжных данных. Карта понадобится только если вы решите продолжить после триала.' },
-  { q: 'Какие ИИ-модели используются?', a: 'Claude Sonnet 4, Claude Opus 4, Claude Haiku 4 (Anthropic), GPT-4o и GPT-4o mini (OpenAI), Gemini Pro (Google). На тарифе Pro доступны все 6 моделей.' },
+  { q: 'Какие ИИ-модели используются?', a: 'На тарифе Starter — только бесплатные: Llama 3.3 70B (Groq), Gemini 2.0 Flash (Google), Mistral Small, Command-R. На Pro и Agency — плюс Claude Sonnet/Opus (Anthropic) и GPT-4o (OpenAI).' },
   { q: 'Как оплатить картой РФ?', a: 'Принимаем карты Visa, МИР, Mastercard через YooKassa. Также доступны ЮMoney и SberPay. Для оплаты нужен договор с ИП или ООО.' },
   { q: 'Можно ли оплатить криптовалютой?', a: 'Да. Принимаем USDT (TRC-20 и ERC-20), Bitcoin, Ethereum, TON, USDC и более 300 других монет через NOWPayments.' },
   { q: 'Где хранятся мои КП?', a: 'В вашем личном аккаунте на защищённых серверах (Supabase PostgreSQL). Другие пользователи не имеют доступа к вашим данным — это гарантирует Row Level Security.' },

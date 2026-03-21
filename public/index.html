@@ -8,19 +8,19 @@
 <style id="theme-style">
 /* ── THEME VARIABLES (изменяются через панель настроек) ── */
 :root {
-  --bg:       #F5F0E8;
-  --bg2:      #EDE7D9;
-  --bg3:      #E8DFC8;
-  --surface:  #FDFAF5;
-  --ink:      #1A1612;
-  --ink2:     #3D3530;
-  --ink3:     #7A6F66;
-  --accent:   #B8922A;
-  --accent2:  #D4AB42;
+  --bg:       #F4F7FD;
+  --bg2:      #E8EEF9;
+  --bg3:      #D6E3F5;
+  --surface:  #FAFCFF;
+  --ink:      #111827;
+  --ink2:     #374151;
+  --ink3:     #6B7280;
+  --accent:   #3D6FBF;
+  --accent2:  #5584CC;
   --apal:     rgba(184,146,42,0.12);
   --aline:    rgba(184,146,42,0.3);
   --red:      #C0392B;
-  --green:    #27695C;
+  --green:    #2A4F8F;
   --radius:   2px;
   --font-head:'Cormorant Garamond',serif;
   --font-body:'DM Sans',sans-serif;
@@ -58,7 +58,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
 .ai-bar-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#64748B;white-space:nowrap;}
 .ai-chips{display:flex;gap:7px;flex-wrap:wrap;}
 .ac{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:16px;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.1);color:#CBD5E1;}
-.ac.hi{background:rgba(184,146,42,.18);border-color:rgba(184,146,42,.4);color:#D4AB42;}
+.ac.hi{background:rgba(184,146,42,.18);border-color:rgba(184,146,42,.4);color:#5584CC;}
 .ai-bar-r{margin-left:auto;font-size:10px;color:#475569;max-width:320px;text-align:right;line-height:1.5;}
 
 /* ─── LAYOUT ─── */
@@ -259,7 +259,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
 .ai-mhdr{background:linear-gradient(135deg,#0F172A,#1E293B);}
 .model-card{background:linear-gradient(135deg,#0F172A,#1E293B);border:1px solid rgba(184,146,42,.3);border-radius:6px;padding:16px;display:flex;gap:12px;margin-bottom:10px;}
 .mc-ico{font-size:28px;flex-shrink:0;}
-.mc-name{font-family:var(--font-head);font-size:18px;font-weight:600;color:#D4AB42;margin-bottom:3px;}
+.mc-name{font-family:var(--font-head);font-size:18px;font-weight:600;color:#5584CC;margin-bottom:3px;}
 .mc-desc{font-size:11px;color:#94A3B8;line-height:1.6;}
 .cap-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .cap{padding:8px 11px;background:var(--bg);border:1px solid var(--bg3);border-radius:3px;font-size:11px;color:var(--ink2);display:flex;align-items:center;gap:6px;}
@@ -308,7 +308,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
       <div class="dr-sec">
         <div class="dr-sec-t">Цветовая тема</div>
         <div class="color-row" id="preset-row">
-          <div class="color-preset act" data-preset="classic" style="background:#B8922A" title="Классический золотой"></div>
+          <div class="color-preset act" data-preset="classic" style="background:#3D6FBF" title="Классический золотой"></div>
           <div class="color-preset" data-preset="blue" style="background:#2563EB" title="Синий бизнес"></div>
           <div class="color-preset" data-preset="green" style="background:#16A34A" title="Зелёный"></div>
           <div class="color-preset" data-preset="red" style="background:#DC2626" title="Красный"></div>
@@ -316,7 +316,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
           <div class="color-preset" data-preset="slate" style="background:#475569" title="Тёмно-серый"></div>
         </div>
         <div class="color-pick">
-          <input type="color" id="custom-color" value="#B8922A" oninput="applyCustomColor(this.value)">
+          <input type="color" id="custom-color" value="#3D6FBF" oninput="applyCustomColor(this.value)">
           <label>Свой цвет акцента</label>
         </div>
       </div>
@@ -324,7 +324,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
       <div class="dr-sec">
         <div class="dr-sec-t">Фон интерфейса</div>
         <div class="color-row" id="bg-row">
-          <div class="color-preset act" data-bg="parchment" style="background:#F5F0E8" title="Пергамент (по умолч.)"></div>
+          <div class="color-preset act" data-bg="parchment" style="background:#F4F7FD" title="Пергамент (по умолч.)"></div>
           <div class="color-preset" data-bg="white" style="background:#FFFFFF;border:1px solid #ddd" title="Белый"></div>
           <div class="color-preset" data-bg="dark" style="background:#0F172A" title="Тёмный"></div>
           <div class="color-preset" data-bg="charcoal" style="background:#1C1C1E" title="Антрацит"></div>
@@ -528,7 +528,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
 <!-- ─── HEADER ─── -->
 <header class="hdr">
   <div class="logo">
-    <span class="logo-word">Propose<strong>AI</strong></span>
+    <span class="logo-word"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></span>
     <span class="logo-badge" id="plan-badge-hdr" style="cursor:pointer" onclick="openPayModal()">Trial</span>
     <div class="logo-ai" onclick="openAIModal()"><div class="ai-dot"></div><span id="cur-model-name">Claude Sonnet 4</span></div>
   </div>
@@ -760,7 +760,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
 // THEME ENGINE
 // ═══════════════════════════════════════════════════
 const PRESETS = {
-  classic: { accent:'#B8922A', accent2:'#D4AB42' },
+  classic: { accent:'#3D6FBF', accent2:'#5584CC' },
   blue:    { accent:'#2563EB', accent2:'#3B82F6' },
   green:   { accent:'#16A34A', accent2:'#22C55E' },
   red:     { accent:'#DC2626', accent2:'#EF4444' },
@@ -768,7 +768,7 @@ const PRESETS = {
   slate:   { accent:'#475569', accent2:'#64748B' },
 };
 const BG_THEMES = {
-  parchment: { bg:'#F5F0E8', bg2:'#EDE7D9', bg3:'#E8DFC8', surface:'#FDFAF5', ink:'#1A1612', ink2:'#3D3530', ink3:'#7A6F66' },
+  parchment: { bg:'#F4F7FD', bg2:'#E8EEF9', bg3:'#D6E3F5', surface:'#FAFCFF', ink:'#111827', ink2:'#374151', ink3:'#6B7280' },
   white:     { bg:'#FFFFFF', bg2:'#F8F8F8', bg3:'#EBEBEB', surface:'#FFFFFF', ink:'#111111', ink2:'#333333', ink3:'#888888' },
   dark:      { bg:'#0F172A', bg2:'#1E293B', bg3:'#334155', surface:'#1E293B', ink:'#F1F5F9', ink2:'#CBD5E1', ink3:'#64748B' },
   charcoal:  { bg:'#1C1C1E', bg2:'#2C2C2E', bg3:'#3A3A3C', surface:'#2C2C2E', ink:'#F5F5F7', ink2:'#D1D1D6', ink3:'#8E8E93' },
@@ -794,7 +794,7 @@ function applyTheme() {
     --ink:${b.ink};--ink2:${b.ink2};--ink3:${b.ink3};
     --accent:${p.accent};--accent2:${p.accent2};
     --apal:rgba(${apalR},0.12);--aline:rgba(${alineR},0.3);
-    --red:#C0392B;--green:#27695C;
+    --red:#C0392B;--green:#2A4F8F;
     --radius:${curTheme.radius};
     --font-head:${f.head};--font-body:${f.body};
   }`;
@@ -850,7 +850,7 @@ function resetTheme() {
   document.querySelectorAll('.color-preset[data-bg]').forEach(e=>e.classList.toggle('act',e.dataset.bg==='parchment'));
   document.querySelectorAll('.fnt-card').forEach(e=>e.classList.toggle('sel',e.dataset.font==='cormorant'));
   document.querySelectorAll('.rad-opt').forEach((e,i)=>e.classList.toggle('sel',i===0));
-  document.getElementById('custom-color').value = '#B8922A';
+  document.getElementById('custom-color').value = '#3D6FBF';
   applyTheme();
 }
 
@@ -860,7 +860,7 @@ document.querySelectorAll('.color-preset[data-preset]').forEach(el => {
     document.querySelectorAll('.color-preset[data-preset]').forEach(e=>e.classList.remove('act'));
     el.classList.add('act');
     curTheme.preset = el.dataset.preset;
-    document.getElementById('custom-color').value = PRESETS[el.dataset.preset]?.accent || '#B8922A';
+    document.getElementById('custom-color').value = PRESETS[el.dataset.preset]?.accent || '#3D6FBF';
     applyTheme();
   });
 });

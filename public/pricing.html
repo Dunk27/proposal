@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--cream:#F5F0E8;--cream2:#EDE7D9;--cream3:#E8DFC8;--white:#FDFAF5;--ink:#1A1612;--ink2:#3D3530;--ink3:#7A6F66;--accent:#B8922A;--accent2:#D4AB42;--apal:rgba(184,146,42,0.1);--aline:rgba(184,146,42,0.25);--green:#27695C;}
+:root{--cream:#F4F7FD;--cream2:#E8EEF9;--cream3:#D6E3F5;--white:#FAFCFF;--ink:#111827;--ink2:#374151;--ink3:#6B7280;--accent:#3D6FBF;--accent2:#5584CC;--apal:rgba(61,111,191,0.1);--aline:rgba(61,111,191,0.25);--green:#2A4F8F;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);}
 nav{padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--aline);background:rgba(245,240,232,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}
 .logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;text-decoration:none;color:var(--ink);}
@@ -81,7 +81,7 @@ tbody td:not(:first-child){text-align:center;}
 <body>
 
 <nav>
-  <a href="/" class="logo">Propose<strong>AI</strong></a>
+  <a href="/" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
   <div class="nav-r">
     <a href="/auth/login" class="btn out">Войти</a>
     <a href="/auth/login" class="btn sol">Попробовать бесплатно</a>
@@ -130,7 +130,7 @@ const PLANS = {
     { name:'Free',    amount:0,     period:'/мес', subprice:'Бесплатно навсегда', popular:false, btn:'out', btnText:'Начать бесплатно', planId:'free_monthly',
       features:['3 КП в месяц','Claude Haiku',{text:'Экспорт TXT',no:false},{text:'GPT-4o / Gemini',no:true},{text:'DOCX экспорт',no:true}] },
     { name:'Starter', amount:990,   period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Начать', planId:'starter_monthly',
-      features:['20 КП в месяц','Claude Haiku + Sonnet','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
+      features:['20 КП в месяц','Llama 3.3 · Gemini Flash · Mistral','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
     { name:'Pro',     amount:2990,  period:'/мес', subprice:'', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_monthly',
       features:['Безлимит КП','Все 6 ИИ-моделей','Экспорт DOCX + PDF','История КП','Автовыбор модели','Приоритетная поддержка'] },
     { name:'Agency',  amount:7900,  period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_monthly',
@@ -140,7 +140,7 @@ const PLANS = {
     { name:'Free',    amount:0,     period:'/год',  subprice:'Бесплатно навсегда', popular:false, btn:'out', btnText:'Начать бесплатно', planId:'free_annual',
       features:['3 КП в месяц','Claude Haiku',{text:'Экспорт TXT',no:false},{text:'GPT-4o / Gemini',no:true},{text:'DOCX экспорт',no:true}] },
     { name:'Starter', amount:9504,  period:'/год',  subprice:'<strong>792 ₽/мес</strong> — экономия 1 584 ₽', popular:false, btn:'sol', btnText:'Начать', planId:'starter_annual',
-      features:['20 КП в месяц','Claude Haiku + Sonnet','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
+      features:['20 КП в месяц','Llama 3.3 · Gemini Flash · Mistral','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
     { name:'Pro',     amount:28704, period:'/год',  subprice:'<strong>2 392 ₽/мес</strong> — экономия 7 176 ₽', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_annual',
       features:['Безлимит КП','Все 6 ИИ-моделей','Экспорт DOCX + PDF','История КП','Автовыбор модели','Приоритетная поддержка'] },
     { name:'Agency',  amount:75840, period:'/год',  subprice:'<strong>6 320 ₽/мес</strong> — экономия 18 960 ₽', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_annual',

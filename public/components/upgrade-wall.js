@@ -19,45 +19,45 @@ window.UpgradeWall = (() => {
 
     overlay.innerHTML = `
 <style>
-#uwc{background:#FDFAF5;border-radius:12px;max-width:480px;width:100%;border:1px solid rgba(184,146,42,.3);overflow:hidden;font-family:'DM Sans',sans-serif;animation:uwIn .22s ease}
+#uwc{background:#FAFCFF;border-radius:12px;max-width:480px;width:100%;border:1px solid rgba(184,146,42,.3);overflow:hidden;font-family:'DM Sans',sans-serif;animation:uwIn .22s ease}
 @keyframes uwIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-#uwt{background:#1A1612;padding:26px 30px 22px;position:relative}
+#uwt{background:#111827;padding:26px 30px 22px;position:relative}
 #uwx{position:absolute;top:12px;right:14px;background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
 #uwx:hover{color:#fff}
-#uwh{font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:300;color:#FDFAF5;margin-bottom:5px}
+#uwh{font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:300;color:#FAFCFF;margin-bottom:5px}
 #uws{font-size:12px;color:rgba(253,250,245,.55);line-height:1.6}
 #uwtimer{display:flex;align-items:center;gap:7px;margin-top:12px}
-.utd{width:6px;height:6px;border-radius:50%;background:#D4AB42;animation:utp 1.5s infinite}
+.utd{width:6px;height:6px;border-radius:50%;background:#5584CC;animation:utp 1.5s infinite}
 @keyframes utp{0%,100%{opacity:1}50%{opacity:.4}}
-#utlbl{font-size:10px;color:#D4AB42;font-weight:700;letter-spacing:.5px}
-#utime{font-family:monospace;font-size:13px;color:#D4AB42}
+#utlbl{font-size:10px;color:#5584CC;font-weight:700;letter-spacing:.5px}
+#utime{font-family:monospace;font-size:13px;color:#5584CC}
 #uwb{padding:22px 30px 26px}
-#uwbar-row{display:flex;justify-content:space-between;font-size:11px;color:#7A6F66;margin-bottom:5px}
-#uwbar{height:5px;background:#E8DFC8;border-radius:3px;overflow:hidden;margin-bottom:18px}
+#uwbar-row{display:flex;justify-content:space-between;font-size:11px;color:#6B7280;margin-bottom:5px}
+#uwbar{height:5px;background:#D6E3F5;border-radius:3px;overflow:hidden;margin-bottom:18px}
 #uwbarfill{height:100%;background:#C0392B;border-radius:3px;width:${Math.min(100,Math.round(used/Math.max(limit,1)*100))}%}
-#uwperiod{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;font-size:12px;color:#7A6F66}
-#uwtog{position:relative;width:34px;height:18px;background:#E8DFC8;border-radius:9px;cursor:pointer;transition:background .2s;flex-shrink:0}
-#uwtog.on{background:#B8922A}
+#uwperiod{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;font-size:12px;color:#6B7280}
+#uwtog{position:relative;width:34px;height:18px;background:#D6E3F5;border-radius:9px;cursor:pointer;transition:background .2s;flex-shrink:0}
+#uwtog.on{background:#3D6FBF}
 #uwtog::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s}
 #uwtog.on::after{transform:translateX(16px)}
 #uwplans{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.uwp{padding:13px;border:1.5px solid #E8DFC8;border-radius:8px;cursor:pointer;transition:all .18s}
-.uwp:hover{border-color:#D4AB42}
-.uwp.sel{border-color:#B8922A;background:rgba(184,146,42,.07)}
-.uwpn{font-size:11px;font-weight:700;color:#3D3530;margin-bottom:2px}
-.uwp.sel .uwpn{color:#B8922A}
-.uwpp{font-size:18px;font-weight:600;color:#1A1612;font-family:'Cormorant Garamond',serif}
-.uwpd{font-size:10px;color:#7A6F66;margin-top:2px}
-.uwbadge{display:inline-block;padding:1px 7px;background:#B8922A;color:#fff;border-radius:99px;font-size:9px;font-weight:700;margin-bottom:4px}
-#uwcta{width:100%;padding:14px;background:linear-gradient(135deg,#B8922A,#D4AB42);color:#fff;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:opacity .2s}
+.uwp{padding:13px;border:1.5px solid #D6E3F5;border-radius:8px;cursor:pointer;transition:all .18s}
+.uwp:hover{border-color:#5584CC}
+.uwp.sel{border-color:#3D6FBF;background:rgba(184,146,42,.07)}
+.uwpn{font-size:11px;font-weight:700;color:#374151;margin-bottom:2px}
+.uwp.sel .uwpn{color:#3D6FBF}
+.uwpp{font-size:18px;font-weight:600;color:#111827;font-family:'Cormorant Garamond',serif}
+.uwpd{font-size:10px;color:#6B7280;margin-top:2px}
+.uwbadge{display:inline-block;padding:1px 7px;background:#3D6FBF;color:#fff;border-radius:99px;font-size:9px;font-weight:700;margin-bottom:4px}
+#uwcta{width:100%;padding:14px;background:linear-gradient(135deg,#3D6FBF,#5584CC);color:#fff;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:opacity .2s}
 #uwcta:hover{opacity:.9}
-#uwnote{text-align:center;font-size:10px;color:#7A6F66;margin-top:9px;line-height:1.6}
+#uwnote{text-align:center;font-size:10px;color:#6B7280;margin-top:9px;line-height:1.6}
 </style>
 <div id="uwc">
   <div id="uwt">
     <button id="uwx">×</button>
     <div id="uwh">Лимит исчерпан</div>
-    <div id="uws">Использовано <strong style="color:#D4AB42">${used}/${limit}</strong> КП на тарифе <strong style="color:#D4AB42">${PLAN_NAMES[plan]||plan}</strong>. Перейдите на Pro для безлимитной генерации.</div>
+    <div id="uws">Использовано <strong style="color:#5584CC">${used}/${limit}</strong> КП на тарифе <strong style="color:#5584CC">${PLAN_NAMES[plan]||plan}</strong>. Перейдите на Pro для безлимитной генерации.</div>
     <div id="uwtimer"><div class="utd"></div><span id="utlbl">ПРЕДЛОЖЕНИЕ ДЕЙСТВУЕТ:</span><span id="utime">—</span></div>
   </div>
   <div id="uwb">
@@ -66,7 +66,7 @@ window.UpgradeWall = (() => {
     <div id="uwperiod">
       <span>Месячный</span>
       <div id="uwtog" onclick="uwTog()"></div>
-      <span>Годовой <strong style="color:#B8922A">−20%</strong></span>
+      <span>Годовой <strong style="color:#3D6FBF">−20%</strong></span>
     </div>
     <div id="uwplans">
       <div class="uwp" id="uwp-starter" onclick="uwSel('starter')">
