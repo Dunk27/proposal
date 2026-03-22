@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Аккаунт — ProposeAI</title>
+<title>Аккаунт — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -68,7 +68,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);m
 </head>
 <body>
 <header class="hdr">
-  <a href="/app" class="logo"><img src="../logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
+  <a href="/app" class="logo"><img src="../logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Т-Профит <strong>КП</strong></a>
   <div class="hdr-nav">
     <button class="btn out" onclick="window.location.href='/app'">+ Новое КП</button>
     <button class="btn out" onclick="window.location.href='/dashboard'">История</button>
@@ -193,7 +193,7 @@ async function loadData() {
 
     // Биллинг
     const plan = bill.plan || 'trial'
-    const PLAN_NAMES = { free:'Free', trial:'Trial (бесплатный)', starter:'Стартовый', pro:'Оптимальный', agency:'ПРО' }
+    const PLAN_NAMES = { free:'Free', trial:'Trial (бесплатный)', стартовый:'Стартовый', pro:'Оптимальный', про:'ПРО' }
     document.getElementById('b-plan-name').textContent = PLAN_NAMES[plan] || plan
     document.getElementById('b-plan-badge').textContent = plan.charAt(0).toUpperCase() + plan.slice(1)
 
@@ -214,19 +214,19 @@ async function loadData() {
     if (pct >= 90) document.getElementById('b-usage-bar').classList.add('warn')
 
     if (user.stripeCustomerId) document.getElementById('portal-btn').style.display = 'inline-block'
-    if (['starter','pro','agency'].includes(plan)) document.getElementById('cancel-btn').style.display = 'inline-block'
+    if (['стартовый','pro','про'].includes(plan)) document.getElementById('cancel-btn').style.display = 'inline-block'
 
     // Платежи
     const pays = bill.payments || []
-    const PROV_ICONS = { stripe: '🌍', yookassa: '💳', nowpayments: '🪙' }
-    const PLAN_LABELS = { starter: 'Стартовый', pro: 'Оптимальный', agency: 'ПРО' }
+    const ОПТИМАЛЬНЫЙV_ICONS = { stripe: '🌍', yookassa: '💳', nowpayments: '🪙' }
+    const PLAN_LABELS = { стартовый: 'Стартовый', pro: 'Оптимальный', про: 'ПРО' }
     if (pays.length === 0) {
       document.getElementById('pay-sub').textContent = 'Платежей пока нет'
     } else {
       document.getElementById('pay-sub').textContent = `${pays.length} платеж(ей)`
       document.getElementById('payments-list').innerHTML = pays.map(pay => `
         <div class="payment-item">
-          <div class="pay-ico">${PROV_ICONS[pay.provider] || '💰'}</div>
+          <div class="pay-ico">${ОПТИМАЛЬНЫЙV_ICONS[pay.provider] || '💰'}</div>
           <div class="pay-info">
             <div class="pay-plan">${PLAN_LABELS[pay.plan] || pay.plan}</div>
             <div class="pay-date">${pay.provider} · ${new Date(pay.paid_at || pay.created_at).toLocaleDateString('ru-RU')}</div>

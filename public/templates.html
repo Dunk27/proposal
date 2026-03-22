@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Шаблоны КП — ProposeAI</title>
+<title>Шаблоны КП — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -41,7 +41,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);}
 </head>
 <body>
 <header class="hdr">
-  <a href="/app" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
+  <a href="/app" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Т-Профит <strong>КП</strong></a>
   <div class="hdr-right">
     <button class="btn out" onclick="window.location.href='/app'">← Генератор</button>
     <button class="btn sol" onclick="window.location.href='/app'">+ Новое КП</button>
@@ -64,7 +64,7 @@ const TONE_LABELS = { consultative:'🧠 Консультативный', bold:'
 
 const TEMPLATES = [
   { id:'it-development', icon:'💻', name:'IT-разработка', industry:'Информационные технологии', services:'Разработка веб-приложений и мобильных приложений, создание CRM и ERP-систем, интеграция с внешними API и 1С, техническая поддержка', usp:'10+ лет опыта, команда 30+ разработчиков, гарантия 1 год, работаем по SCRUM, фиксированный бюджет', cases:'Автоматизировали склад (экономия 3 млн ₽/год), разработали CRM для 500+ пользователей', clientNeed:'Нужна автоматизация бизнес-процессов, устали от Excel', tone:'consultative' },
-  { id:'marketing-agency', icon:'📢', name:'Маркетинговое агентство', industry:'Маркетинг и реклама', services:'Контекстная реклама Яндекс.Директ и Google Ads, таргетированная реклама ВКонтакте и Telegram, SEO-продвижение, SMM', usp:'Работаем с бюджетами от 50 000 ₽, еженедельная отчётность, гарантируем целевые заявки', cases:'Снизили стоимость заявки с 2 400 до 680 ₽, увеличили продажи на 340% за 6 месяцев', clientNeed:'Нужны продажи, текущая реклама не окупается', tone:'bold' },
+  { id:'marketing-про', icon:'📢', name:'Маркетинговое агентство', industry:'Маркетинг и реклама', services:'Контекстная реклама Яндекс.Директ и Google Ads, таргетированная реклама ВКонтакте и Telegram, SEO-продвижение, SMM', usp:'Работаем с бюджетами от 50 000 ₽, еженедельная отчётность, гарантируем целевые заявки', cases:'Снизили стоимость заявки с 2 400 до 680 ₽, увеличили продажи на 340% за 6 месяцев', clientNeed:'Нужны продажи, текущая реклама не окупается', tone:'bold' },
   { id:'consulting', icon:'🎯', name:'Бизнес-консалтинг', industry:'Консалтинг и управление', services:'Аудит бизнес-процессов, разработка стратегии развития, оптимизация оргструктуры, внедрение KPI и систем мотивации', usp:'20 лет опыта, работали с компаниями ТОП-500, конкретные результаты в договоре', cases:'Увеличили EBITDA на 28% за год, сократили издержки на 18 млн ₽', clientNeed:'Компания не растёт, нужна внешняя экспертиза', tone:'consultative' },
   { id:'legal', icon:'⚖️', name:'Юридическая фирма', industry:'Юриспруденция', services:'Договорная работа, корпоративное право, налоговые споры, арбитраж и судебное представительство, M&A-сделки', usp:'15 лет в коммерческом праве, выиграли 94% дел, партнёры — бывшие судьи арбитражного суда', cases:'Взыскали 47 млн ₽ с контрагента, сопроводили M&A на 1,2 млрд ₽', clientNeed:'Юридические риски в бизнесе, нужна защита сделок', tone:'formal' },
   { id:'construction', icon:'🏗️', name:'Строительство', industry:'Строительство', services:'Строительство коммерческих объектов под ключ, реконструкция и капремонт, дизайн-проект и инженерные сети', usp:'Лицензия СРО, строим с 2008 года, 300+ объектов, гарантия 5 лет, штрафы за просрочку в договоре', cases:'Построили логоцентр 12 000 м² за 8 месяцев, реконструировали завод без остановки', clientNeed:'Нужно построить объект, прошлый подрядчик подвёл со сроками', tone:'formal' },

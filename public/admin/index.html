@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — ProposeAI</title>
+<title>Admin — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -31,7 +31,7 @@ tr:hover td{background:rgba(255,255,255,.03);}
 .badge.trial{background:rgba(212,171,66,.15);color:var(--accent);}
 .badge.pro{background:rgba(52,211,153,.15);color:var(--green);}
 .badge.free{background:rgba(100,116,139,.15);color:var(--ink3);}
-.badge.starter{background:rgba(96,165,250,.15);color:var(--blue);}
+.badge.стартовый{background:rgba(96,165,250,.15);color:var(--blue);}
 .invite-form{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:28px;}
 .invite-row{display:flex;gap:10px;align-items:flex-end;}
 .invite-row input,.invite-row select{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 13px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;}
@@ -42,7 +42,7 @@ tr:hover td{background:rgba(255,255,255,.03);}
 </head>
 <body>
 <div class="hdr">
-  <div class="logo">ProposeAI Admin</div>
+  <div class="logo">Т-Профит КП Admin</div>
   <div id="hdr-user" style="font-size:12px;color:var(--ink3);"></div>
 </div>
 
@@ -64,9 +64,9 @@ tr:hover td{background:rgba(255,255,255,.03);}
     <div class="invite-row">
       <input type="email" id="inv-email" placeholder="email бета-тестера">
       <select id="inv-plan">
-        <option value="pro">Pro (30 дней)</option>
-        <option value="starter">Starter (30 дней)</option>
-        <option value="agency">Agency (30 дней)</option>
+        <option value="pro">ПРО (30 дней)</option>
+        <option value="стартовый">Стартовый (30 дней)</option>
+        <option value="про">ПРО (30 дней)</option>
       </select>
       <input type="number" id="inv-days" value="30" min="7" max="90" style="max-width:80px;" placeholder="дней">
       <input type="text" id="inv-note" placeholder="Заметка (опц.)">
@@ -116,7 +116,7 @@ async function loadAdmin() {
     document.getElementById('s-paid').textContent = d.stats?.paidUsers ?? '—'
     document.getElementById('s-kp').textContent = d.stats?.proposalsToday ?? '—'
 
-    const PLAN_COLORS = { trial:'trial', pro:'pro', free:'free', starter:'starter', agency:'pro' }
+    const PLAN_COLORS = { trial:'trial', pro:'pro', free:'free', стартовый:'стартовый', про:'pro' }
     document.getElementById('users-tbody').innerHTML = (d.users || []).map(u => `
       <tr>
         <td>${u.email}</td>

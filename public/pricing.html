@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Тарифы — ProposeAI</title>
+<title>Тарифы — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -81,7 +81,7 @@ tbody td:not(:first-child){text-align:center;}
 <body>
 
 <nav>
-  <a href="/" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
+  <a href="/" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Т-Профит <strong>КП</strong></a>
   <div class="nav-r">
     <a href="/auth/login" class="btn out">Войти</a>
     <a href="/auth/login" class="btn sol">Попробовать бесплатно</a>
@@ -129,28 +129,28 @@ const PLANS = {
   monthly: [
     { name:'Free',    amount:0,     period:'/мес', subprice:'Бесплатно навсегда', popular:false, btn:'out', btnText:'Начать бесплатно', planId:'free_monthly',
       features:['3 КП в месяц','Claude Haiku',{text:'Экспорт TXT',no:false},{text:'GPT-4o / Gemini',no:true},{text:'DOCX экспорт',no:true}] },
-    { name:'Стартовый', amount:990,   period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Начать', planId:'starter_monthly',
-      features:['20 КП в месяц','Llama 3.3 · Gemini Flash · Mistral','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
+    { name:'Стартовый', amount:990,   period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Начать', planId:'стартовый_monthly',
+      features:['20 КП в месяц','Текст','Инфографика','Экспорт TXT и PDF','История КП',{text:'Видео',no:true},{text:'Профиль компании',no:true}] },
     { name:'Оптимальный',     amount:2990,  period:'/мес', subprice:'', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_monthly',
-      features:['Безлимит КП','Все 6 ИИ-моделей','Экспорт DOCX + PDF','История КП','Автовыбор модели','Приоритетная поддержка'] },
-    { name:'ПРО',  amount:7900,  period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_monthly',
-      features:['Всё из Оптимального','White-label брендинг','API-доступ','Безлимит команда','Выделенная поддержка','Персональный менеджер'] },
+      features:['Всё из Стартового','50 КП в месяц','Инфографика','Приоритетные модели ИИ','Профиль компании','Шаблоны для 20+ отраслей','Экспорт DOCX + PDF'] },
+    { name:'ПРО',  amount:7900,  period:'/мес', subprice:'', popular:false, btn:'sol', btnText:'Связаться', planId:'про_monthly',
+      features:['Всё из Оптимального','Безлимит КП','Видео','Безлимит сотрудников','Приоритетная поддержка'] },
   ],
   annual: [
     { name:'Free',    amount:0,     period:'/год',  subprice:'Бесплатно навсегда', popular:false, btn:'out', btnText:'Начать бесплатно', planId:'free_annual',
       features:['3 КП в месяц','Claude Haiku',{text:'Экспорт TXT',no:false},{text:'GPT-4o / Gemini',no:true},{text:'DOCX экспорт',no:true}] },
-    { name:'Стартовый', amount:9504,  period:'/год',  subprice:'<strong>792 ₽/мес</strong> — экономия 1 584 ₽', popular:false, btn:'sol', btnText:'Начать', planId:'starter_annual',
-      features:['20 КП в месяц','Llama 3.3 · Gemini Flash · Mistral','Экспорт TXT','История КП',{text:'GPT-4o',no:true},{text:'DOCX + PDF',no:true}] },
+    { name:'Стартовый', amount:9504,  period:'/год',  subprice:'<strong>792 ₽/мес</strong> — экономия 1 584 ₽', popular:false, btn:'sol', btnText:'Начать', planId:'стартовый_annual',
+      features:['20 КП в месяц','Текст','Инфографика','Экспорт TXT и PDF','История КП',{text:'Видео',no:true},{text:'Профиль компании',no:true}] },
     { name:'Оптимальный',     amount:28704, period:'/год',  subprice:'<strong>2 392 ₽/мес</strong> — экономия 7 176 ₽', popular:true,  btn:'acc', btnText:'Попробовать 14 дней бесплатно', planId:'pro_annual',
-      features:['Безлимит КП','Все 6 ИИ-моделей','Экспорт DOCX + PDF','История КП','Автовыбор модели','Приоритетная поддержка'] },
-    { name:'ПРО',  amount:75840, period:'/год',  subprice:'<strong>6 320 ₽/мес</strong> — экономия 18 960 ₽', popular:false, btn:'sol', btnText:'Связаться', planId:'agency_annual',
-      features:['Всё из Оптимального','White-label брендинг','API-доступ','Безлимит команда','Выделенная поддержка','Персональный менеджер'] },
+      features:['Всё из Стартового','50 КП в месяц','Инфографика','Приоритетные модели ИИ','Профиль компании','Шаблоны для 20+ отраслей','Экспорт DOCX + PDF'] },
+    { name:'ПРО',  amount:75840, period:'/год',  subprice:'<strong>6 320 ₽/мес</strong> — экономия 18 960 ₽', popular:false, btn:'sol', btnText:'Связаться', planId:'про_annual',
+      features:['Всё из Оптимального','Безлимит КП','Видео','Безлимит сотрудников','Приоритетная поддержка'] },
   ],
 }
 
 const COMPARE_ROWS = [
   { cat:'Генерация' },
-  { label:'КП в месяц',           vals:['3','20','∞','∞'] },
+  { label:'КП в месяц',           vals:['—','20','50','∞'] },
   { label:'ИИ-модели',            vals:['1 (Haiku)','2','6','6'] },
   { label:'Автовыбор модели',      vals:['—','—','✓','✓'] },
   { label:'Длина КП',             vals:['Кратко','Всё','Всё','Всё'] },

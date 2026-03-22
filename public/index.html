@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProposeAI — Генератор КП</title>
+<title>Т-Профит КП — Генератор КП</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style id="theme-style">
 /* ── THEME VARIABLES (изменяются через панель настроек) ── */
@@ -426,7 +426,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
           <div class="path-line"><span class="pk">payments</span><span class="pv">id · userId · stripeSessionId · plan · amount · paidAt</span></div>
           <div style="margin-top:10px;font-size:10px;color:var(--ink3);font-weight:700;letter-spacing:1px;">ПРИМЕР CONNECTION STRING:</div>
           <div style="margin-top:4px;word-break:break-all;color:var(--accent);">postgresql://user:password@db.supabase.co:5432/postgres</div>
-          <div style="margin-top:4px;word-break:break-all;color:var(--accent);">mongodb+srv://user:pass@cluster0.mongodb.net/proposeai</div>
+          <div style="margin-top:4px;word-break:break-all;color:var(--accent);">mongodb+srv://user:pass@cluster0.mongodb.net/t-profit-kp</div>
         </div>
         <p style="font-size:11px;color:var(--ink3);margin-top:10px;line-height:1.6;">Рекомендуем <strong>Supabase</strong> — бесплатный tier, встроенный Auth, REST API, хранилище файлов. Добавьте <code>DATABASE_URL</code> в Vercel → Settings → Environment Variables.</p>
       </div>
@@ -465,7 +465,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
       </div>
 
       <div class="plans">
-        <div class="plan" data-plan="starter" onclick="selectPlan('starter')">
+        <div class="plan" data-plan="стартовый" onclick="selectPlan('стартовый')">
           <div class="plan-name">Стартовый</div>
           <div class="plan-price">990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
           <ul class="plan-features"><li>20 КП/месяц</li><li>Claude Haiku/Sonnet</li></ul>
@@ -476,7 +476,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
           <div class="plan-price">2 990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
           <ul class="plan-features"><li>Безлимит КП</li><li>Все 6 моделей ИИ</li></ul>
         </div>
-        <div class="plan" data-plan="agency" onclick="selectPlan('agency')">
+        <div class="plan" data-plan="про" onclick="selectPlan('про')">
           <div class="plan-name">ПРО</div>
           <div class="plan-price">7 900 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
           <ul class="plan-features"><li>White-label</li><li>API-доступ</li></ul>
@@ -528,7 +528,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
 <!-- ─── HEADER ─── -->
 <header class="hdr">
   <div class="logo">
-    <span class="logo-word"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></span>
+    <span class="logo-word"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Т-Профит <strong>КП</strong></span>
     <span class="logo-badge" id="plan-badge-hdr" style="cursor:pointer" onclick="openPayModal()">Trial</span>
     <div class="logo-ai" onclick="openAIModal()"><div class="ai-dot"></div><span id="cur-model-name">Claude Sonnet 4</span></div>
   </div>
@@ -596,7 +596,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;op
           </div>
           <div class="ai-card" data-model="gemini-pro" onclick="selectAI(this)">
             <div class="aci">🔵</div>
-            <div class="acn">Gemini Pro</div>
+            <div class="acn">Gemini Оптимальный</div>
             <div class="acm">Google · Быстрый</div>
           </div>
         </div>
@@ -1129,8 +1129,8 @@ let selAnnual=false;
 
 // Цены для переключателя месяц/год
 const PRICES={
-  monthly:{starter:'990 ₽',pro:'2 990 ₽',agency:'7 900 ₽'},
-  annual: {starter:'792 ₽/мес',pro:'2 392 ₽/мес',agency:'6 320 ₽/мес'},
+  monthly:{стартовый:'990 ₽',pro:'2 990 ₽',про:'7 900 ₽'},
+  annual: {стартовый:'792 ₽/мес',pro:'2 392 ₽/мес',про:'6 320 ₽/мес'},
 };
 
 function selectPlan(p){
@@ -1238,7 +1238,7 @@ async function initUserState(){
     if(!r.ok)return;
     const d=await r.json();
     const plan=d.plan||'trial';
-    const PLAN_LABELS={free:'Free',trial:'Trial',starter:'Стартовый',pro:'Оптимальный',agency:'ПРО'};
+    const PLAN_LABELS={free:'Free',trial:'Trial',стартовый:'Стартовый',pro:'Оптимальный',про:'ПРО'};
     document.getElementById('plan-badge-hdr').textContent=PLAN_LABELS[plan]||plan;
     const used=d.usage?.used||0;
     const limit=d.usage?.limit||3;
@@ -1249,7 +1249,7 @@ async function initUserState(){
       if(pct>=90)document.getElementById('usage-hdr-bar').style.background='var(--red)';
       document.getElementById('usage-hdr').style.display='flex';
     }
-    if(['free','trial','starter'].includes(plan)){
+    if(['free','trial','стартовый'].includes(plan)){
       document.getElementById('upgrade-hdr-btn').style.display='inline-block';
     }
     if(d.companyProfile&&d.companyProfile.name){

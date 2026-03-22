@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Метрики — ProposeAI</title>
+<title>Метрики — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -60,8 +60,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .badge.trial{background:rgba(245,158,11,.15);color:var(--amber);}
 .badge.pro{background:rgba(16,185,129,.15);color:var(--green);}
 .badge.free{background:rgba(71,85,105,.15);color:var(--ink3);}
-.badge.starter{background:rgba(96,165,250,.15);color:var(--blue);}
-.badge.agency{background:rgba(167,139,250,.15);color:var(--purple);}
+.badge.стартовый{background:rgba(96,165,250,.15);color:var(--blue);}
+.badge.про{background:rgba(167,139,250,.15);color:var(--purple);}
 .refresh-btn{font-size:11px;color:var(--ink3);cursor:pointer;background:none;border:1px solid var(--b);padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;transition:all .15s;}
 .refresh-btn:hover{border-color:var(--amber);color:var(--amber);}
 .ts{font-size:11px;color:var(--ink3);}
@@ -76,7 +76,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
 </head>
 <body>
 <div class="hdr">
-  <div class="logo">ProposeAI — Метрики</div>
+  <div class="logo">Т-Профит КП — Метрики</div>
   <div style="display:flex;align-items:center;gap:12px;">
     <span class="ts" id="last-update"></span>
     <button class="refresh-btn" onclick="load()">↺ Обновить</button>
@@ -179,7 +179,7 @@ const MODEL_NAMES = {
   'gpt-4o':'GPT-4o','gpt-4o-mini':'GPT-4o mini','gemini-pro':'Gemini Pro','gemini-flash':'Gemini Flash',
 }
 const MODEL_COST = { 'claude-sonnet-4':8,'claude-haiku-4':1.5,'claude-opus-4':35,'gpt-4o':18,'gpt-4o-mini':2,'gemini-pro':6,'gemini-flash':1.8 }
-const PLAN_PRICE = { starter:990, pro:2990, agency:7900 }
+const PLAN_PRICE = { стартовый:990, pro:2990, про:7900 }
 
 async function load() {
   try {
@@ -325,7 +325,7 @@ function renderReferrals(admin) {
 }
 
 function renderUsers(users) {
-  const PLAN_COLORS = { trial:'trial',pro:'pro',free:'free',starter:'starter',agency:'agency' }
+  const PLAN_COLORS = { trial:'trial',pro:'pro',free:'free',стартовый:'стартовый',про:'про' }
   document.getElementById('users-table').innerHTML = users.length === 0
     ? '<div class="empty-msg">Нет пользователей</div>'
     : `<table>
@@ -340,8 +340,8 @@ function renderUsers(users) {
 }
 
 function renderPayments(payments) {
-  const PROV = { stripe:'Stripe', yookassa:'YooKassa', nowpayments:'Крипто' }
-  const PLAN_COLORS = { trial:'trial',pro:'pro',free:'free',starter:'starter',agency:'agency' }
+  const ОПТИМАЛЬНЫЙV = { stripe:'Stripe', yookassa:'YooKassa', nowpayments:'Крипто' }
+  const PLAN_COLORS = { trial:'trial',pro:'pro',free:'free',стартовый:'стартовый',про:'про' }
   document.getElementById('payments-table').innerHTML = payments.length === 0
     ? '<div class="empty-msg">Нет платежей</div>'
     : `<table>
@@ -350,7 +350,7 @@ function renderPayments(payments) {
           <td style="color:var(--ink)">${p.email || '—'}</td>
           <td><span class="badge ${PLAN_COLORS[p.plan]||'free'}">${p.plan}</span></td>
           <td style="color:var(--green);font-family:'DM Mono',monospace">${p.amount ? (p.amount/100).toLocaleString('ru') + ' ' + (p.currency||'RUB').toUpperCase() : '—'}</td>
-          <td style="color:var(--ink2)">${PROV[p.provider]||p.provider}</td>
+          <td style="color:var(--ink2)">${ОПТИМАЛЬНЫЙV[p.provider]||p.provider}</td>
           <td>${new Date(p.paid_at || p.created_at).toLocaleDateString('ru-RU')}</td>
         </tr>`).join('')}</tbody>
       </table>`

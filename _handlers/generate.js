@@ -90,7 +90,7 @@ async function callAI(model, apiModelId, prompt) {
     if (!key) throw new Error('COHERE_API_KEY не задан — зарегистрируйтесь на dashboard.cohere.com')
     const r = await fetch('https://api.cohere.com/v2/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}`, 'X-Client-Name': 'propose-ai' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}`, 'X-Client-Name': 't-profit-kp' },
       body: JSON.stringify({ model: apiModelId, max_tokens: 4096, messages: [{ role: 'user', content: prompt }] }),
     })
     const d = await r.json()

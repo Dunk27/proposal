@@ -6,9 +6,9 @@
 import { getUserFromToken } from '../lib/supabase.js'
 
 const PLANS_USD = {
-  starter: { amount: 11, description: 'ProposeAI Starter — 20 КП/месяц' },
-  pro:     { amount: 33, description: 'ProposeAI Pro — безлимит + все модели ИИ' },
-  agency:  { amount: 88, description: 'ProposeAI Agency — White-label + API' },
+  starter: { amount: 11, description: 'Т-Профит КП Стартовый — 20 КП/месяц' },
+  pro:     { amount: 33, description: 'Т-Профит КП Оптимальный — безлимит + все модели ИИ' },
+  agency:  { amount: 88, description: 'Т-Профит КП ПРО — White-label + API' },
 }
 
 export default async function handler(req, res) {

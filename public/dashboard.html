@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мои КП — ProposeAI</title>
+<title>Мои КП — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -59,7 +59,7 @@ tbody td{padding:14px 18px;font-size:13px;color:var(--ink2);}
 <body>
 
 <header class="hdr">
-  <a href="/app" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
+  <a href="/app" class="logo"><img src="logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Т-Профит <strong>КП</strong></a>
   <div class="hdr-right">
     <span class="plan-badge" id="plan-badge">Trial</span>
     <button class="btn out" onclick="window.location.href='/app'">+ Новое КП</button>
@@ -121,7 +121,7 @@ tbody td{padding:14px 18px;font-size:13px;color:var(--ink2);}
     </div>
     <div style="padding:24px;">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;" id="plan-grid">
-        <div class="plan-card" data-plan="starter" onclick="selPlan('starter')" style="padding:14px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;transition:all .2s;">
+        <div class="plan-card" data-plan="стартовый" onclick="selPlan('стартовый')" style="padding:14px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;transition:all .2s;">
           <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px;">Стартовый</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);">990 ₽<span style="font-size:13px;font-weight:300">/мес</span></div>
           <div style="font-size:10px;color:var(--ink3);margin-top:6px;line-height:1.5;">20 КП/мес<br>Claude Haiku/Sonnet</div>
@@ -132,7 +132,7 @@ tbody td{padding:14px 18px;font-size:13px;color:var(--ink2);}
           <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);">2 990 ₽<span style="font-size:13px;font-weight:300">/мес</span></div>
           <div style="font-size:10px;color:var(--ink3);margin-top:6px;line-height:1.5;">Безлимит КП<br>Все 6 моделей ИИ</div>
         </div>
-        <div class="plan-card" data-plan="agency" onclick="selPlan('agency')" style="padding:14px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;">
+        <div class="plan-card" data-plan="про" onclick="selPlan('про')" style="padding:14px;border:1.5px solid var(--aline);border-radius:6px;cursor:pointer;text-align:center;">
           <div style="font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px;">ПРО</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);">7 900 ₽<span style="font-size:13px;font-weight:300">/мес</span></div>
           <div style="font-size:10px;color:var(--ink3);margin-top:6px;line-height:1.5;">White-label<br>API-доступ</div>
@@ -223,7 +223,7 @@ async function loadData() {
       document.getElementById('upgrade-banner').style.display = 'flex'
       document.getElementById('upgrade-btn').style.display = 'inline-block'
     } else {
-      document.getElementById('upgrade-btn').style.display = ['free','starter'].includes(plan) ? 'inline-block' : 'none'
+      document.getElementById('upgrade-btn').style.display = ['free','стартовый'].includes(plan) ? 'inline-block' : 'none'
     }
 
     renderTable(allProposals)

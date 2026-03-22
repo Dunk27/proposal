@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Реферальная программа — ProposeAI</title>
+<title>Реферальная программа — Т-Профит КП</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -54,7 +54,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);m
 </head>
 <body>
 <header class="hdr">
-  <a href="/app" class="logo"><img src="../logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Propose<strong>AI</strong></a>
+  <a href="/app" class="logo"><img src="../logo.png" alt="Logo" style="height:32px;width:auto;vertical-align:middle;margin-right:6px;">Т-Профит <strong>КП</strong></a>
   <div style="display:flex;gap:8px;">
     <a href="/account" class="btn out">← Аккаунт</a>
   </div>
@@ -150,7 +150,7 @@ function copyLink() {
   })
 }
 
-const SHARE_MSG = encodeURIComponent('Пользуюсь ProposeAI для генерации коммерческих предложений — за 30 секунд готовое КП с продающей структурой. Попробуй бесплатно, по моей ссылке +30 дней Pro:')
+const SHARE_MSG = encodeURIComponent('Пользуюсь Т-Профит КП для генерации коммерческих предложений — за 30 секунд готовое КП с продающей структурой. Попробуй бесплатно, по моей ссылке +30 дней Pro:')
 
 function shareTo(platform) {
   const url = encodeURIComponent(refUrl)
@@ -158,7 +158,7 @@ function shareTo(platform) {
     telegram: `https://t.me/share/url?url=${url}&text=${SHARE_MSG}`,
     vk:       `https://vk.com/share.php?url=${url}&title=${SHARE_MSG}`,
     whatsapp: `https://api.whatsapp.com/send?text=${SHARE_MSG}%20${url}`,
-    email:    `mailto:?subject=ProposeAI%20%E2%80%94%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D0%9A%D0%9F%20%D0%B7%D0%B0%2030%20%D1%81%D0%B5%D0%BA%D1%83%D0%BD%D0%B4&body=${SHARE_MSG}%20${url}`,
+    email:    `mailto:?subject=Т-Профит КП%20%E2%80%94%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%86%D0%B8%D1%8F%20%D0%9A%D0%9F%20%D0%B7%D0%B0%2030%20%D1%81%D0%B5%D0%BA%D1%83%D0%BD%D0%B4&body=${SHARE_MSG}%20${url}`,
   }
   if (links[platform]) window.open(links[platform], '_blank')
 }

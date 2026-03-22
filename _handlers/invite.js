@@ -57,7 +57,7 @@ export default async function handler(req, res) {
       // Отправить письмо с инвайтом
       await sendEmail({
         to: email,
-        subject: 'Вас приглашают протестировать ProposeAI — бета-доступ',
+        subject: 'Вас приглашают протестировать Т-Профит КП — бета-доступ',
         html: `
 <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#1A1612;">
   <div style="background:#1A1612;padding:24px 32px;border-radius:8px 8px 0 0;">
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
   <div style="background:#FDFAF5;padding:32px;border:1px solid #E8DFC8;border-top:none;border-radius:0 0 8px 8px;">
     <h2 style="font-size:20px;font-weight:400;margin:0 0 16px;">Вас приглашают в бета-тест!</h2>
     <p style="font-size:14px;line-height:1.7;color:#3D3530;margin:0 0 16px;">
-      Вы получили эксклюзивный доступ к ProposeAI — ИИ-генератору коммерческих предложений.
+      Вы получили эксклюзивный доступ к Т-Профит КП — ИИ-генератору коммерческих предложений.
       Тариф <strong>${plan.charAt(0).toUpperCase() + plan.slice(1)}</strong> активируется автоматически при регистрации.
     </p>
     <a href="${inviteUrl}" style="display:inline-block;background:#B8922A;color:#fff;padding:13px 28px;border-radius:4px;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;">Принять приглашение →</a>

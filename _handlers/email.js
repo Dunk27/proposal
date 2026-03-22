@@ -10,7 +10,7 @@ export async function sendEmail({ to, subject, html, text }) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
     body: JSON.stringify({
-      from: process.env.EMAIL_FROM || 'ProposeAI <noreply@yourdomain.ru>',
+      from: process.env.EMAIL_FROM || 'Т-Профит КП <noreply@yourdomain.ru>',
       to: Array.isArray(to) ? to : [to],
       subject,
       html,
@@ -27,7 +27,7 @@ export async function sendEmail({ to, subject, html, text }) {
 export function welcomeEmail({ email, trialDays = 14 }) {
   return {
     to: email,
-    subject: 'Добро пожаловать в ProposeAI — ваш триал начался',
+    subject: 'Добро пожаловать в Т-Профит КП — ваш триал начался',
     html: `
 <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#1A1612;">
   <div style="background:#1A1612;padding:24px 32px;border-radius:8px 8px 0 0;">
@@ -38,7 +38,7 @@ export function welcomeEmail({ email, trialDays = 14 }) {
     <p style="font-size:14px;line-height:1.7;color:#3D3530;margin:0 0 16px;">У вас есть <strong>${trialDays} дней бесплатного Pro-доступа</strong> — без карты, без ограничений. Создайте первое коммерческое предложение прямо сейчас.</p>
     <a href="${process.env.APP_URL}/app" style="display:inline-block;background:#B8922A;color:#fff;padding:13px 28px;border-radius:4px;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:1px;">Создать первое КП →</a>
     <hr style="border:none;border-top:1px solid #E8DFC8;margin:28px 0;">
-    <p style="font-size:12px;color:#7A6F66;margin:0;">Что вы можете делать в ProposeAI: выбирать ИИ-модель (Claude, GPT-4o, Gemini), настраивать тон и структуру, экспортировать в DOCX, хранить историю КП.</p>
+    <p style="font-size:12px;color:#7A6F66;margin:0;">Что вы можете делать в Т-Профит КП: выбирать ИИ-модель (Claude, GPT-4o, Gemini), настраивать тон и структуру, экспортировать в DOCX, хранить историю КП.</p>
   </div>
 </div>`,
   }
@@ -47,7 +47,7 @@ export function welcomeEmail({ email, trialDays = 14 }) {
 export function trialEndingSoonEmail({ email, daysLeft }) {
   return {
     to: email,
-    subject: `⏰ До конца триала осталось ${daysLeft} ${daysLeft === 1 ? 'день' : 'дня'} — ProposeAI`,
+    subject: `⏰ До конца триала осталось ${daysLeft} ${daysLeft === 1 ? 'день' : 'дня'} — Т-Профит КП`,
     html: `
 <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;color:#1A1612;">
   <div style="background:#1A1612;padding:24px 32px;border-radius:8px 8px 0 0;">
@@ -67,7 +67,7 @@ export function trialEndingSoonEmail({ email, daysLeft }) {
 }
 
 export function paymentSuccessEmail({ email, plan, amount, currency = 'RUB' }) {
-  const planNames = { starter: 'Starter', pro: 'Pro', agency: 'Agency' }
+  const planNames = { starter: 'Стартовый', pro: 'Оптимальный', agency: 'ПРО' }
   return {
     to: email,
     subject: `✅ Оплата подтверждена — тариф ${planNames[plan] || plan} активирован`,

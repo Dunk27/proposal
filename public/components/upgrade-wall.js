@@ -15,7 +15,7 @@ window.UpgradeWall = (() => {
     const deadline = (saved > Date.now()) ? saved : Date.now() + 86400000
     if (saved <= Date.now()) localStorage.setItem(TK, deadline)
 
-    const PLAN_NAMES = { free:'Free', trial:'Trial', starter:'Starter', pro:'Pro', agency:'Agency' }
+    const PLAN_NAMES = { free:'Free', trial:'Trial', стартовый:'Стартовый', pro:'Pro', про:'ПРО' }
 
     overlay.innerHTML = `
 <style>
@@ -69,14 +69,14 @@ window.UpgradeWall = (() => {
       <span>Годовой <strong style="color:#3D6FBF">−20%</strong></span>
     </div>
     <div id="uwplans">
-      <div class="uwp" id="uwp-starter" onclick="uwSel('starter')">
-        <div class="uwpn">Starter</div>
-        <div class="uwpp" id="uwp-starter-price">990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
+      <div class="uwp" id="uwp-стартовый" onclick="uwSel('стартовый')">
+        <div class="uwpn">Стартовый</div>
+        <div class="uwpp" id="uwp-стартовый-price">990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
         <div class="uwpd">20 КП · Claude Sonnet</div>
       </div>
       <div class="uwp sel" id="uwp-pro" onclick="uwSel('pro')">
         <div class="uwbadge">Лучший</div>
-        <div class="uwpn">Pro</div>
+        <div class="uwpn">Оптимальный</div>
         <div class="uwpp" id="uwp-pro-price">2 990 ₽<span style="font-size:11px;font-weight:300">/мес</span></div>
         <div class="uwpd">Безлимит · Все 6 моделей</div>
       </div>
@@ -112,7 +112,7 @@ window.UpgradeWall = (() => {
     window.uwTog = () => {
       window._uwAnnual = !window._uwAnnual
       document.getElementById('uwtog').classList.toggle('on', window._uwAnnual)
-      document.getElementById('uwp-starter-price').innerHTML = window._uwAnnual
+      document.getElementById('uwp-стартовый-price').innerHTML = window._uwAnnual
         ? '792 ₽<span style="font-size:11px;font-weight:300">/мес</span>'
         : '990 ₽<span style="font-size:11px;font-weight:300">/мес</span>'
       document.getElementById('uwp-pro-price').innerHTML = window._uwAnnual
